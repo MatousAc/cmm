@@ -1,0 +1,38 @@
+#pragma once
+#include <string>
+using std::string;
+
+enum tokenType {
+	// Single-character tokens.
+	LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
+	COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH, STAR,
+
+	// One or two character tokens.
+	BANG, BANG_EQUAL,
+	EQUAL, EQUAL_EQUAL,
+	GREATER, GREATER_EQUAL,
+	LESS, LESS_EQUAL,
+
+	// Literals.
+	IDENTIFIER, STRING, NUMBER,
+
+	// Keywords.
+	AND, CLASS, ELSE, FALSE, FUN, FOR, IF, NIL, OR,
+	PRINT, RETURN, SUPER, THIS, TRUE, VAR, WHILE,
+
+	EoF
+};
+
+struct Token {
+	tokenType type;
+	string lexeme;
+	string literal;
+	int line;
+	
+	// constructors
+	Token(tokenType type, string lexeme, string literal, int line);
+
+	// methods
+	string toString();
+};
+

@@ -140,6 +140,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cmm.cpp" />
+    <ClCompile Include="Scanner.cpp" />
+    <ClCompile Include="Token.cpp" />
+    <ClCompile Include="tokenType.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Scanner.h" />
+    <ClInclude Include="Token.h" />
+    <ClInclude Include="tokenType.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

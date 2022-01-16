@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <vector>
+#include "Token.h"
 using namespace std;
 
 void runPrompt();
@@ -49,8 +50,8 @@ void runFile(string& filepath) {
 }
 
 void run(string& source) {
-    Scanner scanner = new Scanner();
-    vector<Token> = scanner.scanTokens(source);
+    Scanner scanner = new Scanner(source);
+    vector<Token> = scanner.scanTokens();
 }
 
 void error(int line, string msg, string where = "") {
