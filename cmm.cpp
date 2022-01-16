@@ -1,19 +1,6 @@
 // a class for cmm
 // thanks to https://www.delftstack.com/howto/cpp/read-file-into-string-cpp/#use-istreambuf_iterator-to-read-file-into-string-in-c%2b%2b
-
-#include <stdio.h>
-#include <string>
-#include <iostream>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <vector>
-#include "Token.h"
-using namespace std;
-
-void runPrompt();
-void runFile(string& filepath);
-void run(string& source);
-
+#include "cmm.h"
 bool hadError = false;
 void main(string file = string()) {
     if (file == "")
@@ -50,8 +37,8 @@ void runFile(string& filepath) {
 }
 
 void run(string& source) {
-    Scanner scanner = new Scanner(source);
-    vector<Token> = scanner.scanTokens();
+    Scanner scanner(source);
+    vector<Token> tokens = scanner.scanTokens();
 }
 
 void error(int line, string msg, string where = "") {

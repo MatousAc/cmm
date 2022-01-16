@@ -6,7 +6,7 @@
 using std::string;
 using std::vector;
 
-class Scanner {
+struct Scanner {
 	string source;
 	vector<Token> tokens;
 	int start, current, line;
@@ -18,6 +18,7 @@ class Scanner {
 	char next();
 	char peek();
 	bool nextChar(char c);
+	void collectString();
 	void addToken(tokenType type, string literal);
 };
 

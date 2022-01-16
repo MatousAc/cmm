@@ -1,4 +1,5 @@
 #include "Scanner.h"
+#include "cmm.h"
 
 Scanner::Scanner(string source) 
 	: source{ source },
@@ -40,13 +41,9 @@ void Scanner::scanToken() {
 		addToken(nextChar('=') ? GREATER_EQUAL : GREATER);
 		break;
 	case '/':
-		if (nextChar('/')) {
-			// A comment goes until the end of the line.
+		if (nextChar('/'))
 			while (peek() != '\n' && !isDone()) next();
-		}
-		else {
-			addToken(SLASH);
-		}
+		else addToken(SLASH);
 		break;
 	case ' ':
 	case '\r':
@@ -55,6 +52,7 @@ void Scanner::scanToken() {
 	case '\n':
 		line++;
 		break;
+	case '"': collectString(); break;
 	default:
 		error(line, "Unexpected character.");
 		break;
@@ -79,6 +77,21 @@ bool Scanner::nextChar(char c) {
 	if (source[current] != c) return false;
 	current++;
 	return true;
+}
+
+void Scanner::collectString() {
+	// traverse string
+	while (peek() != '"' && !isDone()) {
+		if (peek() == '\n') line++;
+		next();
+	}
+	if (isDone) {
+		error(line, "unterminated string");
+		return;
+	}
+	next();
+	// add string literal
+	addToken(STRING, source.substr(start + 1, current - 1));
 }
 
 void Scanner::addToken(tokenType type, string literal = NULL) {
