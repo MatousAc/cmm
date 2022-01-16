@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Literal.h"
 using std::string;
 
 enum tokenType {
@@ -26,11 +27,11 @@ enum tokenType {
 struct Token {
 	tokenType type;
 	string lexeme;
-	string literal;
+	Literal lit;
 	int line;
 	
 	// constructors
-	Token(tokenType type, string lexeme, string literal, int line);
+	Token(tokenType type, string lexeme, Literal lit, int line);
 
 	// methods
 	string toString();

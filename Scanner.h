@@ -17,8 +17,10 @@ struct Scanner {
 	int isDone();
 	char next();
 	char peek();
+	char peekNext();
 	bool nextChar(char c);
 	void collectString();
-	void addToken(tokenType type, string literal);
+	void collectNumber();
+	void addToken(tokenType type, Literal lit);
 };
 

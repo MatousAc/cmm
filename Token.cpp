@@ -1,9 +1,9 @@
 #include "Token.h"
 
-Token::Token(tokenType type, string lexeme, string literal, int line)
+Token::Token(tokenType type, string lexeme, Literal lit, int line)
 	: type{ type }, lexeme{ lexeme },
-	literal{ literal }, line{ line } {}
+	lit{ lit }, line{ line } {}
 
 string Token::toString() {
-	return lexeme + " " + literal;
+	return lexeme + " " + lit.toString();
 }

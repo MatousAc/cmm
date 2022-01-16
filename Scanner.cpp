@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "Scanner.h"
 #include "cmm.h"
 
@@ -54,7 +55,10 @@ void Scanner::scanToken() {
 		break;
 	case '"': collectString(); break;
 	default:
-		error(line, "Unexpected character.");
+		if (isdigit(c)) {
+			collectNumber();
+		} else
+			error(line, "Unexpected character.");
 		break;
 	}
 }
@@ -68,8 +72,13 @@ char Scanner::next() {
 }
 
 char Scanner::peek() {
-	if (isDone) return '\0';
+	if (isDone()) return '\0';
 	return source[current];
+}
+
+char Scanner::peekNext() {
+	if (current + 1 >= source.length()) return '\0';
+	return source[current + 1];
 }
 
 bool Scanner::nextChar(char c) {
@@ -94,7 +103,17 @@ void Scanner::collectString() {
 	addToken(STRING, source.substr(start + 1, current - 1));
 }
 
-void Scanner::addToken(tokenType type, string literal = NULL) {
+void Scanner::collectNumber() {
+	while (isdigit(peek())) next();
+	if (peek() == '.' && isdigit(peekNext())) {
+		next();
+		while (isdigit(peek())) next();
+	}
+	double num = atof(source.substr(start, current).c_str());
+	addToken(NUMBER, num);
+}
+
+void Scanner::addToken(tokenType type, Literal lit = NULL) {
 	string lexeme = source.substr(start, current);
-	tokens.push_back(Token(type, lexeme, literal, line));
+	tokens.push_back(Token(type, lexeme, lit, line));
 }
