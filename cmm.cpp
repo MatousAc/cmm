@@ -1,6 +1,6 @@
 // a class for cmm
 // thanks to https://www.delftstack.com/howto/cpp/read-file-into-string-cpp/#use-istreambuf_iterator-to-read-file-into-string-in-c%2b%2b
-//
+
 #include <stdio.h>
 #include <string>
 #include <iostream>
