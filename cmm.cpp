@@ -1,12 +1,13 @@
-// a class for cmm
-// thanks to https://www.delftstack.com/howto/cpp/read-file-into-string-cpp/#use-istreambuf_iterator-to-read-file-into-string-in-c%2b%2b
 #include "cmm.h"
 bool hadError = false;
-void main(string file = string()) {
-    if (file == "")
+int main() {
+    string file;
+    cin >> file;
+    if (file == "try")
         runPrompt();
     else
         runFile(file);
+    return 0;
 }
 
 void runPrompt() {
@@ -23,8 +24,10 @@ void runPrompt() {
 void runFile(string& filepath) {
     struct stat sb {};
     string program;
-    FILE* file = fopen(filepath.c_str(), "r");
-    if (file == nullptr) {
+    FILE* file; // safely open a file
+    errno_t err;
+    if (( (err = fopen_s(&file, filepath.c_str(), "r")) != 0) ||
+        (file == nullptr) ) {
         cout << filepath << "could not be opened";
         return;
     }
@@ -41,7 +44,7 @@ void run(string& source) {
     vector<Token> tokens = scanner.scanTokens();
 }
 
-void error(int line, string msg, string where = "") {
+void error(int line, string msg, string where) {
     cout << "error on line " << line
         << " @ " << where << ": "
         << msg << endl;

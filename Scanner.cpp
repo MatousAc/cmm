@@ -5,7 +5,25 @@
 Scanner::Scanner(string source) 
 	: source{ source },
 	tokens{ vector<Token>() },
-	start{ 0 }, current{ 0 }, line{ 1 } {}
+	start{ 0 }, current{ 0 }, line{ 1 } {
+	// keywords
+	keywords["and"] = AND;
+	keywords["class"] = CLASS;
+	keywords["else"] = ELSE;
+	keywords["false"] = FALSE;
+	keywords["for"] = FOR;
+	keywords["fun"] = FUN;
+	keywords["if"] = IF;
+	keywords["nil"] = NIL;
+	keywords["or"] = OR;
+	keywords["print"] = PRINT;
+	keywords["return"] = RETURN;
+	keywords["super"] = SUPER;
+	keywords["this"] = THIS;
+	keywords["true"] = TRUE;
+	keywords["var"] = VAR;
+	keywords["while"] = WHILE;
+}
 
 vector<Token> Scanner::scanTokens() {
 	while (!isDone()) {
@@ -53,10 +71,17 @@ void Scanner::scanToken() {
 	case '\n':
 		line++;
 		break;
-	case '"': collectString(); break;
+	case '"': 
+		traverseString();
+		addToken(STRING, source.substr(start + 1, current - 1)); 
+		break;
 	default:
 		if (isdigit(c)) {
-			collectNumber();
+			traverseNumber();
+			double num = atof(source.substr(start, current).c_str());
+			addToken(NUMBER, num);
+		} else if (isalpha(c)) {
+			addIdentifier();
 		} else
 			error(line, "Unexpected character.");
 		break;
@@ -64,7 +89,7 @@ void Scanner::scanToken() {
 }
 
 int Scanner::isDone() {
-	return current >= source.length();
+	return current >= (int)source.length();
 }
 
 char Scanner::next() {
@@ -77,7 +102,7 @@ char Scanner::peek() {
 }
 
 char Scanner::peekNext() {
-	if (current + 1 >= source.length()) return '\0';
+	if (current + 1 >= (int)source.length()) return '\0';
 	return source[current + 1];
 }
 
@@ -88,32 +113,38 @@ bool Scanner::nextChar(char c) {
 	return true;
 }
 
-void Scanner::collectString() {
-	// traverse string
+void Scanner::traverseString() {
 	while (peek() != '"' && !isDone()) {
 		if (peek() == '\n') line++;
 		next();
 	}
-	if (isDone) {
+	if (isDone()) {
 		error(line, "unterminated string");
 		return;
 	}
 	next();
-	// add string literal
-	addToken(STRING, source.substr(start + 1, current - 1));
 }
 
-void Scanner::collectNumber() {
+void Scanner::traverseNumber() {
 	while (isdigit(peek())) next();
 	if (peek() == '.' && isdigit(peekNext())) {
 		next();
 		while (isdigit(peek())) next();
 	}
-	double num = atof(source.substr(start, current).c_str());
-	addToken(NUMBER, num);
 }
 
-void Scanner::addToken(tokenType type, Literal lit = NULL) {
+void Scanner::addIdentifier() {
+	while (isalnum(peek())) next();
+	string id = source.substr(start, current);
+	if (keywords.find(id) == keywords.end()) {
+		// not keyword => must be identifier
+		addToken(IDENTIFIER);
+		return;
+	} // keyword
+	addToken(keywords[id]);
+}
+
+void Scanner::addToken(tokenType type, Literal lit) {
 	string lexeme = source.substr(start, current);
 	tokens.push_back(Token(type, lexeme, lit, line));
 }

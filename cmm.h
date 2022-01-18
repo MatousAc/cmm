@@ -1,13 +1,12 @@
 #pragma once
-
 #include <stdio.h>
 #include <string>
 #include <iostream>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <vector>
-#include "Token.h"
 #include "Scanner.h"
+#include "Token.h"
 using namespace std;
 
 void runPrompt();
