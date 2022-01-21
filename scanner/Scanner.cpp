@@ -2,7 +2,7 @@
 // Syntax note: substr(start_pos, len)
 #include <stdlib.h>
 #include "Scanner.h"
-#include "cmm.h"
+#include "../cmm.h"
 
 Scanner::Scanner(string source) 
 	: source{ source },

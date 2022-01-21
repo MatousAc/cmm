@@ -6,7 +6,7 @@
 #include <fcntl.h>
 #include <unordered_map>
 #include <vector>
-#include "Scanner.h"
+#include "scanner/Scanner.h"
 using namespace std;
 
 void runPrompt();
