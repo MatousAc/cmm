@@ -18,9 +18,30 @@ int runTool(vector<string> args) {
 
 void generateAst(vector<string> args) {
     int argc = args.size();
-    if (argc != 3) {
-        printf("Usage: tools <tool> <output directory>");
+    string outputDir;
+    if (argc <= 3) {
+        printf("Usage: tools <tool> <output directory>\n");
+        outputDir = ".";//ExePath();// args[0];
     }
-    printf("generating . . .");
-    string outputDir = args[0];
+    else {
+        outputDir = args[3];
+    }
+    cout << "generating in" << outputDir;
+    defineAst(outputDir, "Expr", vector<string>{
+        "Binary   : Expr left, Token operator, Expr right",
+        "Grouping : Expr expression",
+        "Literal  : Object value",
+        "Unary    : Token operator, Expr right"
+    });
+}
+
+void defineAst(string outputDir, string base, vector<string> types) {
+
+}
+
+std::wstring ExePath() {
+    TCHAR buffer[MAX_PATH] = { 0 };
+    GetModuleFileName(NULL, buffer, MAX_PATH);
+    std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
+    return std::wstring(buffer).substr(0, pos);
 }
