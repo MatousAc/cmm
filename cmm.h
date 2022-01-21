@@ -7,7 +7,6 @@
 #include <unordered_map>
 #include <vector>
 #include "Scanner.h"
-#include "Token.h"
 using namespace std;
 
 void runPrompt();
