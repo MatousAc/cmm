@@ -35,5 +35,7 @@ struct Token {
 
 	// methods
 	string toString();
+	// operator overloads
+	//friend std::ostream& operator<<(std::ostream& os, const Token& tok);
 };
 

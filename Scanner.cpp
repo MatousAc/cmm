@@ -1,3 +1,5 @@
+// contains a scanner that tokenizes the source code
+// Syntax note: substr(start_pos, len)
 #include <stdlib.h>
 #include "Scanner.h"
 #include "cmm.h"
@@ -5,25 +7,7 @@
 Scanner::Scanner(string source) 
 	: source{ source },
 	tokens{ vector<Token>() },
-	start{ 0 }, current{ 0 }, line{ 1 } {
-	// keywords
-	keywords["and"] = AND;
-	keywords["class"] = CLASS;
-	keywords["else"] = ELSE;
-	keywords["false"] = FALSE;
-	keywords["for"] = FOR;
-	keywords["fun"] = FUN;
-	keywords["if"] = IF;
-	keywords["nil"] = NIL;
-	keywords["or"] = OR;
-	keywords["print"] = PRINT;
-	keywords["return"] = RETURN;
-	keywords["super"] = SUPER;
-	keywords["this"] = THIS;
-	keywords["true"] = TRUE;
-	keywords["var"] = VAR;
-	keywords["while"] = WHILE;
-}
+	start{ 0 }, current{ 0 }, line{ 1 } {}
 
 vector<Token> Scanner::scanTokens() {
 	while (!isDone()) {
@@ -72,14 +56,11 @@ void Scanner::scanToken() {
 		line++;
 		break;
 	case '"': 
-		traverseString();
-		addToken(STRING, source.substr(start + 1, current - 1)); 
+		addString();
 		break;
 	default:
 		if (isdigit(c)) {
-			traverseNumber();
-			double num = atof(source.substr(start, current).c_str());
-			addToken(NUMBER, num);
+			addNumber();
 		} else if (isalpha(c)) {
 			addIdentifier();
 		} else
@@ -113,7 +94,7 @@ bool Scanner::nextChar(char c) {
 	return true;
 }
 
-void Scanner::traverseString() {
+void Scanner::addString() {
 	while (peek() != '"' && !isDone()) {
 		if (peek() == '\n') line++;
 		next();
@@ -123,19 +104,22 @@ void Scanner::traverseString() {
 		return;
 	}
 	next();
+	addToken(STRING, source.substr(start + 1, (current - start) - 2));
 }
 
-void Scanner::traverseNumber() {
+void Scanner::addNumber() {
 	while (isdigit(peek())) next();
 	if (peek() == '.' && isdigit(peekNext())) {
 		next();
 		while (isdigit(peek())) next();
 	}
+	double num = atof(source.substr(start, (current - start)).c_str());
+	addToken(NUMBER, num);
 }
 
 void Scanner::addIdentifier() {
 	while (isalnum(peek())) next();
-	string id = source.substr(start, current);
+	string id = source.substr(start, (current - start));
 	if (keywords.find(id) == keywords.end()) {
 		// not keyword => must be identifier
 		addToken(IDENTIFIER);
@@ -145,6 +129,6 @@ void Scanner::addIdentifier() {
 }
 
 void Scanner::addToken(tokenType type, Literal lit) {
-	string lexeme = source.substr(start, current);
+	string lexeme = source.substr(start, (current - start));
 	tokens.push_back(Token(type, lexeme, lit, line));
 }

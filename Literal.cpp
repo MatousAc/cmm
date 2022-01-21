@@ -13,3 +13,10 @@ string Literal::toString() {
 	else
 		return "unrecognized type";
 }
+
+//std::ostream& operator<<(std::ostream& os, const Literal& lit) {
+//	if (std::holds_alternative<string>(lit.value))
+//		os << std::get<string>(lit.value);
+//	else if (std::holds_alternative<double>(lit.value))
+//		os << std::to_string(std::get<double>(lit.value));
+//}
