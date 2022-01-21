@@ -13,6 +13,7 @@ int main(int argc, char* argv[]) {
         runTool(args);
         return 0;
     };
+
     // initilize keywords
     keywords["and"] = AND;
     keywords["class"] = CLASS;
