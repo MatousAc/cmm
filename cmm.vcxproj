@@ -149,6 +149,8 @@
     <ClCompile Include="scanner\Literal.cpp" />
     <ClCompile Include="scanner\Scanner.cpp" />
     <ClCompile Include="scanner\Token.cpp" />
+    <ClCompile Include="tools.ixx" />
+    <ClCompile Include="tools\tools.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cmm.h" />
@@ -156,6 +158,7 @@
     <ClInclude Include="scanner\Literal.h" />
     <ClInclude Include="scanner\Scanner.h" />
     <ClInclude Include="scanner\Token.h" />
+    <ClInclude Include="tools\tools.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

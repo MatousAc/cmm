@@ -3,6 +3,16 @@
 bool hadError = false;
 
 int main(int argc, char* argv[]) {
+    // running tools
+    vector<string> args{};
+    for (int i{ 0 }; i < argc; i++) {
+        args.push_back(argv[i]);
+    };
+    cout << "between\n";
+    if ((argc > 0) and args[1] == "-t") {
+        runTool(args);
+        return 0;
+    };
     // initilize keywords
     keywords["and"] = AND;
     keywords["class"] = CLASS;

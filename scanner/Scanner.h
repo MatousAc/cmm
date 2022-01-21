@@ -24,4 +24,3 @@ public:
 	vector<Token> tokens;
 	vector<Token> scanTokens();
 };
-
