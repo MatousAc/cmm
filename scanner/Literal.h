@@ -8,6 +8,5 @@ struct Literal {
 	Literal(string str);
 	Literal(double dbl);
 	string toString();
-	//friend std::ostream& operator<<(std::ostream& os, const Literal& lit);
 };
 

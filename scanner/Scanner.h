@@ -5,12 +5,10 @@
 using std::string;
 using std::vector;
 
-struct Scanner {
+class Scanner {
 	string source;
-	vector<Token> tokens;
 	int start, current, line;
 
-	Scanner(string source);
 	vector<Token> scanTokens();
 	void scanToken();
 	int isDone();
@@ -22,5 +20,8 @@ struct Scanner {
 	void addNumber();
 	void addIdentifier();
 	void addToken(tokenType type, Literal lit = NULL);
+public:
+	Scanner(string source);
+	vector<Token> tokens;
 };
 
