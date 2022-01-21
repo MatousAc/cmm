@@ -9,7 +9,6 @@ class Scanner {
 	string source;
 	int start, current, line;
 
-	vector<Token> scanTokens();
 	void scanToken();
 	int isDone();
 	char next();
@@ -23,5 +22,6 @@ class Scanner {
 public:
 	Scanner(string source);
 	vector<Token> tokens;
+	vector<Token> scanTokens();
 };
 
