@@ -27,7 +27,7 @@ void generateAst(vector<string> args) {
         outputDir = args[3];
     }
     cout << "generating in: " << outputDir;
-    defineAst(outputDir, "Expr", vector<string>{
+    genAst(outputDir, "Expr", vector<string>{
         "Binary   : Expr left, Token operator, Expr right",
         "Grouping : Expr expression",
         "Literal  : Object value",
@@ -35,8 +35,7 @@ void generateAst(vector<string> args) {
     });
 }
 
-void defineAst(string outputDir, string base, vector<string> types) {
-    //struct stat sb {}; 
+void genAst(string outputDir, string base, vector<string> types) {
     string fp = outputDir + "/" + base + ".cpp";
     const char* filepath = fp.c_str();
     FILE* file; // safely open a file
@@ -46,17 +45,38 @@ void defineAst(string outputDir, string base, vector<string> types) {
         cout << filepath << " could not be opened: " << file;
         return;
     }
-    // stat(filepath, &sb);
-    //program.resize(sb.st_size);
-    //fread(const_cast<char*>(program.data()), sb.st_size, 1, file);
+    // base
     string program;
     program = "#pragma once\n";
-    program += "class " + base + " {\n";
-    program += "}\n";
+    program += "#include \".. / scanner / Token.h\"";
+    program += "struct " + base + " {}\n";
+
+    // derived classes
+    auto type = types.begin();
+    auto end = types.end();
+    while (type != end) {
+        int pos = type->find(':');
+        string structname = type->substr(0, pos);
+        string members = type->substr(pos);
+
+        trim(structname);
+        trim(members);
+        program += genStruct(base, structname, members);
+        type++;
+    }
+
     fprintf(file, program.c_str());
     fclose(file);
 }
 
+string genStruct(string base, string structname, string members) {
+
+}
+
+void trim(string str) {
+    // from DelftStack:
+    str.erase(std::remove(str.begin(), str.end(), ' '), str.end());
+}
 //std::wstring ExePath() {
 //    TCHAR buffer[MAX_PATH] = { 0 };
 //    GetModuleFileName(NULL, buffer, MAX_PATH);
