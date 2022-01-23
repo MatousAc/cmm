@@ -8,8 +8,7 @@ int main(int argc, char* argv[]) {
     for (int i{ 0 }; i < argc; i++) {
         args.push_back(argv[i]);
     };
-    cout << "between\n";
-    if ((argc > 0) and args[1] == "-t") {
+    if ((argc > 1) and args[1] == "-t") {
         runTool(args);
         return 0;
     };
@@ -82,20 +81,21 @@ void error(int line, string msg, string where) {
         << msg << endl;
     hadError = true;
 }
-//
-//// prints a vector of tokens
-//std::ostream& operator<<(std::ostream& os, const vector<Token>& vec) {
-//    os << '{';
-//    if (!vec.empty()) {
-//        auto iter = vec.begin();
-//        auto end = vec.end();
-//        os << *iter++;
-//        while (iter != end)
-//            os << ", " << *iter++;
-//    }
-//    os << '}';
-//    return os;
-//}
+
+// prints a vector - Dr. Halterman
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const std::vector<T>& vec) {
+    os << '{';
+    if (!vec.empty()) {
+        auto iter = vec.begin();
+        auto end = vec.end();
+        os << *iter++;
+        while (iter != end)
+            os << ", " << *iter++;
+    }
+    os << '}';
+    return os;
+}
 
 
 // prints a vector of tokens
