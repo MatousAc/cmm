@@ -1,5 +1,10 @@
 #pragma once
 #include "../scanner/Token.h"
+struct Binary;
+struct Grouping;
+struct Lit;
+struct Unary;
+
 struct Expression {
     virtual ~Expression() = default;
 
@@ -14,7 +19,7 @@ struct Expression {
     virtual void accept(Visitor&) const {}
 };
 
-struct Binary : Expression {
+struct Binary : public Expression {
     Expression left;
     Token op;
     Expression right;
@@ -27,7 +32,7 @@ struct Binary : Expression {
     }
 };
 
-struct Grouping : Expression {
+struct Grouping : public Expression {
     Expression expression;
 
     Grouping(Expression expression)
@@ -38,7 +43,7 @@ struct Grouping : Expression {
     }
 };
 
-struct Lit : Expression {
+struct Lit : public Expression {
     Literal value;
 
     Lit(Literal value)
@@ -49,7 +54,7 @@ struct Lit : Expression {
     }
 };
 
-struct Unary : Expression {
+struct Unary : public Expression {
     Token op;
     Expression right;
 

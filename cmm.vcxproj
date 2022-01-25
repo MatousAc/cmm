@@ -151,6 +151,8 @@
     <ClCompile Include="scanner\Scanner.cpp" />
     <ClCompile Include="scanner\Token.cpp" />
     <ClCompile Include="tools.ixx" />
+    <ClCompile Include="tools\genAst.cpp" />
+    <ClCompile Include="tools\prettyPrinter.cpp" />
     <ClCompile Include="tools\tools.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +161,8 @@
     <ClInclude Include="scanner\Literal.h" />
     <ClInclude Include="scanner\Scanner.h" />
     <ClInclude Include="scanner\Token.h" />
+    <ClInclude Include="tools\genAst.h" />
+    <ClInclude Include="tools\prettyPrinter.h" />
     <ClInclude Include="tools\tools.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
