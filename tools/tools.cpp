@@ -10,13 +10,13 @@ int runTool(vector<string> args) {
         return 0;
     }
     if (args[2] == "generateAst")
-        generateAst(args);
+        genAst(args);
     else
         printf("no such tool");
     return 0;
 }
 
-void generateAst(vector<string> args) {
+void genAst(vector<string> args) {
     int argc = args.size();
     string outputDir;
     if (argc <= 3) {
@@ -49,8 +49,13 @@ void writeAst(string outputDir, string base, vector<string> types) {
     string program;
     program = "#pragma once\n";
     program += "#include \"../scanner/Token.h\"\n";
-    program += "struct " + base + " {};\n\n";
+    program += "struct " + base + " {\n";
+    program += TAB + "virtual ~" + base + "() = default;\n\n";
 
+    // visitor class
+    program += buildVisitorClass(base, types);
+    program += TAB + "virtual void accept(Visitor&) const {}\n";
+    program += "};\n\n";
     // derived classes
     auto type = types.begin();
     auto end = types.end();
@@ -65,6 +70,22 @@ void writeAst(string outputDir, string base, vector<string> types) {
     fclose(file);
 }
 
+
+string buildVisitorClass(string base, vector<string> types) {
+    string code = TAB + "class Visitor {\n" + TAB + "public:\n";
+    if (types.empty()) return code += "}\n";
+    auto type = types.begin();
+    auto end = types.end();
+    while (type != end) {
+        string name = type->substr(0, type->find(' '));
+        code += TAB + TAB + "virtual void visit" + name +
+        "(const " + name + "& " + toLower(base) + ") = 0;\n";
+        type++;
+    }
+    code += TAB + "};\n\n";
+    return code;
+}
+
 string buildStruct(string base, string structname, string contents) {
     // string splitting
     vector<string> fields = split(contents, ",");
@@ -77,33 +98,38 @@ string buildStruct(string base, string structname, string contents) {
     trim(structname);
 
     // putting the struct together
-    string result = "struct " + structname + " : " + base + " {\n";
+    string code = "struct " + structname + " : public " + base + " {\n";
     if (members.empty()) return "";
     auto member = members.begin();
     auto end = members.end();
     while (member != end) {// declerations
-        result += TAB + (*member)[0] + " " + (*member)[1] + ";\n";
+        code += TAB + (*member)[0] + " " + (*member)[1] + ";\n";
         member++;
     }
     // constructor
-    result += "\n" + TAB + structname + "(";
+    code += "\n" + TAB + structname + "(";
     member = members.begin();
     while (member != end) {
-        if (member != members.begin()) result += ", ";
-        result += (*member)[0] + " " + (*member)[1];
+        if (member != members.begin()) code += ", ";
+        code += (*member)[0] + " " + (*member)[1];
         member++;
     }
-    result += ")\n" + TAB + TAB + ":";
+    code += ")\n" + TAB + TAB + ":";
     member = members.begin();
     while (member != end) {
-        if (member != members.begin()) result += ", ";
-        result += (*member)[1] + "{ " + (*member)[1] + " }";
+        if (member != members.begin()) code += ", ";
+        code += (*member)[1] + "{ " + (*member)[1] + " }";
         member++;
     }
-    result += " {}\n";
+    code += " {}\n\n";
+    // visitor accept override
+    code += TAB + "void accept(Visitor& visitor) const override {\n";
+    code += TAB + TAB + "visitor.visit" + structname + "(*this);\n";
+    code += TAB + "}\n";
+
     //end
-    result += "};\n\n";
-    return result;
+    code += "};\n\n";
+    return code;
 }
 
 // adapted from DelftStack:
@@ -129,6 +155,16 @@ vector<string> split(string str, string token) {
         }
     }
     return result;
+}
+
+//
+string toLower(string str) {
+    for (int i = 0; i < str.length(); i++) {
+        char c = str[i];
+        if (c <= 'Z' && c >= 'A')
+            str[i] -= ('Z' - 'z');
+    }
+    return str;
 }
 
 // prints a vector - Dr. Halterman

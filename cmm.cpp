@@ -8,6 +8,11 @@ int main(int argc, char* argv[]) {
     for (int i{ 0 }; i < argc; i++) {
         args.push_back(argv[i]);
     };
+    // cheat
+    //argc += 3;
+    //args.push_back("-t");
+    //args.push_back("generateAst");
+    //args.push_back(".");
     if ((argc > 1) and args[1] == "-t") {
         runTool(args);
         return 0;

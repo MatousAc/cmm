@@ -156,7 +156,6 @@
   <ItemGroup>
     <ClInclude Include="cmm.h" />
     <ClInclude Include="error.h" />
-    <ClInclude Include="parser\Expression.h" />
     <ClInclude Include="scanner\Literal.h" />
     <ClInclude Include="scanner\Scanner.h" />
     <ClInclude Include="scanner\Token.h" />

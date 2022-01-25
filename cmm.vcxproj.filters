@@ -59,8 +59,5 @@
     <ClInclude Include="tools\tools.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="parser\Expression.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
