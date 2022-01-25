@@ -14,4 +14,4 @@ void genAst(vector<string> args);
 void writeAst(string outputDir, string base, vector<string> types);
 string buildProtoStructs(vector<string> names);
 string buildVisitorClass(string base, vector<string> types);
-string buildStruct(string base, string structname, string contents);
+string buildStruct(string base, string name, vector<string> fields);

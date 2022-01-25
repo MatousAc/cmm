@@ -10,6 +10,7 @@ using std::vector;
 using std::cout;
 
 int runTool(vector<string> args);
+void testPrettyPrinter();
 void trim(string& str);
 vector<string> split(string str, string token);
 string toLower(string str);

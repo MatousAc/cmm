@@ -7,6 +7,7 @@ struct Literal {
 	variant<string, double> value;
 	Literal(string str);
 	Literal(double dbl);
-	string toString();
+	string toString() const;
+	bool empty() const;
 };
 

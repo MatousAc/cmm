@@ -11,9 +11,17 @@ int runTool(vector<string> args) {
     }
     if (args[2] == "generateAst")
         genAst(args);
+    else if (args[2] == "prettyPrinter")
+        testPrettyPrinter();
     else
         printf("no such tool");
     return 0;
+}
+
+void testPrettyPrinter() {
+    Lit lit{ 12 };
+    prettyPrinter pp;
+    cout << pp.print(lit) << std::endl;
 }
 
 // adapted from DelftStack:

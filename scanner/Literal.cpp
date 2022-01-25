@@ -5,7 +5,15 @@ Literal::Literal(string str)
 Literal::Literal(double dbl)
 	: value{ dbl } {}
 
-string Literal::toString() {
+bool Literal::empty() const {
+	if	(std::holds_alternative<string>(value) ||
+		(std::holds_alternative<double>(value)))
+		return false;
+	else
+		return true;
+}
+
+string Literal::toString() const {
 	if (std::holds_alternative<string>(value))
 		return std::get<string>(value);
 	else if (std::holds_alternative<double>(value))
