@@ -44,10 +44,11 @@ void writeAst(string outputDir, string base, vector<string> types) {
     hpp += "#include \"../scanner/Token.h\"\n\n";
     // prototype structs
     hpp += buildProtoStructs(names);
-    hpp += "\nstruct Visitor;\n\n";
+    // visitor struct
+    hpp += buildVisitorStruct(base, names);
     // expression struct
     hpp += buildBase(base);
-    // derived classes
+    // derived structs
     auto type = types.begin();
     auto end = types.end();
     name = names.begin();
@@ -58,11 +59,23 @@ void writeAst(string outputDir, string base, vector<string> types) {
         type++;
         name++;
     }
-    // visitor class
-    hpp += buildVisitorStruct(base, names);
 
     fprintf(file, hpp.c_str());
     fclose(file);
+}
+
+string buildVisitorStruct(string base, vector<string> names) {
+    string code = "struct Visitor {\n";
+    if (names.empty()) return code += "}\n";
+    auto name = names.begin();
+    auto end = names.end();
+    while (name != end) {
+        code += TAB + "virtual void visit" + *name + "(const " +
+            *name + "* " + toLower(base) + ") = 0;\n";
+        name++;
+    }
+    code += TAB + "};\n";
+    return code;
 }
 
 string buildBase(string base) {
@@ -128,19 +141,5 @@ string buildStruct(string base, string name, vector<string> fields) {
 
     //end
     code += "};\n\n";
-    return code;
-}
-
-string buildVisitorStruct(string base, vector<string> names) {
-    string code = "struct Visitor {\n";
-    if (names.empty()) return code += "}\n";
-    auto name = names.begin();
-    auto end = names.end();
-    while (name != end) {
-        code += TAB + "void visit" + *name + "(const " +
-            *name + "* " + toLower(base) + ");\n";
-        name++;
-    }
-    code += TAB + "};\n";
     return code;
 }

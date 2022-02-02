@@ -2,7 +2,10 @@
 #include "../scanner/Token.h"
 
 struct Lit;
-struct Visitor;
+
+struct Visitor {
+    virtual void visitLit(const Lit* expression) = 0;
+};
 
 struct Expression {
     virtual ~Expression() = default;
@@ -16,8 +19,4 @@ struct Lit : Expression {
         :value{ value } {}
 
     void accept(Visitor* visitor) { visitor->visitLit(this); }
-};
-
-struct Visitor {
-    void visitLit(const Lit* expression);
 };

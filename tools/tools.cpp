@@ -19,9 +19,10 @@ int runTool(vector<string> args) {
 }
 
 void testPrettyPrinter() {
-    Lit lit{ 12 };
+    Lit* lit = new Lit{ -34.3 };
     PrettyPrinter pp;
-    cout << pp.visitLit(lit) << std::endl;
+    pp.read(lit);
+    cout << pp.getResult() << std::endl;
 }
 
 // adapted from DelftStack:

@@ -1,5 +1,9 @@
 #include "prettyPrinter.h"
 
+void PrettyPrinter::read(Expression* expression) {
+    expression->accept(this);
+}
+
 void PrettyPrinter::visitLit(const Lit* expression) {
     if (expression->value.empty()) result = "nil";
     else result = expression->value.toString();

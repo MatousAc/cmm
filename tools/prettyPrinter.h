@@ -6,10 +6,10 @@ class PrettyPrinter : Visitor {
     string result;
 public:
     PrettyPrinter() : result{} {};
-    void read(const Expression* expression);
+    void read(Expression* expression);
     //void visitBinary(const Binary& expression) override;
     //void visitGrouping(const Grouping& expression) override;
-    void visitLit(const Lit* expression);
+    void visitLit(const Lit* expression) override;
     //void visitUnary(const Unary& expression) override;
 
   /*  string paranthesise(const string& name,
