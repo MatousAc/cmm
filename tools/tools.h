@@ -1,10 +1,10 @@
 #pragma once
 #include "../include.h"
 #include "genAst.h"
-#include "PrettyPrinter.h"
+#include "AstPrinter.h"
 
 int runTool(vector<string> args);
-void testPrettyPrinter();
+void testAstPrinter();
 void trim(string& str);
 vector<string> split(string str, string token);
 string toLower(string str);

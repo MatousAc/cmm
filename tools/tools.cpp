@@ -2,23 +2,23 @@
 
 int runTool(vector<string> args) {
     auto argc = args.size();
-    for (int i{ 0 }; i < argc; i++) {
-        std::cout << args[i] << std::endl;
-    }
+    //for (int i{ 0 }; i < argc; i++) {
+    //    std::cout << args[i] << std::endl;
+    //}
     if (argc < 3) {
         printf("choose tool to run");
         return 0;
     }
     if (args[2] == "generateAst")
         genAst(args);
-    else if (args[2] == "PrettyPrinter")
-        testPrettyPrinter();
+    else if (args[2] == "AstPrinter")
+        testAstPrinter();
     else
         printf("no such tool");
     return 0;
 }
 
-void testPrettyPrinter() {
+void testAstPrinter() {
     Token min(MINUS, "-", NULL, 1);
     Token star(STAR, "*", NULL, 1);
     Grouping grp = new Binary(
@@ -26,7 +26,7 @@ void testPrettyPrinter() {
         star,
         new Grouping(new Lit{ 45.67 }));
 
-    PrettyPrinter pp;
+    AstPrinter pp;
     pp.read(&grp);
     cout << pp.getResult() << std::endl;
 }

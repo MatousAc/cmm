@@ -30,16 +30,13 @@
     <ClCompile Include="scanner\Token.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tools.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="tools\tools.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="tools\genAst.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tools\PrettyPrinter.cpp">
+    <ClCompile Include="tools\AstPrinter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,7 +62,7 @@
     <ClInclude Include="tools\genAst.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tools\PrettyPrinter.h">
+    <ClInclude Include="tools\AstPrinter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include.h">

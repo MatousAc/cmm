@@ -16,8 +16,10 @@ bool Literal::empty() const {
 string Literal::toString() const {
 	if (std::holds_alternative<string>(value))
 		return std::get<string>(value);
-	else if (std::holds_alternative<double>(value))
-		return std::to_string(std::get<double>(value));
+	else if (std::holds_alternative<double>(value)) {
+		string res = std::to_string(std::get<double>(value));
+		return res.substr(0, res.length() - 5);
+	}
 	else
 		return "unrecognized type";
 }

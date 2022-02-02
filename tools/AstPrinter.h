@@ -2,10 +2,10 @@
 #include "../include.h"
 #include "../parser/Expression.hpp"
 
-class PrettyPrinter : Visitor {
+class AstPrinter : Visitor {
     string result;
 public:
-    PrettyPrinter() : result{} {};
+    AstPrinter() : result{} {};
     void read(Expression* expression);
 
     void visitBinary(const Binary* expression) override;
@@ -13,8 +13,8 @@ public:
     void visitLit(const Lit* expression) override;
     void visitUnary(const Unary* expression) override;
 
-  /*  string paranthesise(const string& name,
-        std::initializer_list<const Expression*> expressions);*/
+    string parenthesize(string name, vector<Expression*> expressions);
+
     string getResult();
 };
 
