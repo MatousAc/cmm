@@ -1,7 +1,7 @@
 #include "genAst.h"
 
 void genAst(vector<string> args) {
-    int argc = args.size();
+    auto argc = args.size();
     string outputDir;
     if (argc <= 3) {
         printf("Usage: tools <tool> <output directory>\n");
@@ -55,7 +55,7 @@ void writeAst(string outputDir, string base, vector<string> types) {
     auto end = types.end();
     name = names.begin();
     while (type != end) {
-        int pos = type->find(':');
+        auto pos = type->find(':');
         string contents = type->substr(++pos);
         program += buildStruct(base, *name, split(contents, ","));
         type++;
@@ -84,7 +84,7 @@ string buildVisitorClass(string base, vector<string> names) {
     auto name = names.begin();
     auto end = names.end();
     while (name != end) {
-        code += TAB + TAB + "virtual T visit" + *name +
+        code += TABx2 + "virtual T visit" + *name +
             "(const " + *name + "& " + toLower(base) + ") = 0;\n";
         name++;
     }
@@ -122,7 +122,7 @@ string buildStruct(string base, string name, vector<string> fields) {
         code += (*member)[0] + " " + (*member)[1];
         member++;
     }
-    code += ")\n" + TAB + TAB + ":";
+    code += ")\n" + TABx2 + ":";
     member = members.begin();
     while (member != end) {
         if (member != members.begin()) code += ", ";
@@ -134,7 +134,7 @@ string buildStruct(string base, string name, vector<string> fields) {
     code += TAB + "template <typename T>\n";
     code += TAB + "T " + base + 
         "::accept(Visitor<T>& visitor) const {\n";
-    code += TAB + TAB + "return visitor.visit" + 
+    code += TABx2 + "return visitor.visit" + 
         name + "(*this);\n";
     code += TAB + "}\n";
 

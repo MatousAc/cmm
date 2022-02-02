@@ -1,7 +1,7 @@
 #include "tools.h"
 
 int runTool(vector<string> args) {
-    int argc = args.size();
+    auto argc = args.size();
     for (int i{ 0 }; i < argc; i++) {
         std::cout << args[i] << std::endl;
     }
@@ -34,7 +34,7 @@ void trim(string& str) {
 vector<string> split(string str, string token) {
     vector<string> result;
     while (str.size()) {
-        int index = str.find(token);
+        auto index = str.find(token);
         string substr;
         if ((substr = str.substr(0, index)) == "") {
             str = str.substr(index + token.size());

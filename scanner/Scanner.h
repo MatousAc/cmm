@@ -1,9 +1,6 @@
 #pragma once
-#include <string>
-#include <vector>
+#include "../include.h"
 #include "Token.h"
-using std::string;
-using std::vector;
 
 class Scanner {
 	string source;
@@ -24,3 +21,4 @@ public:
 	vector<Token> tokens;
 	vector<Token> scanTokens();
 };
+
