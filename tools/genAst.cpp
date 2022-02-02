@@ -12,10 +12,10 @@ void genAst(vector<string> args) {
     }
     cout << "generating in: " << outputDir << std::endl;
     writeAst(outputDir, "Expression", vector<string>{
-        "Binary     : Expression left, Token op, Expression right",
-        "Grouping   : Expression expression",
+        "Binary     : Expression* left, Token op, Expression* right",
+        "Grouping   : Expression* expression",
         "Lit        : Literal value",
-        "Unary      : Token op, Expression right"
+        "Unary      : Token op, Expression* right"
     });
 }
 
@@ -74,14 +74,14 @@ string buildVisitorStruct(string base, vector<string> names) {
             *name + "* " + toLower(base) + ") = 0;\n";
         name++;
     }
-    code += TAB + "};\n";
+    code += "};\n\n";
     return code;
 }
 
 string buildBase(string base) {
     string code = "struct " + base + " {\n";
     code += TAB + "virtual ~" + base + "() = default;\n";
-    code += "virtual void accept(Visitor* visitor) = 0;\n";
+    code += TAB + "virtual void accept(Visitor* visitor) = 0;\n";
     code += "};\n\n";
     return code;
 }
@@ -135,7 +135,7 @@ string buildStruct(string base, string name, vector<string> fields) {
     }
     code += " {}\n\n";
     // accept
-    code += TAB + "void accept(Visitor* visitor) const {\n";
+    code += TAB + "void accept(Visitor* visitor) override {\n";
     code += TABx2 + "visitor->visit" + name + "(this);\n";
     code += TAB + "}\n";
 

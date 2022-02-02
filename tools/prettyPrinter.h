@@ -7,10 +7,11 @@ class PrettyPrinter : Visitor {
 public:
     PrettyPrinter() : result{} {};
     void read(Expression* expression);
-    //void visitBinary(const Binary& expression) override;
-    //void visitGrouping(const Grouping& expression) override;
+
+    void visitBinary(const Binary* expression) override;
+    void visitGrouping(const Grouping* expression) override;
     void visitLit(const Lit* expression) override;
-    //void visitUnary(const Unary& expression) override;
+    void visitUnary(const Unary* expression) override;
 
   /*  string paranthesise(const string& name,
         std::initializer_list<const Expression*> expressions);*/

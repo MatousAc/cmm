@@ -33,6 +33,6 @@ struct Token {
 	Token(tokenType type, string lexeme, Literal lit, int line);
 
 	// methods
+	string display();
 	string toString();
 };
-
