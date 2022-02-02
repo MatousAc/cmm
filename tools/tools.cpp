@@ -11,7 +11,7 @@ int runTool(vector<string> args) {
     }
     if (args[2] == "generateAst")
         genAst(args);
-    else if (args[2] == "prettyPrinter")
+    else if (args[2] == "PrettyPrinter")
         testPrettyPrinter();
     else
         printf("no such tool");
@@ -19,9 +19,16 @@ int runTool(vector<string> args) {
 }
 
 void testPrettyPrinter() {
-    Lit lit{ 12 };
-    prettyPrinter pp;
-    cout << pp.print(lit) << std::endl;
+    Token min(MINUS, "-", NULL, 1);
+    Token star(STAR, "*", NULL, 1);
+    Grouping grp = new Binary(
+        new Unary(min, new Lit(123)),
+        star,
+        new Grouping(new Lit{ 45.67 }));
+
+    PrettyPrinter pp;
+    pp.read(&grp);
+    cout << pp.getResult() << std::endl;
 }
 
 // adapted from DelftStack:

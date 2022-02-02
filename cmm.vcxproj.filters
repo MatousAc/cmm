@@ -39,7 +39,7 @@
     <ClCompile Include="tools\genAst.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tools\prettyPrinter.cpp">
+    <ClCompile Include="tools\PrettyPrinter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="parser\Expression.cpp">
@@ -68,10 +68,13 @@
     <ClInclude Include="tools\genAst.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tools\prettyPrinter.h">
+    <ClInclude Include="tools\PrettyPrinter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="parser\Expression.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include.h">

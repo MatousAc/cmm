@@ -2,7 +2,6 @@
 #include "../include.h"
 #include "Literal.h"
 
-
 enum tokenType {
 	// Single-character tokens.
 	LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
@@ -34,7 +33,6 @@ struct Token {
 	Token(tokenType type, string lexeme, Literal lit, int line);
 
 	// methods
+	string display();
 	string toString();
-	// operator overloads
-	//friend std::ostream& operator<<(std::ostream& os, const Token& tok);
 };

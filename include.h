@@ -1,8 +1,12 @@
+// this file provides basic functionality
+// and types to any file that includes it
 #pragma once
 #include <stdio.h>
 #include <iostream>
 #include <string>
 #include <vector>
-using std::vector;
-using std::string;
+#include <variant>
 using std::cout;
+using std::string;
+using std::vector;
+using std::variant;

@@ -1,7 +1,7 @@
 #pragma once
 #include "../include.h"
 #include "genAst.h"
-#include "prettyPrinter.h"
+#include "PrettyPrinter.h"
 
 int runTool(vector<string> args);
 void testPrettyPrinter();

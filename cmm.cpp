@@ -8,11 +8,7 @@ int main(int argc, char* argv[]) {
     for (int i{ 0 }; i < argc; i++) {
         args.push_back(argv[i]);
     };
-    // cheat
-    argc += 2;
-    args.push_back("-t");
-    args.push_back("prettyPrinter");
-    //args.push_back(".");
+
     if ((argc > 1) and args[1] == "-t") {
         runTool(args);
         return 0;
@@ -23,8 +19,8 @@ int main(int argc, char* argv[]) {
     keywords["class"] = CLASS;
     keywords["else"] = ELSE;
     keywords["false"] = FALSE;
-    keywords["for"] = FOR;
     keywords["fun"] = FUN;
+    keywords["for"] = FOR;
     keywords["if"] = IF;
     keywords["nil"] = NIL;
     keywords["or"] = OR;
@@ -110,8 +106,8 @@ void printTokens(vector<Token>& vec) {
         auto end = vec.end();
         printf("l: type\t| lexeme \tliteral\n");
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-        cout << (*iter++).toString() << endl;
+        cout << (*iter++).display() << endl;
         while (iter != end)
-            cout << (*iter++).toString() << endl;
+            cout << (*iter++).display() << endl;
     }
 }
