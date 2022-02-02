@@ -146,7 +146,6 @@
   <ItemGroup>
     <ClCompile Include="cmm.cpp" />
     <ClCompile Include="error.cpp" />
-    <ClCompile Include="parser\Expression.cpp" />
     <ClCompile Include="scanner\Literal.cpp" />
     <ClCompile Include="scanner\Scanner.cpp" />
     <ClCompile Include="scanner\Token.cpp" />
