@@ -1,13 +1,7 @@
 #pragma once
-#include <stdio.h>
-#include <iostream>
-#include <string>
-#include <vector>
+#include "../include.h"
 #include "genAst.h"
 #include "prettyPrinter.h"
-using std::string;
-using std::vector;
-using std::cout;
 
 int runTool(vector<string> args);
 void testPrettyPrinter();

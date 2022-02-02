@@ -1,21 +1,18 @@
 #pragma once
-#include <string.h>
-#include "tools.h"
+#include "../include.h"
 #include "../parser/Expression.hpp"
-using std::string;
 
-class prettyPrinter : Expression::Visitor<string> {
+class PrettyPrinter : Visitor {
+    string result;
 public:
+    PrettyPrinter() : result{} {};
+    void read(const Expression* expression);
     //void visitBinary(const Binary& expression) override;
     //void visitGrouping(const Grouping& expression) override;
-    string visitLit(const Lit& expression) override;
+    void visitLit(const Lit* expression);
     //void visitUnary(const Unary& expression) override;
 
-    string print(const Expression& expression) {
-        return expression.accept(*this);
-    }
-
-private:
   /*  string paranthesise(const string& name,
         std::initializer_list<const Expression*> expressions);*/
+    string getResult();
 };

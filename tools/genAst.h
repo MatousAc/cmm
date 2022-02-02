@@ -1,17 +1,13 @@
 #pragma once
-#include <stdio.h>
-#include <iostream>
-#include <string>
-#include <vector>
-#include "tools.h"
+#include "../include.h"
+#include "tools.h" // for trim|split helpers
 
-using std::string;
-using std::vector;
-using std::cout;
 inline const string TAB = "    ";
+inline const string TABx2 = TAB + TAB;
 
 void genAst(vector<string> args);
 void writeAst(string outputDir, string base, vector<string> types);
+string buildBase(string base);
 string buildProtoStructs(vector<string> names);
-string buildVisitorClass(string base, vector<string> types);
 string buildStruct(string base, string name, vector<string> fields);
+string buildVisitorStruct(string base, vector<string> types);

@@ -1,7 +1,6 @@
 #pragma once
-#include <string>
+#include "../include.h"
 #include "Literal.h"
-using std::string;
 
 enum tokenType {
 	// Single-character tokens.
@@ -35,7 +34,5 @@ struct Token {
 
 	// methods
 	string toString();
-	// operator overloads
-	//friend std::ostream& operator<<(std::ostream& os, const Token& tok);
 };
 

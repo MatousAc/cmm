@@ -2,27 +2,22 @@
 #include "../scanner/Token.h"
 
 struct Lit;
+struct Visitor;
 
 struct Expression {
     virtual ~Expression() = default;
-
-    template <typename T>    
-    class Visitor {
-    public:
-        virtual T visitLit(const Lit& expression) = 0;
-    };
-    template <typename T>
-    T accept(Visitor<T>& visitor) const {return T();};
+    virtual void accept(Visitor* visitor) = 0;
 };
 
-struct Lit : public Expression {
+struct Lit : Expression {
     Literal value;
 
     Lit(Literal value)
         :value{ value } {}
 
-    template <typename T>
-    T accept(Visitor<T>& visitor) const {
-        return visitor.visitLit(*this);
-    }
+    void accept(Visitor* visitor) { visitor->visitLit(this); }
+};
+
+struct Visitor {
+    void visitLit(const Lit* expression);
 };

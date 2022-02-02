@@ -13,9 +13,9 @@ void genAst(vector<string> args) {
     cout << "generating in: " << outputDir << std::endl;
     writeAst(outputDir, "Expression", vector<string>{
         "Binary     : Expression left, Token op, Expression right",
-            "Grouping   : Expression expression",
-            "Lit        : Literal value",
-            "Unary      : Token op, Expression right"
+        "Grouping   : Expression expression",
+        "Lit        : Literal value",
+        "Unary      : Token op, Expression right"
     });
 }
 
@@ -39,17 +39,14 @@ void writeAst(string outputDir, string base, vector<string> types) {
         name++;
     }
     // header
-    string program;
-    program = "#pragma once\n";
-    program += "#include \"../scanner/Token.h\"\n\n";
+    string hpp;
+    hpp = "#pragma once\n";
+    hpp += "#include \"../scanner/Token.h\"\n\n";
     // prototype structs
-    program += buildProtoStructs(names);
-    // base
-    program += "struct " + base + " {\n";
-    program += TAB + "virtual ~" + base + "() = default;\n\n";
-        // visitor class
-    program += buildVisitorClass(base, names);
-    program += "};\n\n";
+    hpp += buildProtoStructs(names);
+    hpp += "\nstruct Visitor;\n\n";
+    // expression struct
+    hpp += buildBase(base);
     // derived classes
     auto type = types.begin();
     auto end = types.end();
@@ -57,12 +54,23 @@ void writeAst(string outputDir, string base, vector<string> types) {
     while (type != end) {
         int pos = type->find(':');
         string contents = type->substr(++pos);
-        program += buildStruct(base, *name, split(contents, ","));
+        hpp += buildStruct(base, *name, split(contents, ","));
         type++;
         name++;
     }
-    fprintf(file, program.c_str());
+    // visitor class
+    hpp += buildVisitorStruct(base, names);
+
+    fprintf(file, hpp.c_str());
     fclose(file);
+}
+
+string buildBase(string base) {
+    string code = "struct " + base + " {\n";
+    code += TAB + "virtual ~" + base + "() = default;\n";
+    code += "virtual void accept(Visitor* visitor) = 0;\n";
+    code += "};\n\n";
+    return code;
 }
 
 string buildProtoStructs(vector<string> names) {
@@ -77,22 +85,6 @@ string buildProtoStructs(vector<string> names) {
     return code;
 }
 
-string buildVisitorClass(string base, vector<string> names) {
-    string code = TAB + "template <typename T>";
-    code += TAB + "class Visitor {\n" + TAB + "public:\n";
-    if (names.empty()) return code += "}\n";
-    auto name = names.begin();
-    auto end = names.end();
-    while (name != end) {
-        code += TAB + TAB + "virtual T visit" + *name +
-            "(const " + *name + "& " + toLower(base) + ") = 0;\n";
-        name++;
-    }
-    code += TAB + "};\n" + TAB + "template <typename T>\n";
-    code += TAB + "T accept(Visitor<T>& visitor) const;\n";
-    return code;
-}
-
 string buildStruct(string base, string name, vector<string> fields) {
     // string splitting
     vector<vector<string>> members{};
@@ -104,8 +96,7 @@ string buildStruct(string base, string name, vector<string> fields) {
     trim(name);
 
     // putting the struct together
-    string code = "struct " + name + " : public " 
-        + base + " {\n";
+    string code = "struct " + name + " : " + base + " {\n";
     if (members.empty()) return "";
     auto member = members.begin();
     auto end = members.end();
@@ -122,7 +113,7 @@ string buildStruct(string base, string name, vector<string> fields) {
         code += (*member)[0] + " " + (*member)[1];
         member++;
     }
-    code += ")\n" + TAB + TAB + ":";
+    code += ")\n" + TABx2 + ":";
     member = members.begin();
     while (member != end) {
         if (member != members.begin()) code += ", ";
@@ -130,15 +121,26 @@ string buildStruct(string base, string name, vector<string> fields) {
         member++;
     }
     code += " {}\n\n";
-    // visitor accept override
-    code += TAB + "template <typename T>\n";
-    code += TAB + "T " + base + 
-        "::accept(Visitor<T>& visitor) const {\n";
-    code += TAB + TAB + "return visitor.visit" + 
-        name + "(*this);\n";
+    // accept
+    code += TAB + "void accept(Visitor* visitor) const {\n";
+    code += TABx2 + "visitor->visit" + name + "(this);\n";
     code += TAB + "}\n";
 
     //end
     code += "};\n\n";
+    return code;
+}
+
+string buildVisitorStruct(string base, vector<string> names) {
+    string code = "struct Visitor {\n";
+    if (names.empty()) return code += "}\n";
+    auto name = names.begin();
+    auto end = names.end();
+    while (name != end) {
+        code += TAB + "void visit" + *name + "(const " +
+            *name + "* " + toLower(base) + ");\n";
+        name++;
+    }
+    code += TAB + "};\n";
     return code;
 }

@@ -1,11 +1,8 @@
 #pragma once
-#include <stdio.h>
-#include <string>
-#include <iostream>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include "include.h"
 #include <unordered_map>
-#include <vector>
 #include "scanner/Scanner.h"
 //#include "parser/Parser.h"
 #include "tools/tools.h"

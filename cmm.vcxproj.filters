@@ -71,5 +71,8 @@
     <ClInclude Include="parser\Expression.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

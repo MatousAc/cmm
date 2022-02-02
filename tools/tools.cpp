@@ -20,8 +20,8 @@ int runTool(vector<string> args) {
 
 void testPrettyPrinter() {
     Lit lit{ 12 };
-    prettyPrinter pp;
-    cout << pp.print(lit) << std::endl;
+    PrettyPrinter pp;
+    cout << pp.visitLit(lit) << std::endl;
 }
 
 // adapted from DelftStack:

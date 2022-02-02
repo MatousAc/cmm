@@ -1,8 +1,8 @@
 #include "prettyPrinter.h"
 
-string prettyPrinter::visitLit(const Lit& expression) {
-    if (expression.value.empty()) return "nil";
-    return expression.value.toString();
+void PrettyPrinter::visitLit(const Lit* expression) {
+    if (expression->value.empty()) result = "nil";
+    else result = expression->value.toString();
 }
 
 
@@ -10,3 +10,4 @@ string prettyPrinter::visitLit(const Lit& expression) {
 //    std::initializer_list<const Expression*> expressions) {
 //    return "";
 //}
+string PrettyPrinter::getResult() { return result; }
