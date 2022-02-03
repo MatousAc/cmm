@@ -1,5 +1,6 @@
 #include "LoxType.h"
 
+// various constructors
 LoxType::LoxType(string str)
 	: value{ str } {}
 LoxType::LoxType(double dbl)
@@ -7,8 +8,9 @@ LoxType::LoxType(double dbl)
 LoxType::LoxType(bool bl)
 	: value{ bl } {}
 LoxType::LoxType()
-	: value{ NULL } {}
+	: value{} {}
 
+// czechs if empty (contains NULL)
 bool LoxType::empty() const {
 	if (std::holds_alternative<string>(value) ||
 		(std::holds_alternative<double>(value)) ||
@@ -29,4 +31,12 @@ string LoxType::toString() const {
 		return (res) ? "true" : "false";
 	} else
 		return "unrecognized type";
+}
+
+// unary operator overload
+LoxType LoxType::operator-() {
+	if (std::holds_alternative<double>(value)) {
+		return -(std::get<double>(value));
+	} else
+		return this;
 }

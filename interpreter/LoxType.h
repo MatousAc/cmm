@@ -2,11 +2,12 @@
 #include "../include.h"
 
 struct LoxType {
-	variant<string, double> value;
+	variant<string, double, bool> value;
 	LoxType(string str);
 	LoxType(double dbl);
 	LoxType(bool bl);
 	LoxType();
 	string toString() const;
 	bool empty() const;
+	LoxType operator-();
 };
