@@ -12,31 +12,32 @@ LoxType::LoxType()
 
 // czechs if empty (contains NULL)
 bool LoxType::empty() const {
-	if (std::holds_alternative<string>(value) ||
-		(std::holds_alternative<double>(value)) ||
-		(std::holds_alternative<bool>(value)))
+	if (holds_alternative<string>(value) ||
+		(holds_alternative<double>(value)) ||
+		(holds_alternative<bool>(value)))
 		return false;
 	else
 		return true;
 }
 
 string LoxType::toString() const {
-	if (std::holds_alternative<string>(value))
-		return std::get<string>(value);
-	else if (std::holds_alternative<double>(value)) {
-		string res = std::to_string(std::get<double>(value));
+	if (holds_alternative<string>(value))
+		return get<string>(value);
+	else if (holds_alternative<double>(value)) {
+		string res = std::to_string(get<double>(value));
 		return res.substr(0, res.length() - 5);
-	} else if (std::holds_alternative<bool>(value)) {
-		bool res = std::get<bool>(value);
+	} else if (holds_alternative<bool>(value)) {
+		bool res = get<bool>(value);
 		return (res) ? "true" : "false";
 	} else
 		return "unrecognized type";
 }
 
-// unary operator overload: negates numbers
+// operator overloads
+// unary - overload: negates numbers
 LoxType LoxType::operator-() {
-	if (std::holds_alternative<double>(value)) {
-		return -(std::get<double>(value));
+	if (holds_alternative<double>(value)) {
+		return -(get<double>(value));
 	} else
 		return this;
 }
@@ -45,24 +46,49 @@ LoxType LoxType::operator-() {
 LoxType LoxType::operator!() {
 	if (empty())
 		return LoxType{ true };
-	else if (std::holds_alternative<double>(value))
-		return !(std::get<double>(value));
-	else if (std::holds_alternative<bool>(value))
-		return !(std::get<bool>(value));
+	else if (holds_alternative<double>(value))
+		return !(get<double>(value));
+	else if (holds_alternative<bool>(value))
+		return !(get<bool>(value));
 	else
 		return false;
 }
 
 // - overload
-LoxType LoxType::operator-(const LoxType& right) {
+LoxType LoxType::operator+(const LoxType& right) {
 	if (empty()) // if this is empty
 		return right;
 	else if (right.empty())
 		return this;
-	// if they're both numbers
-	else if (std::holds_alternative<double>(value) &&
-		std::holds_alternative<double>(right.value))
-		return std::get<double>(value) - std::get<double>(right.value);
+	// double + double
+	else if (holds_alternative<double>(value) &&
+		holds_alternative<double>(right.value))
+		return get<double>(value) + get<double>(right.value);
+	// string + string
+	else if (holds_alternative<string>(value) &&
+		holds_alternative<string>(right.value))
+		return get<string>(value) + get<string>(right.value);
+	// string + toString(double)
+	else if (holds_alternative<string>(value) &&
+		holds_alternative<double>(right.value))
+		return get<string>(value) + to_string(get<double>(right.value));
+	// toString(double) + string
+	else if (holds_alternative<double>(value) &&
+		holds_alternative<string>(right.value))
+		return to_string(get<double>(value)) + get<string>(right.value);
+	else // the second term
+		return this;
+}
+
+LoxType LoxType::operator-(const LoxType& right) {
+	if (empty()) // if this is empty
+		return (-LoxType{ right });
+	else if (right.empty())
+		return this;
+	// double - double
+	else if (holds_alternative<double>(value) &&
+		holds_alternative<double>(right.value))
+		return get<double>(value) - get<double>(right.value);
 	else // for now ignore the second term
 		return this;
 }

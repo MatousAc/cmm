@@ -11,6 +11,8 @@ struct LoxType {
 	bool empty() const;
 	LoxType operator-();
 	LoxType operator!();
+	LoxType operator+(const LoxType& right);
 	LoxType operator-(const LoxType& right);
-
+	LoxType operator/(const LoxType& right);
+	LoxType operator*(const LoxType& right);
 };

@@ -13,8 +13,17 @@ void Interpreter::visitBinary(const Binary* expression) {
 	LoxType right = getResult();
 
 	switch (expression->op.type) {
+	case PLUS:
+		result = left + right;
+		break;
 	case MINUS:
 		result = left - right;
+		break;
+	case SLASH:
+		result = left / right;
+		break;
+	case STAR:
+		result = left * right;
 		break;
 	default:
 		break;
