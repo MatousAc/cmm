@@ -6,7 +6,7 @@ Literal::Literal(double dbl)
 	: value{ dbl } {}
 
 bool Literal::empty() const {
-	if	(std::holds_alternative<string>(value) ||
+	if (std::holds_alternative<string>(value) ||
 		(std::holds_alternative<double>(value)))
 		return false;
 	else
@@ -19,7 +19,6 @@ string Literal::toString() const {
 	else if (std::holds_alternative<double>(value)) {
 		string res = std::to_string(std::get<double>(value));
 		return res.substr(0, res.length() - 5);
-	}
-	else
+	} 	else
 		return "unrecognized type";
 }
