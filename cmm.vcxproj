@@ -146,6 +146,7 @@
   <ItemGroup>
     <ClCompile Include="cmm.cpp" />
     <ClCompile Include="error.cpp" />
+    <ClCompile Include="parser\Parser.cpp" />
     <ClCompile Include="scanner\Literal.cpp" />
     <ClCompile Include="scanner\Scanner.cpp" />
     <ClCompile Include="scanner\Token.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="error.h" />
     <ClInclude Include="include.h" />
     <ClInclude Include="parser\Expression.hpp" />
+    <ClInclude Include="parser\Parser.h" />
     <ClInclude Include="scanner\Literal.h" />
     <ClInclude Include="scanner\Scanner.h" />
     <ClInclude Include="scanner\Token.h" />
