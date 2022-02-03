@@ -87,6 +87,7 @@ bool Parser::match(vector<tokenType> types) {
 			advance();
 			return true;
 		}
+		type++;
 	}
 	return false;
 }

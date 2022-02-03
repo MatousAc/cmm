@@ -75,7 +75,13 @@ void runFile(char* filepath) {
 void run(string& source) {
     Scanner scanner(source);
     vector<Token> tokens = scanner.scanTokens();
-    printTokens(tokens);
+    Parser parser{tokens};
+    Expression* expression = parser.parse();
+
+    if (err->hadError) return;
+    AstPrinter printer;
+    printer.read(expression);
+    cout << printer.getResult() << std::endl;
 }
 
 // prints a vector - Dr. Halterman
