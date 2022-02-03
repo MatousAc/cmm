@@ -7,7 +7,17 @@ void Interpreter::evaluate(Expression* expression) {
 }
 
 void Interpreter::visitBinary(const Binary* expression) {
+	evaluate(expression->left);
+	LoxType left = getResult();
+	evaluate(expression->right);
+	LoxType right = getResult();
 
+	switch (expression->op.type) {
+	case MINUS:
+		result = left - right;
+	default:
+		break;
+	}
 }
 void Interpreter::visitGrouping(const Grouping* expression) {
 	evaluate(expression->expression);

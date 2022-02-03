@@ -52,3 +52,17 @@ LoxType LoxType::operator!() {
 	else
 		return false;
 }
+
+// - overload
+LoxType LoxType::operator-(const LoxType& right) {
+	if (empty()) // if this is empty
+		return right;
+	else if (right.empty())
+		return this;
+	// if they're both numbers
+	else if (std::holds_alternative<double>(value) &&
+		std::holds_alternative<double>(right.value))
+		return std::get<double>(value) - std::get<double>(right.value);
+	else // for now ignore the second term
+		return this;
+}
