@@ -22,3 +22,12 @@ string Literal::toString() const {
 	} 	else
 		return "unrecognized type";
 }
+
+LoxType Literal::retrieve() const {
+	if (std::holds_alternative<string>(value))
+		return LoxType{ std::get<string>(value) };
+	else if (std::holds_alternative<double>(value))
+		return LoxType{ std::get<double>(value) };
+	else
+		return LoxType{};
+}

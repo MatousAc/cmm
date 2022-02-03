@@ -145,6 +145,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cmm.cpp" />
+    <ClCompile Include="interpreter\Interpreter.cpp" />
     <ClCompile Include="interpreter\LoxType.cpp" />
     <ClCompile Include="parser\Parser.cpp" />
     <ClCompile Include="scanner\Literal.cpp" />
@@ -158,6 +159,7 @@
   <ItemGroup>
     <ClInclude Include="cmm.h" />
     <ClInclude Include="include.h" />
+    <ClInclude Include="interpreter\Interpreter.h" />
     <ClInclude Include="interpreter\LoxType.h" />
     <ClInclude Include="parser\Expression.hpp" />
     <ClInclude Include="parser\Parser.h" />

@@ -45,6 +45,9 @@
     <ClCompile Include="interpreter\LoxType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="interpreter\Interpreter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cmm.h">
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="interpreter\LoxType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="interpreter\Interpreter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

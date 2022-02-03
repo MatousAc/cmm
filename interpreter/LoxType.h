@@ -10,4 +10,5 @@ struct LoxType {
 	string toString() const;
 	bool empty() const;
 	LoxType operator-();
+	LoxType operator!();
 };
