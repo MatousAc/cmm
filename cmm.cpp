@@ -1,6 +1,5 @@
 // conatins main and basic interpreter structure
 #include "cmm.h"
-bool hadError = false;
 
 int main(int argc, char* argv[]) {
     // running tools
@@ -32,6 +31,9 @@ int main(int argc, char* argv[]) {
     keywords["var"] = VAR;
     keywords["while"] = WHILE;
 
+    // init err reporter
+    err = new LoxError{};
+
     if (argc <= 1)
         runPrompt();
     else if (argc > 2)
@@ -48,7 +50,7 @@ void runPrompt() {
         getline(cin, line, '\n');
         if (line == "") break;
         run(line);
-        hadError = false;
+        err->hadError = false;
     }
 }
 
@@ -56,8 +58,8 @@ void runFile(char* filepath) {
     struct stat sb {};
     string program;
     FILE* file; // safely open a file
-    errno_t err;
-    if (( (err = fopen_s(&file, filepath, "r")) != 0) ||
+    errno_t error;
+    if (( (error = fopen_s(&file, filepath, "r")) != 0) ||
         (file == nullptr) ) {
         cout << filepath << " could not be opened: " << file;
         return;
@@ -67,20 +69,13 @@ void runFile(char* filepath) {
     fread(const_cast<char*>(program.data()), sb.st_size, 1, file);
     fclose(file);
     run(program);
-    if (hadError) return;
+    if (err->hadError) return;
 }
 
 void run(string& source) {
     Scanner scanner(source);
     vector<Token> tokens = scanner.scanTokens();
     printTokens(tokens);
-}
-
-void error(int line, string msg, string where) {
-    cout << "error on line " << line
-        << " @ " << where << ": "
-        << msg << endl;
-    hadError = true;
 }
 
 // prints a vector - Dr. Halterman

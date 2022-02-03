@@ -145,18 +145,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cmm.cpp" />
-    <ClCompile Include="error.cpp" />
     <ClCompile Include="parser\Parser.cpp" />
     <ClCompile Include="scanner\Literal.cpp" />
     <ClCompile Include="scanner\Scanner.cpp" />
     <ClCompile Include="scanner\Token.cpp" />
     <ClCompile Include="tools\genAst.cpp" />
     <ClCompile Include="tools\AstPrinter.cpp" />
+    <ClCompile Include="tools\LoxError.cpp" />
     <ClCompile Include="tools\tools.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cmm.h" />
-    <ClInclude Include="error.h" />
     <ClInclude Include="include.h" />
     <ClInclude Include="parser\Expression.hpp" />
     <ClInclude Include="parser\Parser.h" />
@@ -165,6 +164,7 @@
     <ClInclude Include="scanner\Token.h" />
     <ClInclude Include="tools\genAst.h" />
     <ClInclude Include="tools\AstPrinter.h" />
+    <ClInclude Include="tools\LoxError.h" />
     <ClInclude Include="tools\tools.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

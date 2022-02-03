@@ -117,7 +117,7 @@ Token Parser::consume(tokenType type, string message) {
 
 // errors
 ParseError Parser::error(Token token, string message) {
-	lox.error(token, message);
+	err->error(token, message);
 	return ParseError();
 }
 
@@ -144,4 +144,3 @@ void Parser::synchronize() {
 }
 
 ParseError::ParseError() {};
-

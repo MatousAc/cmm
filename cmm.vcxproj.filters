@@ -18,9 +18,6 @@
     <ClCompile Include="cmm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="error.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="scanner\Literal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -42,11 +39,11 @@
     <ClCompile Include="parser\Parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tools\LoxError.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="error.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="cmm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -78,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="parser\Parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\LoxError.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,6 +2,7 @@
 #include "../include.h"
 #include "../cmm.h"
 #include "../scanner/Token.h"
+#include "../tools/LoxError.h"
 #include "Expression.hpp"
 using std::runtime_error;
 
@@ -28,7 +29,6 @@ private:
 
 	// helpers
 	bool match(vector<tokenType> types);
-	bool check(tokenType type);
 	bool check(tokenType type);
 	Token advance();
 	bool isAtEnd();

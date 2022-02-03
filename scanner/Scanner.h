@@ -1,5 +1,6 @@
 #pragma once
 #include "../include.h"
+#include "../tools/LoxError.h"
 #include "Token.h"
 
 class Scanner {
