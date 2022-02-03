@@ -15,6 +15,7 @@ void Interpreter::visitBinary(const Binary* expression) {
 	switch (expression->op.type) {
 	case MINUS:
 		result = left - right;
+		break;
 	default:
 		break;
 	}
@@ -32,9 +33,15 @@ void Interpreter::visitUnary(const Unary* expression) {
 	switch (expression->op.type) {
 	case MINUS:
 		result = -right;
+		break;
 	case BANG:
 		result = !right;
+		break;
 	default:
 		break;
 	}
+}
+
+LoxType Interpreter::getResult() {
+	return result;
 }

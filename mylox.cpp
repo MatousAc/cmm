@@ -1,5 +1,5 @@
 // conatins main and basic interpreter structure
-#include "cmm.h"
+#include "mylox.h"
 
 int main(int argc, char* argv[]) {
     // running tools

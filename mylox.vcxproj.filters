@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cmm.cpp">
+    <ClCompile Include="mylox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="scanner\Literal.cpp">
@@ -50,7 +50,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cmm.h">
+    <ClInclude Include="mylox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scanner\Literal.h">
