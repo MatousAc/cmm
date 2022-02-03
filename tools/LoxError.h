@@ -10,5 +10,3 @@ public:
 	void report(int line, string msg, string where = "");
 	void error(Token token, string message);
  };
-
-LoxError* err;

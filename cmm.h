@@ -15,5 +15,6 @@ void run(string& source);
 void printTokens(vector<Token>& vec);
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const std::vector<T>& vec);
-// __delspec used to avoid linker error
+// __delspec used to avoid linker error for globals
 __declspec(selectany) unordered_map<string, tokenType> keywords;
+__declspec(selectany) LoxError* err;

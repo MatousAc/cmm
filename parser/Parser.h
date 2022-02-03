@@ -7,8 +7,10 @@
 using std::runtime_error;
 
 // errors
-struct ParseError : runtime_error {
-	ParseError();
+struct ParseError : public runtime_error {
+	//using base = runtime_error;
+	explicit ParseError(const string& message);
+	explicit ParseError();
 };
 
 class Parser {

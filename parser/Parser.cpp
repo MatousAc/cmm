@@ -143,4 +143,5 @@ void Parser::synchronize() {
 	}
 }
 
-ParseError::ParseError() {};
+ParseError::ParseError() : runtime_error{ "" } {}
+ParseError::ParseError(const string& message) : runtime_error{ message.c_str() } {}
