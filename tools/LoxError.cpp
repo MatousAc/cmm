@@ -33,11 +33,6 @@ void LoxError::error(Token token, string message) {
 	}
 }
 
-//RunError LoxError::runError(tokenType type, string message) {
-//	cout << message << tokenVec[type] << endl;
-//	throw RunError();
-//}
-
 RunError LoxError::runErrorMUT() {
 	throw RunError{ "mismatched type at unary operator" };
 }

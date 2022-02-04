@@ -37,6 +37,8 @@ struct Token {
 	string toString();
 };
 
+// token mapper (not being used rn)
+
 // maps token types to their lexeme
 //vector<string> tokenVec{
 //	// Single-character tokens.

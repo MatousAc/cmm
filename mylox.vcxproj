@@ -144,6 +144,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="interpreter\Interpreter.cpp" />
+    <ClCompile Include="interpreter\LoxType.cpp" />
     <ClCompile Include="mylox.cpp" />
     <ClCompile Include="parser\Parser.cpp" />
     <ClCompile Include="scanner\Literal.cpp" />
@@ -155,6 +157,8 @@
     <ClCompile Include="tools\tools.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="interpreter\Interpreter.h" />
+    <ClInclude Include="interpreter\LoxType.h" />
     <ClInclude Include="mylox.h" />
     <ClInclude Include="include.h" />
     <ClInclude Include="parser\Expression.hpp" />
