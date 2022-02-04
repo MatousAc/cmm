@@ -67,6 +67,28 @@ string toLower(string str) {
     return str;
 }
 
+// repeats a string a number of times
+// from Daniel on SO
+string repeat(string str, const size_t n) {
+    if (n == 0) {
+        str.clear();
+        str.shrink_to_fit();
+        return str;
+    } else if (n == 1 || str.empty()) {
+        return str;
+    }
+    const auto period = str.size();
+    if (period == 1) {
+        str.append(n - 1, str.front());
+        return str;
+    }
+    str.reserve(period * n);
+    size_t m{ 2 };
+    for (; m < n; m *= 2) str += str;
+    str.append(str.c_str(), (n - (m / 2)) * period);
+    return str;
+}
+
 // prints a vector - Dr. Halterman
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const std::vector<T>& vec) {

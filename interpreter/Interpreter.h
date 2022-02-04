@@ -1,10 +1,14 @@
 #pragma once
 #include "../include.h"
 #include "../parser/Expression.hpp"
+#include "../tools/LoxError.h"
+#include "../mylox.h"
 #include "LoxType.h"
 
 class Interpreter : Visitor {
 	LoxType result;
+    Token curToken; // for error reporting
+    void interpret(Expression* expression);
     void evaluate(Expression* expression);
 
     void visitBinary(const Binary* expression) override;

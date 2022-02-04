@@ -78,7 +78,8 @@ void run(string& source) {
     Parser parser{tokens};
     Expression* expression = parser.parse();
 
-    if (err->hadError) return;
+    if (err->hadError) exit(65);
+    if (err->hadRunError) exit(70);
     AstPrinter printer;
     printer.read(expression);
     cout << printer.getResult() << std::endl;

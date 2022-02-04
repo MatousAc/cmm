@@ -39,10 +39,6 @@ private:
 	Token consume(tokenType type, string message);
 
 	// errors
-	//class ParseError std::runtime_error {
-	//public:
-	   // ParseError();
-	//};
 	ParseError error(Token token, string message);
 	void synchronize();
 };

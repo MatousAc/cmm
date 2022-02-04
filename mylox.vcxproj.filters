@@ -42,10 +42,10 @@
     <ClCompile Include="tools\LoxError.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="interpreter\LoxType.cpp">
+    <ClCompile Include="interpreter\Interpreter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="interpreter\Interpreter.cpp">
+    <ClCompile Include="interpreter\LoxType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -86,10 +86,10 @@
     <ClInclude Include="tools\LoxError.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="interpreter\LoxType.h">
+    <ClInclude Include="interpreter\Interpreter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="interpreter\Interpreter.h">
+    <ClInclude Include="interpreter\LoxType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
