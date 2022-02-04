@@ -102,7 +102,7 @@ bool LoxType::operator<(const LoxType& r) {
 		holds_alternative<string>(r.value))
 		return get<string>(value).compare(get<string>(r.value)) < 0;
 	else // mismatched types
-		throw err->runErrorMBT();
+		err->runErrorMBT();
 }
 // <=
 bool LoxType::operator<=(const LoxType& r) {

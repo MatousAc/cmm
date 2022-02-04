@@ -38,23 +38,23 @@ struct Token {
 };
 
 // maps token types to their lexeme
-vector<string> tokenVec{
-	// Single-character tokens.
-	"(", ")", "{", "}",
-	",", ".", "-", "+", ";", "/", "*",
-
-	// One or two character tokens.
-	"!", "!=",
-	"=", "==",
-	">", ">=",
-	"<", "<=",
-
-	// Literals.
-	"IDENTIFIER", "STRING", "NUMBER",
-
-	// Keywords.
-	"and", "class", "else", "false", "fun", "for", "if", "nil", "or",
-	"print", "return", "super", "this", "true", "var", "while",
-
-	"EoF"
-};
+//vector<string> tokenVec{
+//	// Single-character tokens.
+//	"(", ")", "{", "}",
+//	",", ".", "-", "+", ";", "/", "*",
+//
+//	// One or two character tokens.
+//	"!", "!=",
+//	"=", "==",
+//	">", ">=",
+//	"<", "<=",
+//
+//	// Literals.
+//	"IDENTIFIER", "STRING", "NUMBER",
+//
+//	// Keywords.
+//	"and", "class", "else", "false", "fun", "for", "if", "nil", "or",
+//	"print", "return", "super", "this", "true", "var", "while",
+//
+//	"EoF"
+//};

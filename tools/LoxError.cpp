@@ -14,7 +14,9 @@ RunError::RunError(const Token token, const string& message)
 	runtime_error{ message.c_str() } {}
 
 
-LoxError::LoxError() : hadError{ false } {};
+LoxError::LoxError() : 
+	hadRunError{ false },
+	hadError{ false } {};
 
 void LoxError::report(int line, string msg, string where) {
 	cout << "error on line " << line
@@ -31,10 +33,10 @@ void LoxError::error(Token token, string message) {
 	}
 }
 
-RunError LoxError::runError(tokenType type, string message) {
-	cout << message << tokenVec[type] << endl;
-	throw RunError();
-}
+//RunError LoxError::runError(tokenType type, string message) {
+//	cout << message << tokenVec[type] << endl;
+//	throw RunError();
+//}
 
 RunError LoxError::runErrorMUT() {
 	throw RunError{ "mismatched type at unary operator" };

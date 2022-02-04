@@ -24,7 +24,7 @@ public:
 	void error(Token token, string message);
 
 	// errors
-	RunError runError(tokenType type, string message);
+	//RunError runError(tokenType type, string message);
 	RunError runErrorMUT();
 	RunError runErrorMBT();
 	void handleRunError(RunError error);

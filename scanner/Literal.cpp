@@ -23,11 +23,11 @@ string Literal::toString() const {
 		return "unrecognized type";
 }
 
-LoxType Literal::retrieve() const {
-	if (holds_alternative<string>(value))
-		return LoxType{ get<string>(value) };
-	else if (holds_alternative<double>(value))
-		return LoxType{ get<double>(value) };
-	else
-		return LoxType{};
-}
+//LoxType Literal::retrieve() const {
+//	if (holds_alternative<string>(value))
+//		return LoxType{ get<string>(value) };
+//	else if (holds_alternative<double>(value))
+//		return LoxType{ get<double>(value) };
+//	else
+//		return LoxType{};
+//}
