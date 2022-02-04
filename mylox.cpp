@@ -13,24 +13,6 @@ int main(int argc, char* argv[]) {
         return 0;
     };
 
-    // initilize keywords
-    keywords["and"] = AND;
-    keywords["class"] = CLASS;
-    keywords["else"] = ELSE;
-    keywords["false"] = FALSE;
-    keywords["fun"] = FUN;
-    keywords["for"] = FOR;
-    keywords["if"] = IF;
-    keywords["nil"] = NIL;
-    keywords["or"] = OR;
-    keywords["print"] = PRINT;
-    keywords["return"] = RETURN;
-    keywords["super"] = SUPER;
-    keywords["this"] = THIS;
-    keywords["true"] = TRUE;
-    keywords["var"] = VAR;
-    keywords["while"] = WHILE;
-
     // init err reporter
     err = new LoxError{};
 

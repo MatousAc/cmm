@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <variant>
+using std::cin;
 using std::cout;
 using std::endl;
 using std::string;
@@ -14,3 +15,5 @@ using std::variant;
 using std::holds_alternative;
 using std::get;
 using std::to_string;
+
+

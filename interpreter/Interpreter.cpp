@@ -1,4 +1,5 @@
 #include "Interpreter.h"
+#include "../tools/LoxError.h"
 
 Interpreter::Interpreter() : 
 	result{}, 
@@ -10,7 +11,8 @@ void Interpreter::interpret(Expression* expression) {
 		cout << result.toString();
 	}
 	catch (RunError error) {
-		err->handleRunError(RunError{ curToken, error.message });
+		err->handleRunError(error);
+		//err->handleRunError(RunError(curToken, error.message));
 	}
 }
 

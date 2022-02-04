@@ -21,10 +21,12 @@ public:
 	LoxError();
 
 	void report(int line, string msg, string where = "");
-	void error(Token token, string message);
+	//void error(Token token, string message);
 
 	// errors
 	RunError runErrorMUT();
 	RunError runErrorMBT();
 	void handleRunError(RunError error);
  };
+
+inline LoxError* err = new LoxError;

@@ -1,8 +1,7 @@
 #pragma once
 #include "../include.h"
-#include "../mylox.h"
+//#include "../mylox.h"
 #include "../scanner/Token.h"
-#include "../tools/LoxError.h"
 #include "Expression.hpp"
 using std::runtime_error;
 
@@ -30,13 +29,13 @@ private:
 	Expression* primary();
 
 	// helpers
-	bool match(vector<tokenType> types);
-	bool check(tokenType type);
+	bool match(vector<TokenType> types);
+	bool check(TokenType type);
 	Token advance();
 	bool isAtEnd();
 	Token peek();
 	Token previous();
-	Token consume(tokenType type, string message);
+	Token consume(TokenType type, string message);
 
 	// errors
 	ParseError error(Token token, string message);

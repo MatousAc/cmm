@@ -4,10 +4,30 @@
 #include "Scanner.h"
 #include "../mylox.h"
 
+std::unordered_map<string, TokenType> Scanner::keywords;
+
 Scanner::Scanner(string source) 
 	: source{ source },
 	tokens{ vector<Token>() },
-	start{ 0 }, current{ 0 }, line{ 1 } {}
+	start{ 0 }, current{ 0 }, line{ 1 } {
+	// initilize keywords
+	keywords["and"] = AND;
+	keywords["class"] = CLASS;
+	keywords["else"] = ELSE;
+	keywords["false"] = FALSE;
+	keywords["fun"] = FUN;
+	keywords["for"] = FOR;
+	keywords["if"] = IF;
+	keywords["nil"] = NIL;
+	keywords["or"] = OR;
+	keywords["print"] = PRINT;
+	keywords["return"] = RETURN;
+	keywords["super"] = SUPER;
+	keywords["this"] = THIS;
+	keywords["true"] = TRUE;
+	keywords["var"] = VAR;
+	keywords["while"] = WHILE;
+}
 
 vector<Token> Scanner::scanTokens() {
 	while (!isDone()) {
@@ -128,7 +148,7 @@ void Scanner::addIdentifier() {
 	addToken(keywords[id]);
 }
 
-void Scanner::addToken(tokenType type, Literal lit) {
+void Scanner::addToken(TokenType type, Literal lit) {
 	string lexeme = source.substr(start, (current - start));
 	tokens.push_back(Token(type, lexeme, lit, line));
 }

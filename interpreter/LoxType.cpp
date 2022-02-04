@@ -1,5 +1,5 @@
 #include "LoxType.h"
-#include "../mylox.h"
+#include "../tools/LoxError.h"
 
 // various constructors
 LoxType::LoxType(string str)
@@ -22,18 +22,17 @@ bool LoxType::empty() const {
 }
 
 string LoxType::toString() const {
+	string res = "unknown type";
 	if (empty())
-		return "nil";
+		res = "nil";
 	else if (holds_alternative<string>(value))
-		return get<string>(value);
+		res = get<string>(value);
 	else if (holds_alternative<double>(value)) {
-		string res = this->numToLoxStr();
-		return res.substr(0, res.length() - 5);
+		res = this->numToLoxStr();
 	} else if (holds_alternative<bool>(value)) {
-		bool res = get<bool>(value);
-		return (res) ? "true" : "false";
+		 res = (get<bool>(value)) ? "true" : "false";
 	} else
-		return "unrecognized type";
+		return res;
 }
 // helper
 string LoxType::numToLoxStr() const {
@@ -157,13 +156,13 @@ LoxType LoxType::operator*(const LoxType& r) {
 		holds_alternative<double>(r.value))
 		return get<double>(value) * get<double>(r.value);
 	// string * double
-	else if (holds_alternative<string>(value) &&
-		holds_alternative<double>(r.value))
-		return repeat(get<string>(value), (size_t)get<double>(r.value));
-	// double * string
-	else if (holds_alternative<double>(value) &&
-		holds_alternative<string>(r.value))
-		return repeat(get<string>(r.value), (size_t)get<double>(value));
+	//else if (holds_alternative<string>(value) &&
+	//	holds_alternative<double>(r.value))
+	//	return repeat(get<string>(value), (size_t)get<double>(r.value));
+	//// double * string
+	//else if (holds_alternative<double>(value) &&
+	//	holds_alternative<string>(r.value))
+	//	return repeat(get<string>(r.value), (size_t)get<double>(value));
 	else // mismatched types
 		err->runErrorMBT();
 }

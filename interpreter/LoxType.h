@@ -1,6 +1,7 @@
 #pragma once
 #include "../include.h"
-#include "../tools/tools.h"
+//#include "../tools/tools.h"
+//#include "../mylox.h"
 #define DOUBLE_PRECISION 1e-7
 
 struct LoxType {

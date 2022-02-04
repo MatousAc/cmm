@@ -25,13 +25,13 @@ void LoxError::report(int line, string msg, string where) {
 	hadError = true;
 }
 
-void LoxError::error(Token token, string message) {
-	if (token.type == EoF) {
-		report(token.line, " at end", message);
-	} else {
-		report(token.line, " at '" + token.lexeme + "'", message);
-	}
-}
+//void LoxError::error(Token token, string message) {
+//	if (token.type == EoF) {
+//		report(token.line, " at end", message);
+//	} else {
+//		report(token.line, " at '" + token.lexeme + "'", message);
+//	}
+//}
 
 RunError LoxError::runErrorMUT() {
 	throw RunError{ "mismatched type at unary operator" };

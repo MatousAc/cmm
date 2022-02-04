@@ -2,7 +2,7 @@
 #include "../include.h"
 #include "Literal.h"
 
-enum tokenType {
+enum TokenType {
 	// Single-character tokens.
 	LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
 	COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH, STAR,
@@ -24,13 +24,13 @@ enum tokenType {
 };
 
 struct Token {
-	tokenType type;
+	TokenType type;
 	string lexeme;
 	Literal lit;
 	int line;
 	
 	// constructors
-	Token(tokenType type, string lexeme, Literal lit, int line);
+	Token(TokenType type, string lexeme, Literal lit, int line);
 
 	// methods
 	string display();

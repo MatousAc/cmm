@@ -1,4 +1,5 @@
 #pragma once
+#include <unordered_map>
 #include "../include.h"
 #include "../tools/LoxError.h"
 #include "Token.h"
@@ -16,10 +17,13 @@ class Scanner {
 	void addString();
 	void addNumber();
 	void addIdentifier();
-	void addToken(tokenType type, Literal lit = NULL);
+	void addToken(TokenType type, Literal lit = NULL);
 public:
 	Scanner(string source);
 	vector<Token> tokens;
 	vector<Token> scanTokens();
+	// __delspec used to avoid linker error for globals
+	static std::unordered_map<string, TokenType> keywords;
+	//__declspec(selectany) std::unordered_map<string, TokenType> keywords;
 };
 

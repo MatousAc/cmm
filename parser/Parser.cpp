@@ -1,4 +1,5 @@
 #include "Parser.h"
+#include "../tools/LoxError.h"
 
 Expression* Parser::parse() {
 	try { return expression(); }
@@ -10,7 +11,7 @@ Expression* Parser::expression() { return equality(); }
 Expression* Parser::equality() {
 	Expression* expression = comparison();
 
-	while (match(vector<tokenType>{ BANG_EQUAL, EQUAL_EQUAL })) {
+	while (match(vector<TokenType>{ BANG_EQUAL, EQUAL_EQUAL })) {
 		Token op = previous();
 		Expression* right = comparison();
 		expression = new Binary(expression, op, right);
@@ -21,7 +22,7 @@ Expression* Parser::equality() {
 Expression* Parser::comparison() {
 	Expression* expr = term();
 
-	while (match(vector<tokenType>{ GREATER, GREATER_EQUAL, LESS, LESS_EQUAL })) {
+	while (match(vector<TokenType>{ GREATER, GREATER_EQUAL, LESS, LESS_EQUAL })) {
 		Token op = previous();
 		Expression* right = term();
 		expr = new Binary(expr, op, right);
@@ -32,7 +33,7 @@ Expression* Parser::comparison() {
 Expression* Parser::term() {
 	Expression* expression = factor();
 
-	while (match(vector<tokenType>{ MINUS, PLUS })) {
+	while (match(vector<TokenType>{ MINUS, PLUS })) {
 		Token op = previous();
 		Expression* right = factor();
 		expression = new Binary(expression, op, right);
@@ -43,7 +44,7 @@ Expression* Parser::term() {
 Expression* Parser::factor() {
 	Expression* expression = unary();
 
-	while (match(vector<tokenType>{ SLASH, STAR })) {
+	while (match(vector<TokenType>{ SLASH, STAR })) {
 		Token op = previous();
 		Expression* right = unary();
 		expression = new Binary(expression, op, right);
@@ -52,7 +53,7 @@ Expression* Parser::factor() {
 }
 
 Expression* Parser::unary() {
-	if (match(vector<tokenType>{BANG, MINUS})) {
+	if (match(vector<TokenType>{BANG, MINUS})) {
 		Token op = previous();
 		Expression* right = unary();
 		return new Unary(op, right);
@@ -61,15 +62,15 @@ Expression* Parser::unary() {
 }
 
 Expression* Parser::primary() {
-	if (match(vector<tokenType>{FALSE})) return new Lit(false);
-	if (match(vector<tokenType>{TRUE})) return new Lit(true);
-	if (match(vector<tokenType>{NIL})) return new Lit(NULL);
+	if (match(vector<TokenType>{FALSE})) return new Lit(false);
+	if (match(vector<TokenType>{TRUE})) return new Lit(true);
+	if (match(vector<TokenType>{NIL})) return new Lit(NULL);
 
-	if (match(vector<tokenType>{NUMBER, STRING})) {
+	if (match(vector<TokenType>{NUMBER, STRING})) {
 		return new Lit(previous().lit);
 	}
 
-	if (match(vector<tokenType>{LEFT_PAREN})) {
+	if (match(vector<TokenType>{LEFT_PAREN})) {
 		Expression* expressionVar = expression();
 		consume(RIGHT_PAREN, "Expect ')' after expression.");
 		return new Grouping(expressionVar);
@@ -79,7 +80,7 @@ Expression* Parser::primary() {
 
 
 // helpers
-bool Parser::match(vector<tokenType> types) {
+bool Parser::match(vector<TokenType> types) {
 	auto type = types.begin();
 	auto end = types.end();
 	while (type != end) {
@@ -92,7 +93,7 @@ bool Parser::match(vector<tokenType> types) {
 	return false;
 }
 
-bool Parser::check(tokenType type) {
+bool Parser::check(TokenType type) {
 	if (isAtEnd())
 		return false;
 	return peek().type == type;
@@ -110,7 +111,7 @@ Token Parser::peek() { return tokens[current]; }
 
 Token Parser::previous() { return tokens[current - 1]; }
 
-Token Parser::consume(tokenType type, string message) {
+Token Parser::consume(TokenType type, string message) {
 	if (check(type)) return advance();
 
 	throw error(peek(), message);
@@ -118,7 +119,7 @@ Token Parser::consume(tokenType type, string message) {
 
 // errors
 ParseError Parser::error(Token token, string message) {
-	err->error(token, message);
+	//err->error(token, message);
 	return ParseError();
 }
 
