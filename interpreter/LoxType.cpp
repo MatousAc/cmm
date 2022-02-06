@@ -32,8 +32,8 @@ string LoxType::toString() const {
 		res = this->numToLoxStr();
 	} else if (holds_alternative<bool>(value)) {
 		 res = (get<bool>(value)) ? "true" : "false";
-	} else
-		return res;
+	}
+	return res;
 }
 // helper
 string LoxType::numToLoxStr() const {
@@ -170,6 +170,7 @@ LoxType LoxType::operator*(const LoxType& r) {
 		return repeat(get<string>(r.value), (size_t)get<double>(value));
 	else // mismatched types
 		err->runErrorMBT();
+	return LoxType{};
 }
 // / : division and line breaks
 LoxType LoxType::operator/(const LoxType& r) {
