@@ -11,8 +11,7 @@ void Interpreter::interpret(Expression* expression) {
 		cout << result.toString();
 	}
 	catch (RunError error) {
-		err->handleRunError(error);
-		//err->handleRunError(RunError(curToken, error.message));
+		err->handleRunError(RunError(curToken, error.message));
 	}
 }
 

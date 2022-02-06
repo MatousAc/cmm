@@ -1,7 +1,7 @@
 #pragma once
 #include "../include.h"
 #include "../parser/Expression.hpp"
-//#include "../mylox.h"
+#include "../mylox.h"
 #include "LoxType.h"
 
 class Interpreter : Visitor {
