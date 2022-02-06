@@ -8,7 +8,7 @@ void Interpreter::interpret(Expression* expression) {
 	try {
 		evaluate(expression);
 		result = getResult();
-		cout << result.toString();
+		//cout << result.toString();
 	}
 	catch (RunError error) {
 		err->handleRunError(RunError(curToken, error.message));

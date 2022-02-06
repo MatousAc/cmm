@@ -7,7 +7,7 @@ struct Literal {
 	Literal(double dbl);
 	bool empty() const;
 	string toString() const;
-	string retrieve() const;
-	//LoxType retrieve() const;
+	//string retrieve() const;
+	LoxType retrieve() const;
 };
 

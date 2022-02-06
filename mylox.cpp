@@ -62,9 +62,13 @@ void run(string& source) {
 
     if (err->hadError) exit(65);
     if (err->hadRunError) exit(70);
-    AstPrinter printer;
+    Interpreter* interpreter = new Interpreter;
+    interpreter->interpret(expression);
+    cout << interpreter->getResult().toString() << endl;
+
+    /*AstPrinter printer;
     printer.read(expression);
-    cout << printer.getResult() << std::endl;
+    cout << printer.getResult() << std::endl;*/
 }
 
 // prints a vector - Dr. Halterman
