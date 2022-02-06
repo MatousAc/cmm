@@ -119,7 +119,7 @@ Token Parser::consume(TokenType type, string message) {
 
 // errors
 ParseError Parser::error(Token token, string message) {
-	//err->error(token, message);
+	err->error(token, message);
 	return ParseError();
 }
 

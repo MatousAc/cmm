@@ -1,5 +1,6 @@
 #include "LoxType.h"
 #include "../tools/LoxError.h"
+#include "../tools/tools.h"
 
 // various constructors
 LoxType::LoxType(string str)
@@ -83,6 +84,7 @@ bool LoxType::operator>(const LoxType& r) {
 		return get<string>(value).compare(get<string>(r.value)) > 0;
 	else // mismatched types
 		err->runErrorMBT();
+	return false;
 }
 // >=
 bool LoxType::operator>=(const LoxType& r) {
@@ -102,6 +104,7 @@ bool LoxType::operator<(const LoxType& r) {
 		return get<string>(value).compare(get<string>(r.value)) < 0;
 	else // mismatched types
 		err->runErrorMBT();
+	return false;
 }
 // <=
 bool LoxType::operator<=(const LoxType& r) {
@@ -133,6 +136,7 @@ LoxType LoxType::operator+(const LoxType& r) {
 		return to_string(get<double>(value)) + get<string>(r.value);
 	else // mismatched types
 		err->runErrorMBT();
+	return LoxType{};
 }
 // - : subtraction
 LoxType LoxType::operator-(const LoxType& r) {
@@ -146,6 +150,7 @@ LoxType LoxType::operator-(const LoxType& r) {
 		return get<double>(value) - get<double>(r.value);
 	else // mismatched types
 		err->runErrorMBT();
+	return LoxType{};
 }
 // * : multiplication and string duplication
 LoxType LoxType::operator*(const LoxType& r) {
@@ -156,13 +161,13 @@ LoxType LoxType::operator*(const LoxType& r) {
 		holds_alternative<double>(r.value))
 		return get<double>(value) * get<double>(r.value);
 	// string * double
-	//else if (holds_alternative<string>(value) &&
-	//	holds_alternative<double>(r.value))
-	//	return repeat(get<string>(value), (size_t)get<double>(r.value));
-	//// double * string
-	//else if (holds_alternative<double>(value) &&
-	//	holds_alternative<string>(r.value))
-	//	return repeat(get<string>(r.value), (size_t)get<double>(value));
+	else if (holds_alternative<string>(value) &&
+		holds_alternative<double>(r.value))
+		return repeat(get<string>(value), (size_t)get<double>(r.value));
+	// double * string
+	else if (holds_alternative<double>(value) &&
+		holds_alternative<string>(r.value))
+		return repeat(get<string>(r.value), (size_t)get<double>(value));
 	else // mismatched types
 		err->runErrorMBT();
 }
@@ -182,6 +187,7 @@ LoxType LoxType::operator/(const LoxType& r) {
 		return get<string>(value) + "\n" + get<string>(r.value);
 	else // mismatched types
 		err->runErrorMBT();
+	return LoxType{};
 }
 
 // unary
@@ -191,11 +197,12 @@ LoxType LoxType::operator-() {
 		return -(get<double>(value));
 	} else // mismatched type
 		err->runErrorMUT();
+	return LoxType{};
 }
 // ! : works on numbers and bools
-LoxType LoxType::operator!() {
+bool LoxType::operator!() {
 	if (empty())
-		return LoxType{ true };
+		return true;
 	else if (holds_alternative<string>(value))
 		return (get<string>(value).empty());
 	else if (holds_alternative<double>(value))

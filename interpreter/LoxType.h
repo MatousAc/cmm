@@ -28,5 +28,5 @@ struct LoxType {
 	LoxType operator/(const LoxType& r);
 	
 	LoxType operator-();
-	LoxType operator!();
+	bool operator!();
 };
