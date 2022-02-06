@@ -129,11 +129,11 @@ LoxType LoxType::operator+(const LoxType& r) {
 	// string + toString(double)
 	else if (holds_alternative<string>(value) &&
 		holds_alternative<double>(r.value))
-		return get<string>(value) + to_string(get<double>(r.value));
+		return get<string>(value) + r.numToLoxStr();
 	// toString(double) + string
 	else if (holds_alternative<double>(value) &&
 		holds_alternative<string>(r.value))
-		return to_string(get<double>(value)) + get<string>(r.value);
+		return this->numToLoxStr() + get<string>(r.value);
 	else // mismatched types
 		err->runErrorMBT();
 	return LoxType{};

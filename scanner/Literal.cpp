@@ -30,5 +30,4 @@ LoxType Literal::retrieve() const {
 		return LoxType{ get<double>(value) };
 	else
 		return LoxType{};
-	return "a test string";
 }

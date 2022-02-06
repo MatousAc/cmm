@@ -75,7 +75,7 @@ Expression* Parser::primary() {
 		consume(RIGHT_PAREN, "Expect ')' after expression.");
 		return new Grouping(expressionVar);
 	}
-	throw error(peek(), "Expect expression.");
+	throw error(peek(), "Expected expression ");
 }
 
 

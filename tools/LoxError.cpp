@@ -43,6 +43,6 @@ RunError LoxError::runErrorMBT() {
 
 void LoxError::handleRunError(RunError error) {
 	cout << error.message + "\n[line "
-		+ to_string(error.token.line) + "]";
+		+ to_string(error.token.line) + "] ";
 	hadRunError = true;
 }
