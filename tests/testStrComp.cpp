@@ -3,40 +3,58 @@
 
 void testStrComp() {
 	vector<string> input = {
-		"1 + 2",
-		"(4 * \"hi\") == 12",
-		"3 / 5 + 2 * (-2 - -5)",
-		"\"two\" * (4 / 2)",
-		"3 / 2 + 1 + -12",
-		"true == false * 3",
-		"2 - 3 + 4 / 3 * 8 + (3 + 4)",
-		"4",
-		"-34",
-		"29 - 12 == 2 != 7 < 6",
-		"4 + (1 - 2) != 24 > 3 - 4",
-		"(\"sup\" + \" \") * 12",
-		"9 / 5 == 3 * 7 / (9 - -2) != 7"
+		"\"cat\" < \"dog\"",
+		"\"canary\" < \"cat\"",
+		"\"food\" > \"lettuce\"",
+		"\"cake\" <= \"cake\"",
+		"\"sweet\" != \"sour\"",
+		"\"crate\" < \"great\"",
+		"\"grate\" >= \"great\"",
+		"\"gift\" > \"lift\"",
+		"\"lift\" > \"gft\"",
+		"\"tired\" > \"tired\"",
+		"\"tired\" == \"tired\"",
+		"\"cat\" != \"cat\"",
+		"\"zoo\" > \"loneliness\"",
+		"\"exhaustion\" >= \"exhaust\"",
+		"\"sword\" > \"sword drill\"",
+		"\"sleep\" > \"secret\"",
+		"\"\" < \"kitten\"",
+		"\"kite\" < \"fight\"",
+		"\"!1\" < \"82\"",
+		"\"lazy\" >= \"laziness\"",
+		"\"junk\" == \"sleep\"",
+		"\"dreams\" <= \"sweet\""
 	};
 	vector<string> expected = {
-		"1 2 +",
-		"4 hi * 12 ==",
-		"3 5 / 2 2 - 5 - - * +",
-		"two 4 2 / *",
-		"3 2 / 1 + 12 - +",
-		"1 0 3 * ==",
-		"2 3 - 4 3 / 8 * + 3 4 + +",
-		"4",
-		"34 -",
-		"29 12 - 2 == 7 6 < !=",
-		"4 1 2 - + 24 3 4 - > !=",
-		"sup   + 12 *",
-		"9 5 / 3 7 * 9 2 - - / == 7 !="
+		"true",
+		"true",
+		"false",
+		"true",
+		"true",
+		"true",
+		"false",
+		"false",
+		"true",
+		"false",
+		"true",
+		"false",
+		"true",
+		"true",
+		"false",
+		"true",
+		"true",
+		"false",
+		"true",
+		"true",
+		"false",
+		"true"
 	};
 	string actual;
 	for (int i = 0; i < input.size(); i++) {
 		actual = interpretLineRPN(input[i]);
 		if (actual != expected[i])
-			cout << "_" << actual << "_"
+			cout << "_" << input[i] << "_"
 			<< " ~should be~ "
 			<< "_" << expected[i] << "_" << endl;
 	}
