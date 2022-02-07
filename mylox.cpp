@@ -66,10 +66,6 @@ void run(string& source) {
     AstPrinter printer;
     printer.read(expression);
     cout << printer.getResult() << std::endl;
-    // interpreting
-    Interpreter* interpreter = new Interpreter;
-    interpreter->interpret(expression);
-    cout << interpreter->getResult().toString() << endl;
 }
 
 // prints a vector - Dr. Halterman
