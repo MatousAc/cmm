@@ -2,6 +2,7 @@
 #include "../include.h"
 #include "genAst.h"
 #include "AstPrinter.h"
+#include "../tests/testRPN.h"
 
 int runTool(vector<string> args);
 void testAstPrinter();

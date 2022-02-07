@@ -26,7 +26,9 @@ string RPNPrinter::collect(string name, vector<Expression*> expressions) {
 	auto cur = expressions.begin();
 	auto end = expressions.end();
 	while (cur != end) {
-		result += " ";
+		if (result.length() and 
+			result[result.length()-1] != ' ')
+			result += " ";
 		(*cur)->accept(this);
 		cur++;
 	}

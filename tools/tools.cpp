@@ -10,6 +10,8 @@ int runTool(vector<string> args) {
 		genAst(args);
 	else if (args[2] == "AstPrinter")
 		testAstPrinter();
+	else if (args[2] == "testRPN")
+		testRPN();
 	else
 		printf("no such tool");
 	return 0;
