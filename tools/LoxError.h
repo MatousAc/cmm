@@ -27,6 +27,6 @@ public:
 	RunError runErrorMUT();
 	RunError runErrorMBT();
 	void handleRunError(RunError error);
- };
+};
 
 inline LoxError* err = new LoxError;

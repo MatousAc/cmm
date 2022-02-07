@@ -14,7 +14,7 @@ RunError::RunError(const Token token, const string& message)
 	runtime_error{ message.c_str() } {}
 
 
-LoxError::LoxError() : 
+LoxError::LoxError() :
 	hadRunError{ false },
 	hadError{ false } {};
 

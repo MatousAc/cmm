@@ -6,7 +6,7 @@
 
 std::unordered_map<string, TokenType> Scanner::keywords;
 
-Scanner::Scanner(string source) 
+Scanner::Scanner(string source)
 	: source{ source },
 	tokens{ vector<Token>() },
 	start{ 0 }, current{ 0 }, line{ 1 } {
@@ -75,7 +75,7 @@ void Scanner::scanToken() {
 	case '\n':
 		line++;
 		break;
-	case '"': 
+	case '"':
 		addString();
 		break;
 	default:
@@ -141,7 +141,7 @@ void Scanner::addIdentifier() {
 	while (isalnum(peek())) next();
 	string id = source.substr(start, (current - start));
 	if (keywords.find(id) == keywords.end()) {
-		// not keyword => must be identifier
+		// not keyword >> must be identifier
 		addToken(IDENTIFIER);
 		return;
 	} // keyword

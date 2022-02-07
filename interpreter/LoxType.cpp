@@ -31,7 +31,7 @@ string LoxType::toString() const {
 	else if (holds_alternative<double>(value)) {
 		res = this->numToLoxStr();
 	} else if (holds_alternative<bool>(value)) {
-		 res = (get<bool>(value)) ? "true" : "false";
+		res = (get<bool>(value)) ? "true" : "false";
 	}
 	return res;
 }

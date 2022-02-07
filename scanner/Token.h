@@ -28,7 +28,7 @@ struct Token {
 	string lexeme;
 	Literal lit;
 	int line;
-	
+
 	// constructors
 	Token(TokenType type, string lexeme, Literal lit, int line);
 
@@ -36,27 +36,3 @@ struct Token {
 	string display();
 	string toString();
 };
-
-// token mapper (not being used rn)
-
-// maps token types to their lexeme
-//vector<string> tokenVec{
-//	// Single-character tokens.
-//	"(", ")", "{", "}",
-//	",", ".", "-", "+", ";", "/", "*",
-//
-//	// One or two character tokens.
-//	"!", "!=",
-//	"=", "==",
-//	">", ">=",
-//	"<", "<=",
-//
-//	// Literals.
-//	"IDENTIFIER", "STRING", "NUMBER",
-//
-//	// Keywords.
-//	"and", "class", "else", "false", "fun", "for", "if", "nil", "or",
-//	"print", "return", "super", "this", "true", "var", "while",
-//
-//	"EoF"
-//};

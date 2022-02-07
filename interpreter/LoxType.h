@@ -1,7 +1,5 @@
 #pragma once
 #include "../include.h"
-//#include "../tools/tools.h"
-//#include "../mylox.h"
 #define DOUBLE_PRECISION 1e-7
 
 struct LoxType {
@@ -26,7 +24,7 @@ struct LoxType {
 	LoxType operator-(const LoxType& r);
 	LoxType operator*(const LoxType& r);
 	LoxType operator/(const LoxType& r);
-	
+
 	LoxType operator-();
 	bool operator!();
 };

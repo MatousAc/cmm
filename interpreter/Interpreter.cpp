@@ -1,14 +1,13 @@
 #include "Interpreter.h"
 #include "../tools/LoxError.h"
 
-Interpreter::Interpreter() : 
-	result{}, 
+Interpreter::Interpreter() :
+	result{},
 	curToken{ EoF, "start", NULL, -1 } {};
 void Interpreter::interpret(Expression* expression) {
 	try {
 		evaluate(expression);
 		result = getResult();
-		//cout << result.toString();
 	}
 	catch (RunError error) {
 		err->handleRunError(RunError(curToken, error.message));

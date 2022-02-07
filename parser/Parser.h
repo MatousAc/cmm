@@ -1,13 +1,12 @@
 #pragma once
 #include "../include.h"
-//#include "../mylox.h"
 #include "../scanner/Token.h"
 #include "Expression.hpp"
 using std::runtime_error;
 
 // errors
 struct ParseError : public runtime_error {
-	//using base = runtime_error;
+	//here we're using base = runtime_error;
 	explicit ParseError(const string& message);
 	explicit ParseError();
 };

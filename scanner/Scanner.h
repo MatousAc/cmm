@@ -22,8 +22,6 @@ public:
 	Scanner(string source);
 	vector<Token> tokens;
 	vector<Token> scanTokens();
-	// __delspec used to avoid linker error for globals
 	static std::unordered_map<string, TokenType> keywords;
-	//__declspec(selectany) std::unordered_map<string, TokenType> keywords;
 };
 
