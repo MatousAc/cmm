@@ -148,6 +148,7 @@
     <ClCompile Include="interpreter\LoxType.cpp" />
     <ClCompile Include="mylox.cpp" />
     <ClCompile Include="parser\Parser.cpp" />
+    <ClCompile Include="tests\testStrComp.cpp" />
     <ClCompile Include="tests\testRPN.cpp" />
     <ClCompile Include="tools\RPNPrinter.cpp" />
     <ClCompile Include="scanner\Literal.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="include.h" />
     <ClInclude Include="parser\Expression.hpp" />
     <ClInclude Include="parser\Parser.h" />
+    <ClInclude Include="tests\testStrComp.h" />
     <ClInclude Include="tests\testRPN.h" />
     <ClInclude Include="tools\RPNPrinter.h" />
     <ClInclude Include="scanner\Literal.h" />
