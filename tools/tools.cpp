@@ -11,7 +11,7 @@ int runTool(vector<string> args) {
 	else if (args[2] == "AstPrinter")
 		testAstPrinter();
 	else if (args[2] == "testRPN")
-		testRPN();
+		testRPN(args);
 	else if (args[2] == "testStrComp")
 		testStrComp();
 	else
