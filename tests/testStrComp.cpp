@@ -58,6 +58,7 @@ void testStrComp() {
 			<< " ~should be~ "
 			<< "_" << expected[i] << "_" << endl;
 	}
+
 }
 
 string interpretLineRPN(string& source) {

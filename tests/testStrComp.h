@@ -4,8 +4,7 @@
 #include "../parser/Parser.h"
 #include "../tools/tools.h"
 #include "../scanner/Token.h"
-#include "../tools/RPNPrinter.h"
+#include "../interpreter/Interpreter.h"
 
-void testRPN();
-
-string runLineRPN(string& source);
+void testStrComp();
+string interpretLineRPN(string& source);

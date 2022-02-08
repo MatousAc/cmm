@@ -12,6 +12,8 @@ int runTool(vector<string> args) {
 		testAstPrinter();
 	else if (args[2] == "testRPN")
 		testRPN();
+	else if (args[2] == "testStrComp")
+		testStrComp();
 	else
 		printf("no such tool");
 	return 0;
