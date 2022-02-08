@@ -51,6 +51,8 @@ void Scanner::scanToken() {
 	case '+': addToken(PLUS); break;
 	case ';': addToken(SEMICOLON); break;
 	case '*': addToken(STAR); break;
+	case '?': addToken(QUEST); break;
+	case ':': addToken(COLON); break;
 	case '!':
 		addToken(nextChar('=') ? BANG_EQUAL : BANG);
 		break;
