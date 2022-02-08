@@ -6,7 +6,23 @@ Expression* Parser::parse() {
 	catch (ParseError error) { return NULL; }
 }
 
-Expression* Parser::expression() { return equality(); }
+Expression* Parser::expression() { return ternary(); }
+
+Expression* Parser::ternary() {
+	Expression* condition = equality();
+	while (match(vector<TokenType>{ QUEST })) {
+		Expression* ifTrue;
+		Expression* ifFalse;
+		ifTrue = ternary();
+		Token token = previous();
+		if (token.type != COLON)
+			throw error(token, "expected \":\"");
+		ifFalse = ternary();
+		return new Ternary(condition, ifTrue, ifFalse);
+	}
+	return condition;
+}
+
 
 Expression* Parser::equality() {
 	Expression* expression = comparison();

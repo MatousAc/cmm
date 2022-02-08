@@ -22,6 +22,15 @@ bool LoxType::empty() const {
 		return true;
 }
 
+bool LoxType::isTruthy() const {
+	if (empty())
+		return false;
+	else if (holds_alternative<bool>(value))
+		return get<bool>(value);
+	else
+		return true;
+}
+
 string LoxType::toString() const {
 	string res = "unknown type";
 	if (empty())

@@ -3,6 +3,13 @@ void RPNPrinter::read(Expression* expression) {
 	expression->accept(this);
 }
 
+void RPNPrinter::visitTernary(const Ternary* expression) {
+	expression->condition->accept(this);
+	collect(
+		"? " + getResult(),
+		vector{ expression->ifTrue, expression->ifFalse }
+	);
+}
 void RPNPrinter::visitBinary(const Binary* expression) {
 	collect(
 		expression->op.lexeme,

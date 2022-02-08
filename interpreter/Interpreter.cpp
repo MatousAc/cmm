@@ -18,6 +18,13 @@ void Interpreter::evaluate(Expression* expression) {
 	expression->accept(this);
 }
 
+void Interpreter::visitTernary(const Ternary* expression) {
+	expression->condition->accept(this);
+	if (getResult().isTruthy())
+		expression->ifTrue->accept(this);
+	else
+		expression->ifFalse->accept(this);
+}
 void Interpreter::visitBinary(const Binary* expression) {
 	curToken = expression->op;
 	evaluate(expression->left);

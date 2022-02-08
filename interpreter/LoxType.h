@@ -9,6 +9,7 @@ struct LoxType {
 	LoxType(bool bl);
 	LoxType();
 	bool empty() const;
+	bool isTruthy() const;
 	string toString() const;
 	string numToLoxStr() const;
 

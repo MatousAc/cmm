@@ -21,6 +21,7 @@ public: // constructor
 private:
 	Expression* expression();
 	Expression* equality();
+	Expression* ternary();
 	Expression* comparison();
 	Expression* term();
 	Expression* factor();
