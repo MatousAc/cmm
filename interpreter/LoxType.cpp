@@ -10,21 +10,37 @@ LoxType::LoxType(double dbl)
 LoxType::LoxType(bool bl)
 	: value{ bl } {}
 LoxType::LoxType()
-	: value{} {}
+	: value{ monostate{} } {}
 
 // czechs if empty (contains NULL)
-bool LoxType::empty() const {
-	if (holds_alternative<string>(value) ||
-		(holds_alternative<double>(value)) ||
-		(holds_alternative<bool>(value)))
-		return false;
-	else
+bool LoxType::isnil() const {
+	if (holds_alternative<monostate>(value))
 		return true;
+	else
+		return false;
+}
+
+// czechs type
+string LoxType::type() const {
+	string res = "unknown type";
+	if (isnil())
+		res = "nil";
+	else if (holds_alternative<string>(value))
+		res = "string";
+	else if (holds_alternative<double>(value)) {
+		res = "double";
+	} else if (holds_alternative<bool>(value)) {
+		res = "bool";
+	}
+	return res;
 }
 
 bool LoxType::isTruthy() const {
-	if (empty())
+	cout << "checking truthy\n";
+	if (isnil()) {
+		cout << "is empty\n";
 		return false;
+	}
 	else if (holds_alternative<bool>(value))
 		return get<bool>(value);
 	else
@@ -33,7 +49,7 @@ bool LoxType::isTruthy() const {
 
 string LoxType::toString() const {
 	string res = "unknown type";
-	if (empty())
+	if (isnil())
 		res = "nil";
 	else if (holds_alternative<string>(value))
 		res = get<string>(value);
@@ -60,9 +76,9 @@ string LoxType::numToLoxStr() const {
 // logical
 // == : equals (different types cannpt be equal)
 bool LoxType::operator==(const LoxType& r) {
-	if (empty() && r.empty())
+	if (isnil() && r.isnil())
 		return true;
-	else if (empty() || r.empty())
+	else if (isnil() || r.isnil())
 		return false;
 	// double == double
 	else if (holds_alternative<double>(value) &&
@@ -81,7 +97,7 @@ bool LoxType::operator!=(const LoxType& r) {
 }
 // > : numerical && textual greater than
 bool LoxType::operator>(const LoxType& r) {
-	if (empty() || r.empty())
+	if (isnil() || r.isnil())
 		return false;
 	// double > double
 	else if (holds_alternative<double>(value) &&
@@ -101,7 +117,7 @@ bool LoxType::operator>=(const LoxType& r) {
 }
 // < : num && text less than
 bool LoxType::operator<(const LoxType& r) {
-	if (empty() || r.empty())
+	if (isnil() || r.isnil())
 		return false;
 	// double > double
 	else if (holds_alternative<double>(value) &&
@@ -123,9 +139,9 @@ bool LoxType::operator<=(const LoxType& r) {
 // arithmetic
 // + : addition, concatenation
 LoxType LoxType::operator+(const LoxType& r) {
-	if (empty()) // if this is empty
+	if (isnil()) // if this is empty
 		return r;
-	else if (r.empty())
+	else if (r.isnil())
 		return this;
 	// double + double
 	else if (holds_alternative<double>(value) &&
@@ -149,9 +165,9 @@ LoxType LoxType::operator+(const LoxType& r) {
 }
 // - : subtraction
 LoxType LoxType::operator-(const LoxType& r) {
-	if (empty()) // if this is empty
+	if (isnil()) // if this is empty
 		return (-LoxType{ r });
-	else if (r.empty())
+	else if (r.isnil())
 		return this;
 	// double - double
 	else if (holds_alternative<double>(value) &&
@@ -163,7 +179,7 @@ LoxType LoxType::operator-(const LoxType& r) {
 }
 // * : multiplication and string duplication
 LoxType LoxType::operator*(const LoxType& r) {
-	if (empty() || r.empty()) // x * 0 = 0
+	if (isnil() || r.isnil()) // x * 0 = 0
 		return LoxType{};
 	// double * double
 	else if (holds_alternative<double>(value) &&
@@ -183,9 +199,9 @@ LoxType LoxType::operator*(const LoxType& r) {
 }
 // / : division and line breaks
 LoxType LoxType::operator/(const LoxType& r) {
-	if (empty()) // if this is empty
+	if (isnil()) // if this is empty
 		return LoxType{};
-	else if (r.empty())
+	else if (r.isnil())
 		throw RunError("division by nil");
 	// double / double
 	else if (holds_alternative<double>(value) &&
@@ -211,7 +227,7 @@ LoxType LoxType::operator-() {
 }
 // ! : works on numbers and bools
 bool LoxType::operator!() {
-	if (empty())
+	if (isnil())
 		return true;
 	else if (holds_alternative<string>(value))
 		return (get<string>(value).empty());
