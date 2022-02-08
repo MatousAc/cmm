@@ -13,11 +13,10 @@ Expression* Parser::ternary() {
 	while (match(vector<TokenType>{ QUEST })) {
 		Expression* ifTrue;
 		Expression* ifFalse;
-		ifTrue = ternary();
-		Token token = previous();
-		if (token.type != COLON)
-			throw error(token, "expected \":\"");
-		ifFalse = ternary();
+		ifTrue = expression();
+		if (!match(vector{ COLON }))
+			throw error(previous(), "expected \":\"");
+		ifFalse = expression();
 		return new Ternary(condition, ifTrue, ifFalse);
 	}
 	return condition;
@@ -78,12 +77,14 @@ Expression* Parser::unary() {
 }
 
 Expression* Parser::primary() {
-	if (match(vector<TokenType>{FALSE})) return new Lit(false);
-	if (match(vector<TokenType>{TRUE})) return new Lit(true);
-	if (match(vector<TokenType>{NIL})) return new Lit(NULL);
+	// we take false, true, or nil and create a Lit that holds a LoxType
+	if (match(vector<TokenType>{FALSE})) return new Lit(LoxType{ false });
+	if (match(vector<TokenType>{TRUE})) return new Lit(LoxType{ true });
+	if (match(vector<TokenType>{NIL})) return new Lit(LoxType{});
 
+	// package a Literal value as a LoxType and store it in Lit
 	if (match(vector<TokenType>{NUMBER, STRING})) {
-		return new Lit(previous().lit);
+		return new Lit(LoxType{ previous().lit.retrieve() });
 	}
 
 	if (match(vector<TokenType>{LEFT_PAREN})) {

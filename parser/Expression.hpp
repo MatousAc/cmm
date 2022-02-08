@@ -58,9 +58,9 @@ struct Grouping : Expression {
 };
 
 struct Lit : Expression {
-    Literal value;
+    LoxType value;
 
-    Lit(Literal value)
+    Lit(LoxType value)
         :value{ value } {}
 
     void accept(Visitor* visitor) override {

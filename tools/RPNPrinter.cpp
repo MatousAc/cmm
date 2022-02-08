@@ -21,7 +21,7 @@ void RPNPrinter::visitGrouping(const Grouping* expression) {
 }
 
 void RPNPrinter::visitLit(const Lit* expression) {
-	if (expression->value.empty()) result += "nil";
+	if (expression->value.isnil()) result += "nil";
 	else result += expression->value.toString();
 }
 

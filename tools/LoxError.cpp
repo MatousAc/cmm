@@ -19,8 +19,8 @@ LoxError::LoxError() :
 	hadError{ false } {};
 
 void LoxError::report(int line, string msg, string where) {
-	cout << "error on line " << line
-		<< " @ " << where << ": "
+	cout << "error @ line " << line
+		<< " : " << where << ": "
 		<< msg << endl;
 	hadError = true;
 }

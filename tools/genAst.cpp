@@ -14,7 +14,7 @@ void genAst(vector<string> args) {
 		"Ternary	: Expression* condition, Expression* ifTrue, Expression* ifFalse",
 		"Binary     : Expression* left, Token op, Expression* right",
 		"Grouping   : Expression* expression",
-		"Lit        : Literal value",
+		"Lit        : LoxType value",
 		"Unary      : Token op, Expression* right"
 	});
 }

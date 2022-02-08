@@ -20,6 +20,7 @@ void Interpreter::evaluate(Expression* expression) {
 
 void Interpreter::visitTernary(const Ternary* expression) {
 	expression->condition->accept(this);
+	cout << getResult().type() << endl;
 	if (getResult().isTruthy())
 		expression->ifTrue->accept(this);
 	else
@@ -71,7 +72,7 @@ void Interpreter::visitGrouping(const Grouping* expression) {
 	evaluate(expression->expression);
 }
 void Interpreter::visitLit(const Lit* expression) {
-	result = expression->value.retrieve();
+	result = expression->value;
 }
 void Interpreter::visitUnary(const Unary* expression) {
 	curToken = expression->op;
