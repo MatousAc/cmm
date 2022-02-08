@@ -1,12 +1,14 @@
 #pragma once
 #include "../scanner/Token.h"
 
+struct Ternary;
 struct Binary;
 struct Grouping;
 struct Lit;
 struct Unary;
 
 struct Visitor {
+    virtual void visitTernary(const Ternary* expression) = 0;
     virtual void visitBinary(const Binary* expression) = 0;
     virtual void visitGrouping(const Grouping* expression) = 0;
     virtual void visitLit(const Lit* expression) = 0;
@@ -16,6 +18,19 @@ struct Visitor {
 struct Expression {
     virtual ~Expression() = default;
     virtual void accept(Visitor* visitor) = 0;
+};
+
+struct Ternary : Expression {
+    Expression* condition;
+    Expression* ifTrue;
+    Expression* ifFalse;
+
+    Ternary(Expression* condition, Expression* ifTrue, Expression* ifFalse)
+        :condition{ condition }, ifTrue{ ifTrue }, ifFalse{ ifFalse } {}
+
+    void accept(Visitor* visitor) override {
+        visitor->visitTernary(this);
+    }
 };
 
 struct Binary : Expression {
