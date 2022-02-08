@@ -1,6 +1,10 @@
 #include "testRPN.h"
 
-void testRPN() {
+void testRPN(vector<string> args) {
+	bool verbose = false;
+	auto argc = args.size();
+	if (argc > 3 && args[3] == "-verbose")
+		verbose = true;
 	vector<string> input = { 
 		"1 + 2",
 		"(4 * \"hi\") == 12",
@@ -34,10 +38,14 @@ void testRPN() {
 	string actual;
 	for (int i = 0; i < input.size(); i++) {
 		actual = runLineRPN(input[i]);
-		if (actual != expected[i])
-			cout << "_" << actual << "_" 
-			<< " ~should be~ "
-			<< "_" << expected[i] << "_" << endl;
+		if (verbose) {
+			cout << input[i] << "\nshould be: "
+				 << expected[i] << "\nand is: "
+				 << actual << endl;
+			cout << ((actual != expected[i]) ? "FAIL\n" : "PASS\n");
+		} else if (actual != expected[i])
+			cout  << actual << "\nshould be: "
+			 << expected[i] << "\nFAIL";
 	}
 
 }

@@ -8,6 +8,6 @@
 #include "../interpreter/Interpreter.h"
 #include "../tools/RPNPrinter.h"
 
-void testRPN();
+void testRPN(vector<string> args);
 
 string runLineRPN(string& source);
