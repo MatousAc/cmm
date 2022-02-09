@@ -1,4 +1,9 @@
 #include "tools.h"
+#include "genAst.h"
+#include "AstPrinter.h"
+#include "../tests/testStrComp.h"
+#include "../tests/testRPN.h"
+#include "../tests/testTernary.h"
 
 int runTool(vector<string> args) {
 	auto argc = args.size();
@@ -11,7 +16,9 @@ int runTool(vector<string> args) {
 	else if (args[2] == "AstPrinter")
 		testAstPrinter();
 	else if (args[2] == "testRPN")
-		testRPN();
+		testRPN(args);
+	else if (args[2] == "testTernary")
+		testTernary(args);
 	else if (args[2] == "testStrComp")
 		testStrComp();
 	else

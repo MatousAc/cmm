@@ -15,13 +15,13 @@ Expression* Parser::ternary() {
 		Expression* ifFalse;
 		ifTrue = expression();
 		if (!match(vector{ COLON }))
-			throw error(previous(), "expected \":\"");
+			throw error(previous(), 
+			"Expect '?' to have matching ':'.");
 		ifFalse = expression();
 		return new Ternary(condition, ifTrue, ifFalse);
 	}
 	return condition;
 }
-
 
 Expression* Parser::equality() {
 	Expression* expression = comparison();
@@ -94,7 +94,6 @@ Expression* Parser::primary() {
 	}
 	throw error(peek(), "Expected expression ");
 }
-
 
 // helpers
 bool Parser::match(vector<TokenType> types) {

@@ -36,11 +36,8 @@ string LoxType::type() const {
 }
 
 bool LoxType::isTruthy() const {
-	cout << "checking truthy\n";
-	if (isnil()) {
-		cout << "is empty\n";
+	if (isnil())
 		return false;
-	}
 	else if (holds_alternative<bool>(value))
 		return get<bool>(value);
 	else

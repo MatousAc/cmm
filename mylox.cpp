@@ -62,11 +62,6 @@ void run(string& source) {
 	if (err->hadError) exit(65);
 	if (err->hadRunError) exit(70);
 	
-	// reading
-	RPNPrinter printer;
-	printer.read(expression);
-	cout << printer.getResult() << endl;
-
 	// interpreting
 	Interpreter* interpreter = new Interpreter;
 	interpreter->interpret(expression);

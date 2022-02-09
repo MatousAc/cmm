@@ -20,7 +20,6 @@ void Interpreter::evaluate(Expression* expression) {
 
 void Interpreter::visitTernary(const Ternary* expression) {
 	expression->condition->accept(this);
-	cout << getResult().type() << endl;
 	if (getResult().isTruthy())
 		expression->ifTrue->accept(this);
 	else
