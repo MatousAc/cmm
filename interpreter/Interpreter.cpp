@@ -18,6 +18,13 @@ void Interpreter::evaluate(Expression* expression) {
 	expression->accept(this);
 }
 
+void Interpreter::visitTernary(const Ternary* expression) {
+	expression->condition->accept(this);
+	if (getResult().isTruthy())
+		expression->ifTrue->accept(this);
+	else
+		expression->ifFalse->accept(this);
+}
 void Interpreter::visitBinary(const Binary* expression) {
 	curToken = expression->op;
 	evaluate(expression->left);
@@ -64,7 +71,7 @@ void Interpreter::visitGrouping(const Grouping* expression) {
 	evaluate(expression->expression);
 }
 void Interpreter::visitLit(const Lit* expression) {
-	result = expression->value.retrieve();
+	result = expression->value;
 }
 void Interpreter::visitUnary(const Unary* expression) {
 	curToken = expression->op;

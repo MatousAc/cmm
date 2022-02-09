@@ -1,4 +1,9 @@
 #include "tools.h"
+#include "genAst.h"
+#include "AstPrinter.h"
+#include "../tests/testStrComp.h"
+#include "../tests/testRPN.h"
+#include "../tests/testTernary.h"
 
 int runTool(vector<string> args) {
 	auto argc = args.size();
@@ -12,6 +17,8 @@ int runTool(vector<string> args) {
 		testAstPrinter();
 	else if (args[2] == "testRPN")
 		testRPN(args);
+	else if (args[2] == "testTernary")
+		testTernary(args);
 	else if (args[2] == "testStrComp")
 		testStrComp();
 	else
@@ -23,9 +30,9 @@ void testAstPrinter() {
 	Token min(MINUS, "-", NULL, 1);
 	Token star(STAR, "*", NULL, 1);
 	Grouping grp = new Binary(
-		new Unary(min, new Lit(123)),
+		new Unary(min, new Lit(LoxType{ 123.0 })),
 		star,
-		new Grouping(new Lit{ 45.67 }));
+		new Grouping(new Lit(LoxType{ 45.67 })));
 
 	AstPrinter pp;
 	pp.read(&grp);

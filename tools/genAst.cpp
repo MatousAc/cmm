@@ -11,10 +11,11 @@ void genAst(vector<string> args) {
 	}
 	cout << "generating in: " << outputDir << std::endl;
 	writeAst(outputDir, "Expression", vector<string>{
+		"Ternary	: Expression* condition, Expression* ifTrue, Expression* ifFalse",
 		"Binary     : Expression* left, Token op, Expression* right",
-			"Grouping   : Expression* expression",
-			"Lit        : Literal value",
-			"Unary      : Token op, Expression* right"
+		"Grouping   : Expression* expression",
+		"Lit        : LoxType value",
+		"Unary      : Token op, Expression* right"
 	});
 }
 

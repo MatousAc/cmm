@@ -150,6 +150,7 @@
     <ClCompile Include="parser\Parser.cpp" />
     <ClCompile Include="tests\testStrComp.cpp" />
     <ClCompile Include="tests\testRPN.cpp" />
+    <ClCompile Include="tests\testTernary.cpp" />
     <ClCompile Include="tools\RPNPrinter.cpp" />
     <ClCompile Include="scanner\Literal.cpp" />
     <ClCompile Include="scanner\Scanner.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="parser\Parser.h" />
     <ClInclude Include="tests\testStrComp.h" />
     <ClInclude Include="tests\testRPN.h" />
+    <ClInclude Include="tests\testTernary.h" />
     <ClInclude Include="tools\RPNPrinter.h" />
     <ClInclude Include="scanner\Literal.h" />
     <ClInclude Include="scanner\Scanner.h" />

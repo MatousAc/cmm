@@ -8,6 +8,7 @@ public:
 	AstPrinter() : result{} {};
 	void read(Expression* expression);
 
+	void visitTernary(const Ternary* expression) override;
 	void visitBinary(const Binary* expression) override;
 	void visitGrouping(const Grouping* expression) override;
 	void visitLit(const Lit* expression) override;

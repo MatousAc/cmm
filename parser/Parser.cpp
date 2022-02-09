@@ -6,7 +6,23 @@ Expression* Parser::parse() {
 	catch (ParseError error) { return NULL; }
 }
 
-Expression* Parser::expression() { return equality(); }
+Expression* Parser::expression() { return ternary(); }
+
+Expression* Parser::ternary() {
+	Expression* condition = equality();
+	while (match(vector<TokenType>{ QUEST })) {
+		Expression* ifTrue;
+		Expression* ifFalse;
+		ifTrue = expression();
+		if (!match(vector{ COLON })) {
+			advance(); // get to the EoF
+			throw error(previous(), "Expect '?' to have matching ':'.");
+		}
+		ifFalse = expression();
+		return new Ternary(condition, ifTrue, ifFalse);
+	}
+	return condition;
+}
 
 Expression* Parser::equality() {
 	Expression* expression = comparison();
@@ -62,12 +78,14 @@ Expression* Parser::unary() {
 }
 
 Expression* Parser::primary() {
-	if (match(vector<TokenType>{FALSE})) return new Lit(false);
-	if (match(vector<TokenType>{TRUE})) return new Lit(true);
-	if (match(vector<TokenType>{NIL})) return new Lit(NULL);
+	// we take false, true, or nil and create a Lit that holds a LoxType
+	if (match(vector<TokenType>{FALSE})) return new Lit(LoxType{ false });
+	if (match(vector<TokenType>{TRUE})) return new Lit(LoxType{ true });
+	if (match(vector<TokenType>{NIL})) return new Lit(LoxType{});
 
+	// package a Literal value as a LoxType and store it in Lit
 	if (match(vector<TokenType>{NUMBER, STRING})) {
-		return new Lit(previous().lit);
+		return new Lit(LoxType{ previous().lit.retrieve() });
 	}
 
 	if (match(vector<TokenType>{LEFT_PAREN})) {
@@ -77,7 +95,6 @@ Expression* Parser::primary() {
 	}
 	throw error(peek(), "Expected expression ");
 }
-
 
 // helpers
 bool Parser::match(vector<TokenType> types) {

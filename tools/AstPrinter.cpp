@@ -4,6 +4,13 @@ void AstPrinter::read(Expression* expression) {
 	expression->accept(this);
 }
 
+void AstPrinter::visitTernary(const Ternary* expression) {
+	expression->condition->accept(this);
+	parenthesize(
+		getResult() + "?",
+		vector{ expression->ifTrue, expression->ifTrue }
+	);
+}
 void AstPrinter::visitBinary(const Binary* expression) {
 	parenthesize(
 		expression->op.lexeme,
@@ -13,12 +20,10 @@ void AstPrinter::visitBinary(const Binary* expression) {
 void AstPrinter::visitGrouping(const Grouping* expression) {
 	parenthesize("group", vector{ expression->expression });
 }
-
 void AstPrinter::visitLit(const Lit* expression) {
-	if (expression->value.empty()) result += "nil";
+	if (expression->value.isnil()) result += "nil";
 	else result += expression->value.toString();
 }
-
 void AstPrinter::visitUnary(const Unary* expression) {
 	parenthesize(expression->op.lexeme, vector{ expression->right });
 }

@@ -19,17 +19,17 @@ LoxError::LoxError() :
 	hadError{ false } {};
 
 void LoxError::report(int line, string msg, string where) {
-	cout << "error on line " << line
-		<< " @ " << where << ": "
+	cout << "[line " << line
+		<< "] Error at " << where << " : "
 		<< msg << endl;
 	hadError = true;
 }
 
 void LoxError::error(Token token, string message) {
 	if (token.type == EoF) {
-		report(token.line, " at end", message);
+		report(token.line, message, "end");
 	} else {
-		report(token.line, " at '" + token.lexeme + "'", message);
+		report(token.line, message, " '" + token.lexeme + "'");
 	}
 }
 

@@ -3,12 +3,14 @@
 #define DOUBLE_PRECISION 1e-7
 
 struct LoxType {
-	variant<string, double, bool> value;
+	variant<string, double, bool, monostate> value;
 	LoxType(string str);
 	LoxType(double dbl);
 	LoxType(bool bl);
 	LoxType();
-	bool empty() const;
+	bool isnil() const;
+	bool isTruthy() const;
+	string type() const;
 	string toString() const;
 	string numToLoxStr() const;
 

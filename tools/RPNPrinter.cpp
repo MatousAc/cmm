@@ -3,6 +3,13 @@ void RPNPrinter::read(Expression* expression) {
 	expression->accept(this);
 }
 
+void RPNPrinter::visitTernary(const Ternary* expression) {
+	expression->condition->accept(this);
+	collect(
+		"? " + getResult(),
+		vector{ expression->ifTrue, expression->ifFalse }
+	);
+}
 void RPNPrinter::visitBinary(const Binary* expression) {
 	collect(
 		expression->op.lexeme,
@@ -14,7 +21,7 @@ void RPNPrinter::visitGrouping(const Grouping* expression) {
 }
 
 void RPNPrinter::visitLit(const Lit* expression) {
-	if (expression->value.empty()) result += "nil";
+	if (expression->value.isnil()) result += "nil";
 	else result += expression->value.toString();
 }
 

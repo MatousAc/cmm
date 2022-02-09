@@ -5,7 +5,7 @@ void testRPN(vector<string> args) {
 	auto argc = args.size();
 	if (argc > 3 && args[3] == "-verbose")
 		verbose = true;
-	vector<string> input = { 
+	vector<string> input = {
 		"1 + 2",
 		"(4 * \"hi\") == 12",
 		"3 / 5 + 2 * (-2 - -5)",
@@ -26,7 +26,7 @@ void testRPN(vector<string> args) {
 		"3 5 / 2 2 - 5 - - * +",
 		"two 4 2 / *",
 		"3 2 / 1 + 12 - +",
-		"1 0 3 * ==",
+		"true false 3 * ==",
 		"2 3 - 4 3 / 8 * + 3 4 + +",
 		"4",
 		"34 -",
@@ -40,14 +40,13 @@ void testRPN(vector<string> args) {
 		actual = runLineRPN(input[i]);
 		if (verbose) {
 			cout << input[i] << "\nshould be: "
-				 << expected[i] << "\nand is: "
-				 << actual << endl;
+				<< expected[i] << "\nand is: "
+				<< actual << endl;
 			cout << ((actual != expected[i]) ? "FAIL\n" : "PASS\n");
 		} else if (actual != expected[i])
-			cout  << actual << "\nshould be: "
-			 << expected[i] << "\nFAIL";
+			cout << actual << "\nshould be: "
+			<< expected[i] << "\nFAIL";
 	}
-
 }
 
 string runLineRPN(string& source) {
