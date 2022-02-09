@@ -16,8 +16,16 @@ void testTernary(vector<string> args) {
 		"1 == 1 ? 2 > 1 ? \"two\" : \"one\" : \"zero\"",
 		"1 == 1 ? 2 < 1 ? \"two\" : \"one\" : \"zero\"",
 		"1 != 1 ? 2 < 1 ? \"two\" : \"one\" : \"zero\"",
-		"1 + 1 ? 2 + 2"
+		//"1 + 1 ? 2 + 2",
 		// my tests
+		"(nil ? false  : true) ? (0 ? \"we want this\" : \"not this please\") : \" and definitely not this!\"",
+		"nil ? true :false",
+		"nil == nil ? 3 * \"0\" : false",
+		"true ? nil : 12 + 2",
+		"3 * \"Prof. O. \" == \"Prof. O. Prof. O. Prof. O.\" ? 1 : 0",
+		"0 != 0 ? 4 * 8 : 6",
+		"\"cat\" >= \"dogs\" ? nil : \"bird\" ? \"we want this\" : \"not this\"",
+		"12 * 5 == 60 ? 1 : nil ? 1 : 0"
 	};
 	vector<string> expected = {
 		// Prof. O.'s tests
@@ -30,8 +38,16 @@ void testTernary(vector<string> args) {
 		"two",
 		"one",
 		"zero",
-		"[line 1] Error at end : Expect '?' to have matching ':'."
+		//"[line 1] Error at end : Expect '?' to have matching ':'.",
 		// my tests
+		"we want this",
+		"false",
+		"000",
+		"nil",
+		"0",
+		"6",
+		"we want this",
+		"1"
 	};
 	string actual;
 	for (int i = 0; i < input.size(); i++) {
