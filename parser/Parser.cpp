@@ -14,9 +14,10 @@ Expression* Parser::ternary() {
 		Expression* ifTrue;
 		Expression* ifFalse;
 		ifTrue = expression();
-		if (!match(vector{ COLON }))
-			throw error(previous(), 
-			"Expect '?' to have matching ':'.");
+		if (!match(vector{ COLON })) {
+			advance(); // get to the EoF
+			throw error(previous(), "Expect '?' to have matching ':'.");
+		}
 		ifFalse = expression();
 		return new Ternary(condition, ifTrue, ifFalse);
 	}
