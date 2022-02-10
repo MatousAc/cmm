@@ -4,7 +4,7 @@
 Interpreter::Interpreter() :
 	result{},
 	curToken{ EoF, "start", NULL, -1 } {};
-void Interpreter::interpret(Expression* expression) {
+void Interpreter::interpret(Expr* expression) {
 	try {
 		evaluate(expression);
 		result = getResult();
@@ -14,7 +14,7 @@ void Interpreter::interpret(Expression* expression) {
 	}
 }
 
-void Interpreter::evaluate(Expression* expression) {
+void Interpreter::evaluate(Expr* expression) {
 	expression->accept(this);
 }
 
@@ -70,7 +70,7 @@ void Interpreter::visitBinary(const Binary* expression) {
 void Interpreter::visitGrouping(const Grouping* expression) {
 	evaluate(expression->expression);
 }
-void Interpreter::visitLit(const Lit* expression) {
+void Interpreter::visitLiteral(const Literal* expression) {
 	result = expression->value;
 }
 void Interpreter::visitUnary(const Unary* expression) {

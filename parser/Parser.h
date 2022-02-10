@@ -1,7 +1,7 @@
 #pragma once
 #include "../include.h"
 #include "../scanner/Token.h"
-#include "Expression.hpp"
+#include "Expr.hpp"
 using std::runtime_error;
 
 // errors
@@ -17,16 +17,16 @@ class Parser {
 
 public: // constructor
 	Parser(vector<Token> tokens) : tokens{ tokens }, current{ 0 } {};
-	Expression* parse();
+	Expr* parse();
 private:
-	Expression* expression();
-	Expression* equality();
-	Expression* ternary();
-	Expression* comparison();
-	Expression* term();
-	Expression* factor();
-	Expression* unary();
-	Expression* primary();
+	Expr* expression();
+	Expr* equality();
+	Expr* ternary();
+	Expr* comparison();
+	Expr* term();
+	Expr* factor();
+	Expr* unary();
+	Expr* primary();
 
 	// helpers
 	bool match(vector<TokenType> types);

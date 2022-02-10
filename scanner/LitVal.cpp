@@ -1,11 +1,11 @@
-#include "Literal.h"
+#include "LitVal.h"
 
-Literal::Literal(string str)
+LitVal::LitVal(string str)
 	: value{ str } {}
-Literal::Literal(double dbl)
+LitVal::LitVal(double dbl)
 	: value{ dbl } {}
 
-bool Literal::empty() const {
+bool LitVal::empty() const {
 	if (holds_alternative<string>(value) ||
 		(holds_alternative<double>(value)))
 		return false;
@@ -13,7 +13,7 @@ bool Literal::empty() const {
 		return true;
 }
 
-string Literal::toString() const {
+string LitVal::toString() const {
 	if (holds_alternative<string>(value))
 		return get<string>(value);
 	else if (holds_alternative<double>(value)) {
@@ -23,7 +23,7 @@ string Literal::toString() const {
 		return "unrecognized type";
 }
 
-string Literal::numToString() const {
+string LitVal::numToString() const {
 	double dbl = get<double>(value);
 	int integer = (int)dbl;
 	string res;
@@ -33,7 +33,7 @@ string Literal::numToString() const {
 	return res;
 }
 
-LoxType Literal::retrieve() const {
+LoxType LitVal::retrieve() const {
 	if (holds_alternative<string>(value))
 		return LoxType{ get<string>(value) };
 	else if (holds_alternative<double>(value))

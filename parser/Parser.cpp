@@ -1,18 +1,18 @@
 #include "Parser.h"
 #include "../tools/LoxError.h"
 
-Expression* Parser::parse() {
+Expr* Parser::parse() {
 	try { return expression(); }
 	catch (ParseError error) { return NULL; }
 }
 
-Expression* Parser::expression() { return ternary(); }
+Expr* Parser::expression() { return ternary(); }
 
-Expression* Parser::ternary() {
-	Expression* condition = equality();
+Expr* Parser::ternary() {
+	Expr* condition = equality();
 	while (match(vector<TokenType>{ QUEST })) {
-		Expression* ifTrue;
-		Expression* ifFalse;
+		Expr* ifTrue;
+		Expr* ifFalse;
 		ifTrue = expression();
 		if (!match(vector{ COLON })) {
 			advance(); // get to the EoF
@@ -24,72 +24,72 @@ Expression* Parser::ternary() {
 	return condition;
 }
 
-Expression* Parser::equality() {
-	Expression* expression = comparison();
+Expr* Parser::equality() {
+	Expr* expression = comparison();
 
 	while (match(vector<TokenType>{ BANG_EQUAL, EQUAL_EQUAL })) {
 		Token op = previous();
-		Expression* right = comparison();
+		Expr* right = comparison();
 		expression = new Binary(expression, op, right);
 	}
 	return expression;
 }
 
-Expression* Parser::comparison() {
-	Expression* expr = term();
+Expr* Parser::comparison() {
+	Expr* expr = term();
 
 	while (match(vector<TokenType>{ GREATER, GREATER_EQUAL, LESS, LESS_EQUAL })) {
 		Token op = previous();
-		Expression* right = term();
+		Expr* right = term();
 		expr = new Binary(expr, op, right);
 	}
 	return expr;
 }
 
-Expression* Parser::term() {
-	Expression* expression = factor();
+Expr* Parser::term() {
+	Expr* expression = factor();
 
 	while (match(vector<TokenType>{ MINUS, PLUS })) {
 		Token op = previous();
-		Expression* right = factor();
+		Expr* right = factor();
 		expression = new Binary(expression, op, right);
 	}
 	return expression;
 }
 
-Expression* Parser::factor() {
-	Expression* expression = unary();
+Expr* Parser::factor() {
+	Expr* expression = unary();
 
 	while (match(vector<TokenType>{ SLASH, STAR })) {
 		Token op = previous();
-		Expression* right = unary();
+		Expr* right = unary();
 		expression = new Binary(expression, op, right);
 	}
 	return expression;
 }
 
-Expression* Parser::unary() {
+Expr* Parser::unary() {
 	if (match(vector<TokenType>{BANG, MINUS})) {
 		Token op = previous();
-		Expression* right = unary();
+		Expr* right = unary();
 		return new Unary(op, right);
 	}
 	return primary();
 }
 
-Expression* Parser::primary() {
-	// we take false, true, or nil and create a Lit that holds a LoxType
-	if (match(vector<TokenType>{FALSE})) return new Lit(LoxType{ false });
-	if (match(vector<TokenType>{TRUE})) return new Lit(LoxType{ true });
-	if (match(vector<TokenType>{NIL})) return new Lit(LoxType{});
+Expr* Parser::primary() {
+	// we take false, true, or nil and create a Literal that holds a LoxType
+	if (match(vector<TokenType>{FALSE})) return new Literal(LoxType{ false });
+	if (match(vector<TokenType>{TRUE})) return new Literal(LoxType{ true });
+	if (match(vector<TokenType>{NIL})) return new Literal(LoxType{});
 
-	// package a Literal value as a LoxType and store it in Lit
+	// package a LitVal as a LoxType and store it in Literal
 	if (match(vector<TokenType>{NUMBER, STRING})) {
-		return new Lit(LoxType{ previous().lit.retrieve() });
+		return new Literal(LoxType{ previous().lit.retrieve() });
 	}
 
 	if (match(vector<TokenType>{LEFT_PAREN})) {
-		Expression* expressionVar = expression();
+		Expr* expressionVar = expression();
 		consume(RIGHT_PAREN, "Expect ')' after expression.");
 		return new Grouping(expressionVar);
 	}

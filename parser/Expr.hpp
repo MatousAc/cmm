@@ -1,0 +1,82 @@
+#pragma once
+#include "../scanner/Token.h"
+
+struct Ternary;
+struct Binary;
+struct Grouping;
+struct Literal;
+struct Unary;
+
+struct Visitor {
+    virtual void visitTernary(const Ternary* expr) = 0;
+    virtual void visitBinary(const Binary* expr) = 0;
+    virtual void visitGrouping(const Grouping* expr) = 0;
+    virtual void visitLiteral(const Literal* expr) = 0;
+    virtual void visitUnary(const Unary* expr) = 0;
+};
+
+struct Expr {
+    virtual ~Expr() = default;
+    virtual void accept(Visitor* visitor) = 0;
+};
+
+struct Ternary : Expr {
+    Expr* condition;
+    Expr* ifTrue;
+    Expr* ifFalse;
+
+    Ternary(Expr* condition, Expr* ifTrue, Expr* ifFalse)
+        :condition{ condition }, ifTrue{ ifTrue }, ifFalse{ ifFalse } {}
+
+    void accept(Visitor* visitor) override {
+        visitor->visitTernary(this);
+    }
+};
+
+struct Binary : Expr {
+    Expr* left;
+    Token op;
+    Expr* right;
+
+    Binary(Expr* left, Token op, Expr* right)
+        :left{ left }, op{ op }, right{ right } {}
+
+    void accept(Visitor* visitor) override {
+        visitor->visitBinary(this);
+    }
+};
+
+struct Grouping : Expr {
+    Expr* expression;
+
+    Grouping(Expr* expression)
+        :expression{ expression } {}
+
+    void accept(Visitor* visitor) override {
+        visitor->visitGrouping(this);
+    }
+};
+
+struct Literal : Expr {
+    LoxType value;
+
+    Literal(LoxType value)
+        :value{ value } {}
+
+    void accept(Visitor* visitor) override {
+        visitor->visitLiteral(this);
+    }
+};
+
+struct Unary : Expr {
+    Token op;
+    Expr* right;
+
+    Unary(Token op, Expr* right)
+        :op{ op }, right{ right } {}
+
+    void accept(Visitor* visitor) override {
+        visitor->visitUnary(this);
+    }
+};
+

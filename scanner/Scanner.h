@@ -17,7 +17,7 @@ class Scanner {
 	void addString();
 	void addNumber();
 	void addIdentifier();
-	void addToken(TokenType type, Literal lit = NULL);
+	void addToken(TokenType type, LitVal lit = NULL);
 public:
 	Scanner(string source);
 	vector<Token> tokens;

@@ -1,5 +1,5 @@
 #include "RPNPrinter.h"
-void RPNPrinter::read(Expression* expression) {
+void RPNPrinter::read(Expr* expression) {
 	expression->accept(this);
 }
 
@@ -20,7 +20,7 @@ void RPNPrinter::visitGrouping(const Grouping* expression) {
 	expression->expression->accept(this);
 }
 
-void RPNPrinter::visitLit(const Lit* expression) {
+void RPNPrinter::visitLiteral(const Literal* expression) {
 	if (expression->value.isnil()) result += "nil";
 	else result += expression->value.toString();
 }
@@ -29,7 +29,7 @@ void RPNPrinter::visitUnary(const Unary* expression) {
 	collect(expression->op.lexeme, vector{ expression->right });
 }
 
-string RPNPrinter::collect(string name, vector<Expression*> expressions) {
+string RPNPrinter::collect(string name, vector<Expr*> expressions) {
 	auto cur = expressions.begin();
 	auto end = expressions.end();
 	while (cur != end) {

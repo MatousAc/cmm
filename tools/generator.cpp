@@ -1,6 +1,6 @@
-#include "genAst.h"
+#include "generator.h"
 
-void genAst(vector<string> args) {
+void generator(vector<string> args) {
 	auto argc = args.size();
 	string outputDir;
 	if (argc <= 3) {
@@ -10,12 +10,12 @@ void genAst(vector<string> args) {
 		outputDir = args[3];
 	}
 	cout << "generating in: " << outputDir << std::endl;
-	writeAst(outputDir, "Expression", vector<string>{
-		"Ternary	: Expression* condition, Expression* ifTrue, Expression* ifFalse",
-		"Binary     : Expression* left, Token op, Expression* right",
-		"Grouping   : Expression* expression",
-		"Lit        : LoxType value",
-		"Unary      : Token op, Expression* right"
+	writeAst(outputDir, "Expr", vector<string>{
+		"Ternary	: Expr* condition, Expr* ifTrue, Expr* ifFalse",
+		"Binary     : Expr* left, Token op, Expr* right",
+		"Grouping   : Expr* expression",
+		"Literal    : LoxType value",
+		"Unary      : Token op, Expr* right"
 	});
 }
 

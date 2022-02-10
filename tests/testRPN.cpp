@@ -53,7 +53,7 @@ string runLineRPN(string& source) {
 	Scanner scanner(source);
 	vector<Token> tokens = scanner.scanTokens();
 	Parser parser{ tokens };
-	Expression* expression = parser.parse();
+	Expr* expression = parser.parse();
 
 	// reading
 	RPNPrinter printer;

@@ -150,7 +150,7 @@ void Scanner::addIdentifier() {
 	addToken(keywords[id]);
 }
 
-void Scanner::addToken(TokenType type, Literal lit) {
+void Scanner::addToken(TokenType type, LitVal lit) {
 	string lexeme = source.substr(start, (current - start));
 	tokens.push_back(Token(type, lexeme, lit, line));
 }

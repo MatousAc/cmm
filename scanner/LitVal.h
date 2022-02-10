@@ -3,10 +3,10 @@
 #include "../interpreter/LoxType.h"
 #define DOUBLE_PRECISION 1e-7
 
-struct Literal {
+struct LitVal {
 	variant<string, double> value;
-	Literal(string str);
-	Literal(double dbl);
+	LitVal(string str);
+	LitVal(double dbl);
 	bool empty() const;
 	string toString() const;
 	string numToString() const;

@@ -57,7 +57,7 @@ void run(string& source) {
 	Scanner scanner(source);
 	vector<Token> tokens = scanner.scanTokens();
 	Parser parser{ tokens };
-	Expression* expression = parser.parse();
+	Expr* expression = parser.parse();
 
 	if (err->hadError) exit(65);
 	if (err->hadRunError) exit(70);

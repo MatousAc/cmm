@@ -1,5 +1,5 @@
 #include "tools.h"
-#include "genAst.h"
+#include "generator.h"
 #include "AstPrinter.h"
 #include "../tests/testStrComp.h"
 #include "../tests/testRPN.h"
@@ -11,8 +11,8 @@ int runTool(vector<string> args) {
 		printf("choose tool to run");
 		return 0;
 	}
-	if (args[2] == "generateAst")
-		genAst(args);
+	if (args[2] == "generator")
+		generator(args);
 	else if (args[2] == "AstPrinter")
 		testAstPrinter();
 	else if (args[2] == "testRPN")
@@ -30,9 +30,9 @@ void testAstPrinter() {
 	Token min(MINUS, "-", NULL, 1);
 	Token star(STAR, "*", NULL, 1);
 	Grouping grp = new Binary(
-		new Unary(min, new Lit(LoxType{ 123.0 })),
+		new Unary(min, new Literal(LoxType{ 123.0 })),
 		star,
-		new Grouping(new Lit(LoxType{ 45.67 })));
+		new Grouping(new Literal(LoxType{ 45.67 })));
 
 	AstPrinter pp;
 	pp.read(&grp);

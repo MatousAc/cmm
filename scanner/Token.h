@@ -1,6 +1,6 @@
 #pragma once
 #include "../include.h"
-#include "Literal.h"
+#include "LitVal.h"
 
 enum TokenType {
 	// Single-character tokens.
@@ -27,11 +27,11 @@ enum TokenType {
 struct Token {
 	TokenType type;
 	string lexeme;
-	Literal lit;
+	LitVal lit;
 	int line;
 
 	// constructors
-	Token(TokenType type, string lexeme, Literal lit, int line);
+	Token(TokenType type, string lexeme, LitVal lit, int line);
 
 	// methods
 	string display();
