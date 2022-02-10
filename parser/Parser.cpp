@@ -1,14 +1,19 @@
 #include "Parser.h"
 #include "../tools/LoxError.h"
+#include "../tools/AstPrinter.h"
 
 vector<Stmt*> Parser::parse() {
 	vector<Stmt*> statements{};
-	try { 
-		while (!isAtEnd()) {
+	while (!isAtEnd()) {
+		try {
 			statements.push_back(statement());
 		}
+		catch (ParseError error) {
+			// keep parsing if possible
+			err->hadError = false;
+		}
 	}
-	catch (ParseError error) { return statements; }
+	return statements;
 }
 
 Stmt* Parser::statement() {
@@ -38,7 +43,7 @@ Expr* Parser::ternary() {
 		ifTrue = expression();
 		if (!match(vector{ COLON })) {
 			advance(); // get to the EoF
-			throw error(previous(), "Expect '?' to have matching ':'.");
+			error(previous(), "Expect '?' to have matching ':'.");
 		}
 		ifFalse = expression();
 		return new Ternary(condition, ifTrue, ifFalse);
@@ -115,7 +120,7 @@ Expr* Parser::primary() {
 		consume(RIGHT_PAREN, "Expect ')' after expression.");
 		return new Grouping(expressionVar);
 	}
-	throw error(peek(), "Expected expression ");
+	error(peek(), "Expected expression match ");
 }
 
 // helpers
@@ -144,7 +149,7 @@ Token Parser::advance() {
 	return previous();
 }
 
-bool Parser::isAtEnd() { return peek().type == EOF; }
+bool Parser::isAtEnd() { return peek().type == EoF; }
 
 Token Parser::peek() { return tokens[current]; }
 
@@ -152,13 +157,13 @@ Token Parser::previous() { return tokens[current - 1]; }
 
 Token Parser::consume(TokenType type, string message) {
 	if (check(type)) return advance();
-	throw error(peek(), message);
+	error(peek(), message);
 }
 
 // errors
 ParseError Parser::error(Token token, string message) {
 	err->error(token, message);
-	return ParseError();
+	throw ParseError();
 }
 
 void Parser::synchronize() {

@@ -5,7 +5,7 @@ void generator(vector<string> args) {
 	string outputDir;
 	if (argc <= 3) {
 		printf("Usage: tools <tool> <output directory>\n");
-		outputDir = ".";
+		return;
 	} else {
 		outputDir = args[3];
 	}

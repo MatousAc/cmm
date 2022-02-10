@@ -62,10 +62,9 @@ void run(string& source) {
 	if (err->hadError) exit(65);
 	if (err->hadRunError) exit(70);
 	
-	// interpreting
+	// interpreting/executing
 	Interpreter* interpreter = new Interpreter;
 	interpreter->interpret(statements);
-	cout << interpreter->getResult().toString() << endl;
 }
 
 // prints a vector - Dr. Halterman
