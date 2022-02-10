@@ -116,5 +116,8 @@
     <ClInclude Include="parser\Expr.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="parser\Stmt.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

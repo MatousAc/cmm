@@ -2,7 +2,7 @@
 #include "../include.h"
 #include "../parser/Expr.hpp"
 
-class AstPrinter : Visitor {
+class AstPrinter : ExprVisitor {
 	string result;
 public:
 	AstPrinter() : result{} {};

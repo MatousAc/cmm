@@ -65,10 +65,10 @@ string interpretLineRPN(string& source) {
 	Scanner scanner(source);
 	vector<Token> tokens = scanner.scanTokens();
 	Parser parser{ tokens };
-	Expr* expression = parser.parse();
+	vector<Stmt*> statements = parser.parse();
 
 	// interpreting
 	Interpreter* interpreter = new Interpreter;
-	interpreter->interpret(expression);
+	interpreter->interpret(statements);
 	return interpreter->getResult().toString();
 }

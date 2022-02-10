@@ -167,6 +167,7 @@
     <ClInclude Include="include.h" />
     <ClInclude Include="parser\Expr.hpp" />
     <ClInclude Include="parser\Parser.h" />
+    <ClInclude Include="parser\Stmt.hpp" />
     <ClInclude Include="tests\testStrComp.h" />
     <ClInclude Include="tests\testRPN.h" />
     <ClInclude Include="tests\testTernary.h" />

@@ -6,20 +6,26 @@ void generator(vector<string> args) {
 	if (argc <= 3) {
 		printf("Usage: tools <tool> <output directory>\n");
 		outputDir = ".";
-	}     else {
+	} else {
 		outputDir = args[3];
 	}
 	cout << "generating in: " << outputDir << std::endl;
-	writeAst(outputDir, "Expr", vector<string>{
+	writeSyntax(outputDir, "Expr", "../scanner/Token.h",
+		vector<string>{
 		"Ternary	: Expr* condition, Expr* ifTrue, Expr* ifFalse",
-		"Binary     : Expr* left, Token op, Expr* right",
-		"Grouping   : Expr* expression",
-		"Literal    : LoxType value",
-		"Unary      : Token op, Expr* right"
+			"Binary     : Expr* left, Token op, Expr* right",
+			"Grouping   : Expr* expression",
+			"Literal    : LoxType value",
+			"Unary      : Token op, Expr* right"
+	});
+	writeSyntax(outputDir, "Stmt", "Expr.hpp", 
+		vector<string>{
+		"Expression	: Expr* expression",
+			"Print		: Expr* expression"
 	});
 }
 
-void writeAst(string outputDir, string base, vector<string> types) {
+void writeSyntax(string outputDir, string base, string include, vector<string> types) {
 	string fp = outputDir + "/" + base + ".hpp";
 	const char* filepath = fp.c_str();
 	FILE* file; // safely open a file
@@ -41,7 +47,7 @@ void writeAst(string outputDir, string base, vector<string> types) {
 	// header
 	string hpp;
 	hpp = "#pragma once\n";
-	hpp += "#include \"../scanner/Token.h\"\n\n";
+	hpp += "#include \"" + include + "\"\n\n";
 	// prototype structs
 	hpp += buildProtoStructs(names);
 	// visitor struct
@@ -65,7 +71,7 @@ void writeAst(string outputDir, string base, vector<string> types) {
 }
 
 string buildVisitorStruct(string base, vector<string> names) {
-	string code = "struct Visitor {\n";
+	string code = "struct " + base + "Visitor {\n";
 	if (names.empty()) return code += "}\n";
 	auto name = names.begin();
 	auto end = names.end();
@@ -81,7 +87,8 @@ string buildVisitorStruct(string base, vector<string> names) {
 string buildBase(string base) {
 	string code = "struct " + base + " {\n";
 	code += TAB + "virtual ~" + base + "() = default;\n";
-	code += TAB + "virtual void accept(Visitor* visitor) = 0;\n";
+	code += TAB + "virtual void accept(" + base + 
+		"Visitor* visitor) = 0;\n";
 	code += "};\n\n";
 	return code;
 }
@@ -135,7 +142,8 @@ string buildStruct(string base, string name, vector<string> fields) {
 	}
 	code += " {}\n\n";
 	// accept
-	code += TAB + "void accept(Visitor* visitor) override {\n";
+	code += TAB + "void accept(" + base + 
+		"Visitor* visitor) override {\n";
 	code += TABx2 + "visitor->visit" + name + "(this);\n";
 	code += TAB + "}\n";
 

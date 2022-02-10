@@ -1,9 +1,31 @@
 #include "Parser.h"
 #include "../tools/LoxError.h"
 
-Expr* Parser::parse() {
-	try { return expression(); }
-	catch (ParseError error) { return NULL; }
+vector<Stmt*> Parser::parse() {
+	vector<Stmt*> statements{};
+	try { 
+		while (!isAtEnd()) {
+			statements.push_back(statement());
+		}
+	}
+	catch (ParseError error) { return statements; }
+}
+
+Stmt* Parser::statement() {
+	if (match(vector{ PRINT })) return printStatement();
+	return expressionStatement();
+}
+
+Stmt* Parser::printStatement() {
+	Expr* value = expression();
+	consume(SEMICOLON, "Expect ';' after value.");
+	return new Print(value);
+}
+
+Stmt* Parser::expressionStatement() {
+	Expr* expr = expression();
+	consume(SEMICOLON, "Expect ';' after expression.");
+	return new Expression(expr);
 }
 
 Expr* Parser::expression() { return ternary(); }
@@ -130,7 +152,6 @@ Token Parser::previous() { return tokens[current - 1]; }
 
 Token Parser::consume(TokenType type, string message) {
 	if (check(type)) return advance();
-
 	throw error(peek(), message);
 }
 

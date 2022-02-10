@@ -2,7 +2,7 @@
 #include "../include.h"
 #include "../parser/Expr.hpp"
 
-class RPNPrinter : Visitor {
+class RPNPrinter : ExprVisitor {
 	string result;
 public:
 	RPNPrinter() : result{} {};

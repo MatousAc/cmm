@@ -57,14 +57,14 @@ void run(string& source) {
 	Scanner scanner(source);
 	vector<Token> tokens = scanner.scanTokens();
 	Parser parser{ tokens };
-	Expr* expression = parser.parse();
+	vector<Stmt*> statements = parser.parse();
 
 	if (err->hadError) exit(65);
 	if (err->hadRunError) exit(70);
 	
 	// interpreting
 	Interpreter* interpreter = new Interpreter;
-	interpreter->interpret(expression);
+	interpreter->interpret(statements);
 	cout << interpreter->getResult().toString() << endl;
 }
 

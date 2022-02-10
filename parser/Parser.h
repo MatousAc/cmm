@@ -2,6 +2,7 @@
 #include "../include.h"
 #include "../scanner/Token.h"
 #include "Expr.hpp"
+#include "Stmt.hpp"
 using std::runtime_error;
 
 // errors
@@ -17,8 +18,11 @@ class Parser {
 
 public: // constructor
 	Parser(vector<Token> tokens) : tokens{ tokens }, current{ 0 } {};
-	Expr* parse();
+	vector<Stmt*> parse();
 private:
+	Stmt* statement();
+	Stmt* printStatement();
+	Stmt* expressionStatement();
 	Expr* expression();
 	Expr* equality();
 	Expr* ternary();

@@ -1,23 +1,50 @@
 #include "Interpreter.h"
 #include "../tools/LoxError.h"
 
+// public
 Interpreter::Interpreter() :
 	result{},
 	curToken{ EoF, "start", NULL, -1 } {};
-void Interpreter::interpret(Expr* expression) {
+void Interpreter::interpret(vector<Stmt*> statements) {
 	try {
-		evaluate(expression);
-		result = getResult();
+		auto statement = statements.begin();
+		auto end = statements.end();
+		while (statement != end) {
+			execute(*statement);
+			result = getResult();
+			statement++;
+		}
 	}
 	catch (RunError error) {
 		err->handleRunError(RunError(curToken, error.message));
 	}
 }
 
+LoxType Interpreter::getResult() {
+	return result;
+}
+
+// private
+void Interpreter::execute(Stmt* stmt) {
+	stmt->accept(this);
+}
+
 void Interpreter::evaluate(Expr* expression) {
 	expression->accept(this);
 }
 
+// visiting statements
+void Interpreter::visitExpression(const Expression* stmt) {
+	evaluate(stmt->expression);
+}
+
+void Interpreter::visitPrint(const Print* stmt) {
+	evaluate(stmt->expression);
+	LoxType value = getResult();
+	cout << value.toString() << endl;
+}
+
+// visiting expressions
 void Interpreter::visitTernary(const Ternary* expression) {
 	expression->condition->accept(this);
 	if (getResult().isTruthy())
@@ -88,8 +115,4 @@ void Interpreter::visitUnary(const Unary* expression) {
 	default:
 		break;
 	}
-}
-
-LoxType Interpreter::getResult() {
-	return result;
 }
