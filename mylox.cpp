@@ -63,7 +63,6 @@ void run(string& source) {
 	if (err->hadRunError) exit(70);
 	
 	// interpreting/executing
-	Interpreter* interpreter = new Interpreter;
 	interpreter->interpret(statements);
 }
 

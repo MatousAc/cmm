@@ -24,3 +24,6 @@ private:
 	void visitLiteral(const Literal* expression) override;
 	void visitUnary(const Unary* expression) override;
 };
+
+// global, stateful interpreter
+inline Interpreter* interpreter = new Interpreter;
