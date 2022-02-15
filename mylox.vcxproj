@@ -144,6 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="interpreter\Environment.cpp" />
     <ClCompile Include="interpreter\Interpreter.cpp" />
     <ClCompile Include="interpreter\LoxType.cpp" />
     <ClCompile Include="mylox.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="tools\tools.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="interpreter\Environment.h" />
     <ClInclude Include="interpreter\Interpreter.h" />
     <ClInclude Include="interpreter\LoxType.h" />
     <ClInclude Include="mylox.h" />
