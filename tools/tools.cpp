@@ -95,6 +95,7 @@ string repeat(string str, const size_t n) {
 	return str;
 }
 
+// helpers
 // prints a vector - Dr. Halterman
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const std::vector<T>& vec) {
@@ -108,4 +109,17 @@ std::ostream& operator<<(std::ostream& os, const std::vector<T>& vec) {
 	}
 	os << "\n}\n";
 	return os;
+}
+
+// prints a vector of tokens
+void printTokens(vector<Token>& vec) {
+	if (!vec.empty()) {
+		auto iter = vec.begin();
+		auto end = vec.end();
+		printf("l: type\t| lexeme \tliteral\n");
+		printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+		cout << (*iter++).display() << endl;
+		while (iter != end)
+			cout << (*iter++).display() << endl;
+	}
 }

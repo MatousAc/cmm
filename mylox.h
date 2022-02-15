@@ -10,6 +10,3 @@
 void runPrompt();
 void runFile(char* filepath);
 void run(string& source);
-void printTokens(vector<Token>& vec);
-template <typename T>
-std::ostream& operator<<(std::ostream& os, const vector<T>& vec);

@@ -65,31 +65,3 @@ void run(string& source) {
 	// interpreting/executing
 	interpreter->interpret(statements);
 }
-
-// prints a vector - Dr. Halterman
-template <typename T>
-std::ostream& operator<<(std::ostream& os, const std::vector<T>& vec) {
-	os << '{';
-	if (!vec.empty()) {
-		auto iter = vec.begin();
-		auto end = vec.end();
-		os << *iter++;
-		while (iter != end)
-			os << ", " << *iter++;
-	}
-	os << '}';
-	return os;
-}
-
-// prints a vector of tokens
-void printTokens(vector<Token>& vec) {
-	if (!vec.empty()) {
-		auto iter = vec.begin();
-		auto end = vec.end();
-		printf("l: type\t| lexeme \tliteral\n");
-		printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-		cout << (*iter++).display() << endl;
-		while (iter != end)
-			cout << (*iter++).display() << endl;
-	}
-}
