@@ -20,6 +20,8 @@ public: // constructor
 	Parser(vector<Token> tokens) : tokens{ tokens }, current{ 0 } {};
 	vector<Stmt*> parse();
 private:
+	Stmt* declaration();
+	Stmt* varDeclaration();
 	Stmt* statement();
 	Stmt* printStatement();
 	Stmt* expressionStatement();
@@ -34,12 +36,12 @@ private:
 
 	// helpers
 	bool match(vector<TokenType> types);
+	Token consume(TokenType type, string message);
 	bool check(TokenType type);
 	Token advance();
 	bool isAtEnd();
 	Token peek();
 	Token previous();
-	Token consume(TokenType type, string message);
 
 	// errors
 	ParseError error(Token token, string message);

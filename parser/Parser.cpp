@@ -5,15 +5,31 @@
 vector<Stmt*> Parser::parse() {
 	vector<Stmt*> statements{};
 	while (!isAtEnd()) {
-		try {
-			statements.push_back(statement());
-		}
-		catch (ParseError error) {
-			// keep parsing if possible
-			err->hadError = false;
-		}
+		statements.push_back(declaration());
 	}
 	return statements;
+}
+
+Stmt* Parser::declaration() {
+	try {
+		if (match({ VAR })) return varDeclaration();
+		return statement();
+	}
+	catch (ParseError error) {
+		// keep parsing if possible
+		synchronize();
+		return NULL;
+	}
+}
+
+Stmt* Parser::varDeclaration() {
+	Token name = consume(IDENTIFIER, "Expect variable name.");
+
+	Expr* initilizer = NULL;
+	if (match({ EQUAL })) initilizer = expression();
+
+	consume(SEMICOLON, "Expect ';' after variable declaration.");
+	return new Var(name, initilizer);
 }
 
 Stmt* Parser::statement() {
@@ -115,6 +131,10 @@ Expr* Parser::primary() {
 		return new Literal(LoxType{ previous().lit.retrieve() });
 	}
 
+	if (match({ IDENTIFIER })) {
+		return new Variable(previous());
+	}
+
 	if (match(vector<TokenType>{LEFT_PAREN})) {
 		Expr* expressionVar = expression();
 		consume(RIGHT_PAREN, "Expect ')' after expression.");
@@ -143,6 +163,11 @@ bool Parser::check(TokenType type) {
 	return peek().type == type;
 }
 
+Token Parser::consume(TokenType type, string message) {
+	if (check(type)) return advance();
+	error(peek(), message);
+}
+
 Token Parser::advance() {
 	if (!isAtEnd())
 		current++;
@@ -154,11 +179,6 @@ bool Parser::isAtEnd() { return peek().type == EoF; }
 Token Parser::peek() { return tokens[current]; }
 
 Token Parser::previous() { return tokens[current - 1]; }
-
-Token Parser::consume(TokenType type, string message) {
-	if (check(type)) return advance();
-	error(peek(), message);
-}
 
 // errors
 ParseError Parser::error(Token token, string message) {

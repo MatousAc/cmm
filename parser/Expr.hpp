@@ -6,6 +6,7 @@ struct Binary;
 struct Grouping;
 struct Literal;
 struct Unary;
+struct Variable;
 
 struct ExprVisitor {
     virtual void visitTernary(const Ternary* expr) = 0;
@@ -13,6 +14,7 @@ struct ExprVisitor {
     virtual void visitGrouping(const Grouping* expr) = 0;
     virtual void visitLiteral(const Literal* expr) = 0;
     virtual void visitUnary(const Unary* expr) = 0;
+    virtual void visitVariable(const Variable* expr) = 0;
 };
 
 struct Expr {
@@ -77,6 +79,17 @@ struct Unary : Expr {
 
     void accept(ExprVisitor* visitor) override {
         visitor->visitUnary(this);
+    }
+};
+
+struct Variable : Expr {
+    Token name;
+
+    Variable(Token name)
+        :name{ name } {}
+
+    void accept(ExprVisitor* visitor) override {
+        visitor->visitVariable(this);
     }
 };
 
