@@ -13,6 +13,7 @@ public:
 	void visitGrouping(const Grouping* expression) override;
 	void visitLiteral(const Literal* expression) override;
 	void visitUnary(const Unary* expression) override;
+	void visitVariable(const Variable* expression) override;
 
 	string parenthesize(string name, vector<Expr*> expressions);
 

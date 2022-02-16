@@ -26,8 +26,9 @@ private:
 	Stmt* printStatement();
 	Stmt* expressionStatement();
 	Expr* expression();
-	Expr* equality();
 	Expr* ternary();
+	Expr* assignment();
+	Expr* equality();
 	Expr* comparison();
 	Expr* term();
 	Expr* factor();
@@ -44,7 +45,7 @@ private:
 	Token previous();
 
 	// errors
-	ParseError error(Token token, string message);
+	ParseError perr(Token token, string message);
 	void synchronize();
 };
 

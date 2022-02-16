@@ -1,18 +1,20 @@
 #pragma once
 #include "../scanner/Token.h"
 
-struct Ternary;
+struct Assign;
 struct Binary;
 struct Grouping;
 struct Literal;
+struct Ternary;
 struct Unary;
 struct Variable;
 
 struct ExprVisitor {
-    virtual void visitTernary(const Ternary* expr) = 0;
+    virtual void visitAssign(const Assign* expr) = 0;
     virtual void visitBinary(const Binary* expr) = 0;
     virtual void visitGrouping(const Grouping* expr) = 0;
     virtual void visitLiteral(const Literal* expr) = 0;
+    virtual void visitTernary(const Ternary* expr) = 0;
     virtual void visitUnary(const Unary* expr) = 0;
     virtual void visitVariable(const Variable* expr) = 0;
 };
@@ -22,16 +24,15 @@ struct Expr {
     virtual void accept(ExprVisitor* visitor) = 0;
 };
 
-struct Ternary : Expr {
-    Expr* condition;
-    Expr* ifTrue;
-    Expr* ifFalse;
+struct Assign : Expr {
+    Token name;
+    Expr* value;
 
-    Ternary(Expr* condition, Expr* ifTrue, Expr* ifFalse)
-        :condition{ condition }, ifTrue{ ifTrue }, ifFalse{ ifFalse } {}
+    Assign(Token name, Expr* value)
+        :name{ name }, value{ value } {}
 
     void accept(ExprVisitor* visitor) override {
-        visitor->visitTernary(this);
+        visitor->visitAssign(this);
     }
 };
 
@@ -67,6 +68,19 @@ struct Literal : Expr {
 
     void accept(ExprVisitor* visitor) override {
         visitor->visitLiteral(this);
+    }
+};
+
+struct Ternary : Expr {
+    Expr* condition;
+    Expr* ifTrue;
+    Expr* ifFalse;
+
+    Ternary(Expr* condition, Expr* ifTrue, Expr* ifFalse)
+        :condition{ condition }, ifTrue{ ifTrue }, ifFalse{ ifFalse } {}
+
+    void accept(ExprVisitor* visitor) override {
+        visitor->visitTernary(this);
     }
 };
 

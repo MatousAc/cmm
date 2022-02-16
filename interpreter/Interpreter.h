@@ -3,6 +3,7 @@
 #include "../parser/Expr.hpp"
 #include "../mylox.h"
 #include "LoxType.h"
+#include "Environment.h"
 
 class Interpreter : ExprVisitor, StmtVisitor {
 public:
@@ -11,10 +12,13 @@ public:
 	LoxType getResult();
 private:
 	LoxType result;
+	Environment environment;
 	Token curToken; // for error reporting
+
 	void execute(Stmt* stmt);
 	void evaluate(Expr* expression);
 
+	void visitVar(const Var* stmt) override;
 	void visitExpression(const Expression* stmt) override;
 	void visitPrint(const Print* stmt) override;
 
@@ -23,6 +27,7 @@ private:
 	void visitGrouping(const Grouping* expression) override;
 	void visitLiteral(const Literal* expression) override;
 	void visitUnary(const Unary* expression) override;
+	void visitVariable(const Variable* expression) override;
 };
 
 // global, stateful interpreter

@@ -4,6 +4,7 @@
 // public
 Interpreter::Interpreter() :
 	result{},
+	environment{},
 	curToken{ EoF, "start", NULL, -1 } {};
 void Interpreter::interpret(vector<Stmt*> statements) {
 	try {
@@ -34,6 +35,16 @@ void Interpreter::evaluate(Expr* expression) {
 }
 
 // visiting statements
+void Interpreter::visitVar(const Var* stmt) {
+	LoxType value{};
+	if (stmt->initializer != NULL) {
+		evaluate(stmt->initializer);
+		value = getResult();
+	}
+
+	environment.define(stmt->name.lexeme, value);
+}
+
 void Interpreter::visitExpression(const Expression* stmt) {
 	evaluate(stmt->expression);
 }
@@ -115,4 +126,7 @@ void Interpreter::visitUnary(const Unary* expression) {
 	default:
 		break;
 	}
+}
+void Interpreter::visitVariable(const Variable* expression) {
+	environment.get(expression->name);
 }

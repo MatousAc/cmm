@@ -12,10 +12,11 @@ void generator(vector<string> args) {
 	cout << "generating in: " << outputDir << std::endl;
 	writeSyntax(outputDir, "Expr", "../scanner/Token.h",
 		vector<string>{
-		"Ternary : Expr* condition, Expr* ifTrue, Expr* ifFalse",
+		"Assign : Token name, Expr* value",
 			"Binary : Expr* left, Token op, Expr* right",
 			"Grouping : Expr* expression",
 			"Literal : LoxType value",
+			"Ternary : Expr* condition, Expr* ifTrue, Expr* ifFalse",
 			"Unary : Token op, Expr* right",
 			"Variable : Token name"
 	});
