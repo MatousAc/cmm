@@ -1,6 +1,7 @@
 #include "Parser.h"
 #include "../tools/LoxError.h"
 #include "../tools/AstPrinter.h"
+#include "../tools/helpers.h" // for instance_of
 #include <typeinfo>
 
 vector<Stmt*> Parser::parse() {
@@ -59,7 +60,7 @@ Expr* Parser::assignment() {
 		Token equals = previous();
 		Expr* value = assignment();
 
-		if (typeid(expression) == typeid(Variable)) {
+		if (instanceof<Variable>(expression)) {
 			Token name = ((Variable*) expression)->name;
 			return new Assign(name, value);
 		}

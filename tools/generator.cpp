@@ -1,4 +1,5 @@
 #include "generator.h"
+#include "helpers.h" // for trim|split helpers
 
 void generator(vector<string> args) {
 	auto argc = args.size();

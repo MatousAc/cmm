@@ -1,6 +1,6 @@
 #include "LoxType.h"
 #include "../tools/LoxError.h"
-#include "../tools/tools.h"
+#include "../tools/helpers.h"
 
 // various constructors
 LoxType::LoxType(string str)
