@@ -34,6 +34,19 @@ void Interpreter::evaluate(Expr* expression) {
 	expression->accept(this);
 }
 
+void Interpreter::executeBlock(vector<Stmt*> statements, 
+	Environment* environment) {
+	Environment previous = this->environment;
+	try {
+		this->environment = environment;
+		for (auto& statement : statements) {
+			execute(statement);
+		}
+	}
+	catch (runtime_error) {}
+	this->environment = previous;
+}
+
 // visiting statements
 void Interpreter::visitVar(const Var* stmt) {
 	LoxType value{};
@@ -52,6 +65,10 @@ void Interpreter::visitPrint(const Print* stmt) {
 	evaluate(stmt->expression);
 	LoxType value = getResult();
 	cout << value.toString() << endl;
+}
+
+void Interpreter::visitBlock(const Block* stmt) {
+	executeBlock(stmt->statements, new Environment(environment));
 }
 
 // visiting expressions

@@ -4,6 +4,7 @@
 #include "../tools/helpers.h" // for instance_of
 #include <typeinfo>
 
+// parsing statements
 vector<Stmt*> Parser::parse() {
 	vector<Stmt*> statements{};
 	while (!isAtEnd()) {
@@ -36,6 +37,7 @@ Stmt* Parser::varDeclaration() {
 
 Stmt* Parser::statement() {
 	if (match(vector{ PRINT })) return printStatement();
+	if (match(vector{ LEFT_BRACE })) return new Block(block());
 	return expressionStatement();
 }
 
@@ -51,6 +53,18 @@ Stmt* Parser::expressionStatement() {
 	return new Expression(expr);
 }
 
+vector<Stmt*> Parser::block() {
+	vector<Stmt*> statements{};
+
+	while (!check(RIGHT_BRACE) && !isAtEnd()) {
+		statements.push_back(declaration());
+	}
+
+	consume(RIGHT_BRACE, "Expect '}' after block.");
+	return statements;
+}
+
+// parsing expressions
 Expr* Parser::expression() { return assignment(); }
 
 Expr* Parser::assignment() {
@@ -61,7 +75,7 @@ Expr* Parser::assignment() {
 		Expr* value = assignment();
 
 		if (instanceof<Variable>(expression)) {
-			Token name = ((Variable*) expression)->name;
+			Token name = ((Variable*)expression)->name;
 			return new Assign(name, value);
 		}
 

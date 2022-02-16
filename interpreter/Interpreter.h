@@ -17,10 +17,12 @@ private:
 
 	void execute(Stmt* stmt);
 	void evaluate(Expr* expression);
+	void executeBlock(vector<Stmt*> statements, Environment* environment);
 
 	void visitVar(const Var* stmt) override;
 	void visitExpression(const Expression* stmt) override;
 	void visitPrint(const Print* stmt) override;
+	void visitBlock(const Block* stmt) override;
 
 	void visitAssign(const Assign* expression) override;
 	void visitBinary(const Binary* expression) override;

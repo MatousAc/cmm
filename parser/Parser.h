@@ -25,6 +25,8 @@ private:
 	Stmt* statement();
 	Stmt* printStatement();
 	Stmt* expressionStatement();
+	vector<Stmt*> block();
+
 	Expr* expression();
 	Expr* ternary();
 	Expr* assignment();

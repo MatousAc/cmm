@@ -57,6 +57,8 @@ void runFile(char* filepath) {
 void run(string& source) {
 	Scanner scanner(source);
 	vector<Token> tokens = scanner.scanTokens();
+	//printTokens(tokens);
+
 	Parser parser{ tokens };
 	vector<Stmt*> statements = parser.parse();
 
