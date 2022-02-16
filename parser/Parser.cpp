@@ -66,7 +66,7 @@ Expr* Parser::assignment() {
 
 		perr(equals, "Invalid assignment target.");
 	}
-
+	return expression;
 }
 
 Expr* Parser::ternary() {
