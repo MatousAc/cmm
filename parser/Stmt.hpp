@@ -1,11 +1,13 @@
 #pragma once
 #include "Expr.hpp"
 
+struct Block;
 struct Expression;
 struct Print;
 struct Var;
 
 struct StmtVisitor {
+    virtual void visitBlock(const Block* stmt) = 0;
     virtual void visitExpression(const Expression* stmt) = 0;
     virtual void visitPrint(const Print* stmt) = 0;
     virtual void visitVar(const Var* stmt) = 0;
@@ -14,6 +16,17 @@ struct StmtVisitor {
 struct Stmt {
     virtual ~Stmt() = default;
     virtual void accept(StmtVisitor* visitor) = 0;
+};
+
+struct Block : Stmt {
+    vector<Stmt*> statements;
+
+    Block(vector<Stmt*> statements)
+        :statements{ statements } {}
+
+    void accept(StmtVisitor* visitor) override {
+        visitor->visitBlock(this);
+    }
 };
 
 struct Expression : Stmt {

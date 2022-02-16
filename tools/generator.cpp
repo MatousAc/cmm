@@ -11,7 +11,8 @@ void generator(vector<string> args) {
 		outputDir = args[3];
 	}
 	cout << "generating in: " << outputDir << std::endl;
-	writeSyntax(outputDir, "Expr", "../scanner/Token.h",
+	writeSyntax(outputDir, "Expr", 
+		{ "../scanner/Token.h" },
 		vector<string>{
 		"Assign : Token name, Expr* value",
 			"Binary : Expr* left, Token op, Expr* right",
@@ -21,15 +22,18 @@ void generator(vector<string> args) {
 			"Unary : Token op, Expr* right",
 			"Variable : Token name"
 	});
-	writeSyntax(outputDir, "Stmt", "Expr.hpp", 
+	writeSyntax(outputDir, "Stmt", 
+		{ "Expr.hpp" },
 		vector<string>{
-		"Expression	: Expr* expression",
+		"Block : vector<Stmt*> statements",
+			"Expression	: Expr* expression",
 			"Print : Expr* expression",
 			"Var : Token name, Expr* initializer"
 	});
 }
 
-void writeSyntax(string outputDir, string base, string include, vector<string> types) {
+void writeSyntax(string outputDir, string base, 
+	vector<string> include, vector<string> types) {
 	string fp = outputDir + "/" + base + ".hpp";
 	const char* filepath = fp.c_str();
 	FILE* file; // safely open a file
@@ -51,7 +55,14 @@ void writeSyntax(string outputDir, string base, string include, vector<string> t
 	// header
 	string hpp;
 	hpp = "#pragma once\n";
-	hpp += "#include \"" + include + "\"\n\n";
+	auto curIncl = include.begin();
+	auto lastIncl = include.end();
+	while (curIncl != lastIncl) {
+		*curIncl = curIncl->substr(0, curIncl->find(':'));
+		trim(*curIncl);
+		hpp += "#include \"" + *curIncl + "\"\n\n";
+		curIncl++;
+	}
 	// prototype structs
 	hpp += buildProtoStructs(names);
 	// visitor struct
