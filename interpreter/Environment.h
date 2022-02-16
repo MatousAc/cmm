@@ -10,9 +10,10 @@ class Environment {
 	unordered_map<string, LoxType> values;
 
 public:
+	Environment* enclosing;
 	Environment();
+	Environment(Environment* enclosing);
 	void define(Token name, LoxType value);
 	void assign(Token name, LoxType value);
 	LoxType get(Token name);
 };
-
