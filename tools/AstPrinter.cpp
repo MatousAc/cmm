@@ -4,12 +4,8 @@ void AstPrinter::read(Expr* expression) {
 	expression->accept(this);
 }
 
-void AstPrinter::visitTernary(const Ternary* expression) {
-	parenthesize(
-		"?:",
-		vector{ expression->condition, 
-		expression->ifTrue, expression->ifTrue }
-	);
+void AstPrinter::visitAssign(const Assign* expression) {
+	parenthesize(expression->name.lexeme, { expression->value });
 }
 void AstPrinter::visitBinary(const Binary* expression) {
 	parenthesize(
@@ -26,6 +22,13 @@ void AstPrinter::visitLiteral(const Literal* expression) {
 }
 void AstPrinter::visitUnary(const Unary* expression) {
 	parenthesize(expression->op.lexeme, vector{ expression->right });
+}
+void AstPrinter::visitTernary(const Ternary* expression) {
+	parenthesize(
+		"?:",
+		vector{ expression->condition,
+		expression->ifTrue, expression->ifTrue }
+	);
 }
 void AstPrinter::visitVariable(const Variable* expression) {
 	parenthesize(expression->name.lexeme, {});
