@@ -150,7 +150,7 @@ Expr* Parser::primary() {
 	}
 
 	if (match({ IDENTIFIER })) {
-		return new Variable(previous());
+		return new Variable{ previous() };
 	}
 
 	if (match(vector<TokenType>{LEFT_PAREN})) {

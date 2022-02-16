@@ -1,4 +1,5 @@
 #include "mylox.h"
+#include "tools/AstPrinter.h"
 
 int main(int argc, char* argv[]) {
 	// running tools

@@ -41,8 +41,7 @@ void Interpreter::visitVar(const Var* stmt) {
 		evaluate(stmt->initializer);
 		value = getResult();
 	}
-
-	environment.define(stmt->name.lexeme, value);
+	environment.define(stmt->name, value);
 }
 
 void Interpreter::visitExpression(const Expression* stmt) {
@@ -56,12 +55,11 @@ void Interpreter::visitPrint(const Print* stmt) {
 }
 
 // visiting expressions
-void Interpreter::visitTernary(const Ternary* expression) {
-	expression->condition->accept(this);
-	if (getResult().isTruthy())
-		expression->ifTrue->accept(this);
-	else
-		expression->ifFalse->accept(this);
+void Interpreter::visitAssign(const Assign* expression) {
+	evaluate(expression->value);
+	LoxType value = getResult();
+	environment.assign(expression->name, value);
+	result = value;
 }
 void Interpreter::visitBinary(const Binary* expression) {
 	curToken = expression->op;
@@ -127,6 +125,13 @@ void Interpreter::visitUnary(const Unary* expression) {
 		break;
 	}
 }
+void Interpreter::visitTernary(const Ternary* expression) {
+	expression->condition->accept(this);
+	if (getResult().isTruthy())
+		expression->ifTrue->accept(this);
+	else
+		expression->ifFalse->accept(this);
+}
 void Interpreter::visitVariable(const Variable* expression) {
-	environment.get(expression->name);
+	result = environment.get(expression->name);
 }

@@ -11,7 +11,8 @@ class Environment {
 
 public:
 	Environment();
-	void define(string name, LoxType value);
+	void define(Token name, LoxType value);
+	void assign(Token name, LoxType value);
 	LoxType get(Token name);
 };
 
