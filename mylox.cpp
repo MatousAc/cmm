@@ -64,7 +64,7 @@ void run(string& source) {
 
 	if (err->hadError) exit(65);
 	if (err->hadRunError) exit(70);
-	
+
 	// interpreting/executing
 	interpreter->interpret(statements);
 }

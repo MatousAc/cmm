@@ -85,8 +85,10 @@ void Scanner::scanToken() {
 			addNumber();
 		} else if (isalpha(c)) {
 			addIdentifier();
-		} else
-			err->report(line, "Unexpected character.");
+		// consume Nulls that some text editors add
+		} else if (c != 0) { // otherwise err
+			err->report(line, "Unexpected character.", to_string(c));
+		}
 		break;
 	}
 }
