@@ -25,7 +25,7 @@ LoxType Interpreter::getResult() {
 	return result;
 }
 
-// private
+// private - execution helpers
 void Interpreter::execute(Stmt* stmt) {
 	stmt->accept(this);
 }
@@ -48,36 +48,32 @@ void Interpreter::executeBlock(vector<Stmt*> statements,
 }
 
 // visiting statements
-void Interpreter::visitVar(const Var* stmt) {
-	LoxType value{};
-	if (stmt->initializer != NULL) {
-		evaluate(stmt->initializer);
-		value = getResult();
-	}
-	environment.define(stmt->name, value);
+void Interpreter::visitBlock(const Block* statement) {
+	executeBlock(statement->statements, new Environment(environment));
 }
-
-void Interpreter::visitExpression(const Expression* stmt) {
-	evaluate(stmt->expression);
+void Interpreter::visitExpression(const Expression* statement) {
+	evaluate(statement->expression);
 }
-
-void Interpreter::visitIf(const If* stmt) {
-	evaluate(stmt->condition); // eval cond
+void Interpreter::visitIf(const If* statement) {
+	evaluate(statement->condition); // eval cond
 	if (getResult().isTruthy()) {
-		execute(stmt->thenBranch);
-	} else if (stmt->elseBranch != nullptr) {
-		execute(stmt->elseBranch);
+		execute(statement->thenBranch);
+	} else if (statement->elseBranch != nullptr) {
+		execute(statement->elseBranch);
 	}
 }
-
-void Interpreter::visitPrint(const Print* stmt) {
-	evaluate(stmt->expression);
+void Interpreter::visitPrint(const Print* statement) {
+	evaluate(statement->expression);
 	LoxType value = getResult();
 	cout << value.toString() << endl;
 }
-
-void Interpreter::visitBlock(const Block* stmt) {
-	executeBlock(stmt->statements, new Environment(environment));
+void Interpreter::visitVar(const Var* statement) {
+	LoxType value{};
+	if (statement->initializer != NULL) {
+		evaluate(statement->initializer);
+		value = getResult();
+	}
+	environment.define(statement->name, value);
 }
 
 // visiting expressions
@@ -134,6 +130,17 @@ void Interpreter::visitGrouping(const Grouping* expression) {
 }
 void Interpreter::visitLiteral(const Literal* expression) {
 	result = expression->value;
+}
+void Interpreter::visitLogical(const Logical* expression) {
+	evaluate(expression->left);
+	LoxType left = getResult();
+	// FIXME can we simplify this?
+	if (expression->op.type == OR) {
+		if (left.isTruthy()) return;
+	} else { // must be AND
+		if (!left.isTruthy()) return;
+	}
+	evaluate(expression->right);
 }
 void Interpreter::visitUnary(const Unary* expression) {
 	curToken = expression->op;

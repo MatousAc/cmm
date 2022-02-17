@@ -100,7 +100,7 @@ Expr* Parser::assignment() {
 }
 
 Expr* Parser::ternary() {
-	Expr* condition = equality();
+	Expr* condition = Or();
 	while (match(vector<TokenType>{ QUEST })) {
 		Expr* ifTrue;
 		Expr* ifFalse;
@@ -113,6 +113,28 @@ Expr* Parser::ternary() {
 		return new Ternary(condition, ifTrue, ifFalse);
 	}
 	return condition;
+}
+
+Expr* Parser::Or () {
+	Expr* expr = And();
+
+	while (match({ OR })) {
+		Token op = previous();
+		Expr* right = And();
+		expr = new Logical(expr, op, right);
+	}
+	return expr;
+}
+
+Expr* Parser::And() {
+	Expr* expr = equality();
+
+	while (match({ AND })) {
+		Token op = previous();
+		Expr* right = equality();
+		expr = new Logical(expr, op, right);
+	}
+	return expr;
 }
 
 Expr* Parser::equality() {

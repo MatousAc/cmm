@@ -20,6 +20,12 @@ void AstPrinter::visitLiteral(const Literal* expression) {
 	if (expression->value.isnil()) result += "nil";
 	else result += expression->value.toString();
 }
+void AstPrinter::visitLogical(const Logical* expression) {
+	parenthesize(
+		expression->op.lexeme,
+		vector{ expression->left, expression->right }
+	);
+}
 void AstPrinter::visitUnary(const Unary* expression) {
 	parenthesize(expression->op.lexeme, vector{ expression->right });
 }

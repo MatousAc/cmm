@@ -5,6 +5,7 @@ struct Assign;
 struct Binary;
 struct Grouping;
 struct Literal;
+struct Logical;
 struct Ternary;
 struct Unary;
 struct Variable;
@@ -14,6 +15,7 @@ struct ExprVisitor {
     virtual void visitBinary(const Binary* expr) = 0;
     virtual void visitGrouping(const Grouping* expr) = 0;
     virtual void visitLiteral(const Literal* expr) = 0;
+    virtual void visitLogical(const Logical* expr) = 0;
     virtual void visitTernary(const Ternary* expr) = 0;
     virtual void visitUnary(const Unary* expr) = 0;
     virtual void visitVariable(const Variable* expr) = 0;
@@ -68,6 +70,19 @@ struct Literal : Expr {
 
     void accept(ExprVisitor* visitor) override {
         visitor->visitLiteral(this);
+    }
+};
+
+struct Logical : Expr {
+    Expr* left;
+    Token op;
+    Expr* right;
+
+    Logical(Expr* left, Token op, Expr* right)
+        :left{ left }, op{ op }, right{ right } {}
+
+    void accept(ExprVisitor* visitor) override {
+        visitor->visitLogical(this);
     }
 };
 

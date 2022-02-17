@@ -30,6 +30,8 @@ private:
 
 	Expr* expression();
 	Expr* ternary();
+	Expr* Or(); // or && and are reserved
+	Expr* And();
 	Expr* assignment();
 	Expr* equality();
 	Expr* comparison();

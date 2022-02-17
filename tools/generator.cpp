@@ -21,7 +21,8 @@ void generator(vector<string> args) {
 			"Logical : Expr* left, Token op, Expr* right",
 			"Ternary : Expr* condition, Expr* ifTrue, Expr* ifFalse",
 			"Unary : Token op, Expr* right",
-			"Variable : Token name"
+			"Variable : Token name",
+			"While : Expr* condition, Stmt* body"
 	});
 	writeSyntax(outputDir, "Stmt", 
 		{ "Expr.hpp" },
