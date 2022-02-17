@@ -61,6 +61,15 @@ void Interpreter::visitExpression(const Expression* stmt) {
 	evaluate(stmt->expression);
 }
 
+void Interpreter::visitIf(const If* stmt) {
+	evaluate(stmt->condition); // eval cond
+	if (getResult().isTruthy()) {
+		execute(stmt->thenBranch);
+	} else if (stmt->elseBranch != nullptr) {
+		execute(stmt->elseBranch);
+	}
+}
+
 void Interpreter::visitPrint(const Print* stmt) {
 	evaluate(stmt->expression);
 	LoxType value = getResult();

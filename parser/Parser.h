@@ -23,6 +23,7 @@ private:
 	Stmt* declaration();
 	Stmt* varDeclaration();
 	Stmt* statement();
+	Stmt* ifStatement();
 	Stmt* printStatement();
 	Stmt* expressionStatement();
 	vector<Stmt*> block();

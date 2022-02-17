@@ -38,7 +38,22 @@ Stmt* Parser::varDeclaration() {
 Stmt* Parser::statement() {
 	if (match(vector{ PRINT })) return printStatement();
 	if (match(vector{ LEFT_BRACE })) return new Block(block());
+	if (match(vector{ IF })) return ifStatement();
 	return expressionStatement();
+}
+
+Stmt* Parser::ifStatement() {
+	consume(LEFT_PAREN, "Expect '(' after 'if'.");
+	Expr* condition = expression();
+	consume(RIGHT_PAREN, "Expect ')' after if condition.");
+
+	Stmt* thenBranch = statement();
+	Stmt* elseBranch = nullptr;
+	if (match({ ELSE })) {
+		elseBranch = statement();
+	}
+
+	return new If(condition, thenBranch, elseBranch);
 }
 
 Stmt* Parser::printStatement() {

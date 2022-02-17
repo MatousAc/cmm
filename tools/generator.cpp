@@ -18,6 +18,7 @@ void generator(vector<string> args) {
 			"Binary : Expr* left, Token op, Expr* right",
 			"Grouping : Expr* expression",
 			"Literal : LoxType value",
+			"Logical : Expr* left, Token op, Expr* right",
 			"Ternary : Expr* condition, Expr* ifTrue, Expr* ifFalse",
 			"Unary : Token op, Expr* right",
 			"Variable : Token name"
@@ -27,6 +28,7 @@ void generator(vector<string> args) {
 		vector<string>{
 		"Block : vector<Stmt*> statements",
 			"Expression	: Expr* expression",
+			"If : Expr* condition, Stmt* thenBranch, Stmt* elseBranch",
 			"Print : Expr* expression",
 			"Var : Token name, Expr* initializer"
 	});
