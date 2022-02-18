@@ -54,6 +54,17 @@ void Interpreter::visitBlock(const Block* statement) {
 void Interpreter::visitExpression(const Expression* statement) {
 	evaluate(statement->expression);
 }
+void Interpreter::visitFor(const For* statement) {
+	if (statement->initializer != nullptr) // init
+		execute(statement->initializer);
+	// loop
+	evaluate(statement->condition);
+	while (getResult().isTruthy()) {
+		execute(statement->body);
+		evaluate(statement->increment);
+		evaluate(statement->condition);
+	}
+}
 void Interpreter::visitIf(const If* statement) {
 	evaluate(statement->condition); // eval cond
 	if (getResult().isTruthy()) {
@@ -76,9 +87,10 @@ void Interpreter::visitVar(const Var* statement) {
 	environment->define(statement->name, value);
 }
 void Interpreter::visitWhile(const While* statement) {
+	evaluate(statement->condition); // eval condition
 	while (getResult().isTruthy()) { // czech condition
 		execute(statement->body);
-		evaluate(statement->condition); // eval condition
+		evaluate(statement->condition);
 	}
 }
 

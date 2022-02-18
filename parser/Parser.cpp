@@ -37,10 +37,39 @@ Stmt* Parser::varDeclaration() {
 
 Stmt* Parser::statement() {
 	if (match({ PRINT })) return printStatement();
+	if (match({ FOR })) return forStatement();
 	if (match({ WHILE })) return whileStatement();
 	if (match({ LEFT_BRACE })) return new Block(block());
 	if (match({ IF })) return ifStatement();
 	return expressionStatement();
+}
+
+Stmt* Parser::forStatement() {
+	// init
+	consume(LEFT_PAREN, "Expect '(' after 'for'.");
+	Stmt* initializer;
+	if (match({ SEMICOLON })) {
+		initializer = nullptr;
+	} else if (match({ VAR })) {
+		initializer = varDeclaration();
+	} else {
+		initializer = expressionStatement();
+	}
+	// condition
+	Expr* condition = nullptr;
+	if (!check(SEMICOLON)) {
+		condition = expression();
+	}
+	consume(SEMICOLON, "Expect ';' after loop condition.");
+	// increment
+	Expr* increment = nullptr;
+	if (!check(SEMICOLON)) {
+		increment = expression();
+	}
+	consume(RIGHT_PAREN, "Expect ')' after increment.");
+	// body
+	Stmt* body = statement();
+	return new For(initializer, condition, increment, body);
 }
 
 Stmt* Parser::whileStatement() {

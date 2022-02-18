@@ -11,9 +11,8 @@ void generator(vector<string> args) {
 		outputDir = args[3];
 	}
 	cout << "generating in: " << outputDir << std::endl;
-	writeSyntax(outputDir, "Expr", 
-		{ "../scanner/Token.h" },
-		vector<string>{
+	writeSyntax(outputDir, "Expr",
+		{ "../scanner/Token.h" }, {
 		"Assign : Token name, Expr* value",
 			"Binary : Expr* left, Token op, Expr* right",
 			"Grouping : Expr* expression",
@@ -22,21 +21,20 @@ void generator(vector<string> args) {
 			"Ternary : Expr* condition, Expr* ifTrue, Expr* ifFalse",
 			"Unary : Token op, Expr* right",
 			"Variable : Token name"
-	});
-	writeSyntax(outputDir, "Stmt", 
-		{ "Expr.hpp" },
-		vector<string>{
+		});
+	writeSyntax(outputDir, "Stmt",
+		{ "Expr.hpp" }, {
 		"Block : vector<Stmt*> statements",
 			"Expression	: Expr* expression",
-			"For : Stmt* initializer, Stmt* condition, Stmt* change, Stmt* body",
+			"For : Stmt* initializer, Expr* condition, Expr* increment, Stmt* body",
 			"If : Expr* condition, Stmt* thenBranch, Stmt* elseBranch",
 			"Print : Expr* expression",
 			"Var : Token name, Expr* initializer",
 			"While : Expr* condition, Stmt* body"
-	});
+		});
 }
 
-void writeSyntax(string outputDir, string base, 
+void writeSyntax(string outputDir, string base,
 	vector<string> include, vector<string> types) {
 	string fp = outputDir + "/" + base + ".hpp";
 	const char* filepath = fp.c_str();
@@ -106,7 +104,7 @@ string buildVisitorStruct(string base, vector<string> names) {
 string buildBase(string base) {
 	string code = "struct " + base + " {\n";
 	code += TAB + "virtual ~" + base + "() = default;\n";
-	code += TAB + "virtual void accept(" + base + 
+	code += TAB + "virtual void accept(" + base +
 		"Visitor* visitor) = 0;\n";
 	code += "};\n\n";
 	return code;
@@ -161,7 +159,7 @@ string buildStruct(string base, string name, vector<string> fields) {
 	}
 	code += " {}\n\n";
 	// accept
-	code += TAB + "void accept(" + base + 
+	code += TAB + "void accept(" + base +
 		"Visitor* visitor) override {\n";
 	code += TABx2 + "visitor->visit" + name + "(this);\n";
 	code += TAB + "}\n";
