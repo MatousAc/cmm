@@ -12,7 +12,7 @@ public:
 	LoxType getResult();
 private:
 	LoxType result;
-	Environment environment;
+	Environment* environment;
 	Token curToken; // for error reporting
 
 	void execute(Stmt* stmt);
@@ -24,6 +24,7 @@ private:
 	void visitIf(const If* statement) override;
 	void visitPrint(const Print* statement) override;
 	void visitVar(const Var* statement) override;
+	void visitWhile(const While* statement) override;
 
 	void visitAssign(const Assign* expression) override;
 	void visitBinary(const Binary* expression) override;

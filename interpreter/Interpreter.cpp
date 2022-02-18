@@ -4,7 +4,7 @@
 // public
 Interpreter::Interpreter() :
 	result{},
-	environment{},
+	environment{ new Environment{} },
 	curToken{ EoF, "start", NULL, -1 } {};
 void Interpreter::interpret(vector<Stmt*> statements) {
 	try {
@@ -36,7 +36,7 @@ void Interpreter::evaluate(Expr* expression) {
 
 void Interpreter::executeBlock(vector<Stmt*> statements, 
 	Environment* environment) {
-	Environment previous = this->environment;
+	Environment* previous = this->environment;
 	try {
 		this->environment = environment;
 		for (auto& statement : statements) {
@@ -68,19 +68,28 @@ void Interpreter::visitPrint(const Print* statement) {
 	cout << value.toString() << endl;
 }
 void Interpreter::visitVar(const Var* statement) {
+	cout << "visitVAR\n";
 	LoxType value{};
 	if (statement->initializer != NULL) {
 		evaluate(statement->initializer);
 		value = getResult();
 	}
-	environment.define(statement->name, value);
+	cout << value.toString() << "\n";
+	environment->define(statement->name, value);
+}
+void Interpreter::visitWhile(const While* statement) {
+	while (getResult().isTruthy()) { // czech condition
+		execute(statement->body);
+		evaluate(statement->condition); // eval condition
+	}
 }
 
 // visiting expressions
 void Interpreter::visitAssign(const Assign* expression) {
+	cout << "visitASSIGN\n";
 	evaluate(expression->value);
 	LoxType value = getResult();
-	environment.assign(expression->name, value);
+	environment->assign(expression->name, value);
 	result = value;
 }
 void Interpreter::visitBinary(const Binary* expression) {
@@ -166,5 +175,6 @@ void Interpreter::visitTernary(const Ternary* expression) {
 		expression->ifFalse->accept(this);
 }
 void Interpreter::visitVariable(const Variable* expression) {
-	result = environment.get(expression->name);
+	cout << "visitVARIABLE\n";
+	result = environment->get(expression->name);
 }

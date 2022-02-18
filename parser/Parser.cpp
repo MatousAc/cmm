@@ -36,10 +36,20 @@ Stmt* Parser::varDeclaration() {
 }
 
 Stmt* Parser::statement() {
-	if (match(vector{ PRINT })) return printStatement();
-	if (match(vector{ LEFT_BRACE })) return new Block(block());
-	if (match(vector{ IF })) return ifStatement();
+	if (match({ PRINT })) return printStatement();
+	if (match({ WHILE })) return whileStatement();
+	if (match({ LEFT_BRACE })) return new Block(block());
+	if (match({ IF })) return ifStatement();
 	return expressionStatement();
+}
+
+Stmt* Parser::whileStatement() {
+	consume(LEFT_PAREN, "Expect '(' after 'while'.");
+	Expr* condition = expression();
+	consume(RIGHT_PAREN, "Expect ')' after condition.");
+	Stmt* body = statement();
+
+	return new While(condition, body);
 }
 
 Stmt* Parser::ifStatement() {
@@ -101,11 +111,11 @@ Expr* Parser::assignment() {
 
 Expr* Parser::ternary() {
 	Expr* condition = Or();
-	while (match(vector<TokenType>{ QUEST })) {
+	while (match({ QUEST })) {
 		Expr* ifTrue;
 		Expr* ifFalse;
 		ifTrue = expression();
-		if (!match(vector{ COLON })) {
+		if (!match({ COLON })) {
 			advance(); // get to the EoF
 			throw perr(previous(), "Expect '?' to have matching ':'.");
 		}

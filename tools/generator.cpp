@@ -21,17 +21,18 @@ void generator(vector<string> args) {
 			"Logical : Expr* left, Token op, Expr* right",
 			"Ternary : Expr* condition, Expr* ifTrue, Expr* ifFalse",
 			"Unary : Token op, Expr* right",
-			"Variable : Token name",
-			"While : Expr* condition, Stmt* body"
+			"Variable : Token name"
 	});
 	writeSyntax(outputDir, "Stmt", 
 		{ "Expr.hpp" },
 		vector<string>{
 		"Block : vector<Stmt*> statements",
 			"Expression	: Expr* expression",
+			"For : Stmt* initializer, Stmt* condition, Stmt* change, Stmt* body",
 			"If : Expr* condition, Stmt* thenBranch, Stmt* elseBranch",
 			"Print : Expr* expression",
-			"Var : Token name, Expr* initializer"
+			"Var : Token name, Expr* initializer",
+			"While : Expr* condition, Stmt* body"
 	});
 }
 

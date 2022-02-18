@@ -6,13 +6,11 @@
 #include "../tools/LoxError.h"
 using std::unordered_map;
 
-class Environment {
+struct Environment {
 	unordered_map<string, LoxType> values;
 
-public:
 	Environment* enclosing;
-	Environment();
-	Environment(Environment* enclosing);
+	Environment(Environment* enclosing = nullptr);
 	void define(Token name, LoxType value);
 	void assign(Token name, LoxType value);
 	LoxType get(Token name);
