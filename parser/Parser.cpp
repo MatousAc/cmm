@@ -63,7 +63,7 @@ Stmt* Parser::forStatement() {
 	consume(SEMICOLON, "Expect ';' after loop condition.");
 	// increment
 	Expr* increment = nullptr;
-	if (!check(SEMICOLON)) {
+	if (!check(RIGHT_PAREN)) {
 		increment = expression();
 	}
 	consume(RIGHT_PAREN, "Expect ')' after increment.");

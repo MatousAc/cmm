@@ -61,7 +61,8 @@ void Interpreter::visitFor(const For* statement) {
 	evaluate(statement->condition);
 	while (getResult().isTruthy()) {
 		execute(statement->body);
-		evaluate(statement->increment);
+		if (statement->increment != nullptr)
+			evaluate(statement->increment);
 		evaluate(statement->condition);
 	}
 }
