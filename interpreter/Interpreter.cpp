@@ -68,13 +68,11 @@ void Interpreter::visitPrint(const Print* statement) {
 	cout << value.toString() << endl;
 }
 void Interpreter::visitVar(const Var* statement) {
-	cout << "visitVAR\n";
 	LoxType value{};
 	if (statement->initializer != NULL) {
 		evaluate(statement->initializer);
 		value = getResult();
 	}
-	cout << value.toString() << "\n";
 	environment->define(statement->name, value);
 }
 void Interpreter::visitWhile(const While* statement) {
@@ -86,7 +84,6 @@ void Interpreter::visitWhile(const While* statement) {
 
 // visiting expressions
 void Interpreter::visitAssign(const Assign* expression) {
-	cout << "visitASSIGN\n";
 	evaluate(expression->value);
 	LoxType value = getResult();
 	environment->assign(expression->name, value);
@@ -175,6 +172,5 @@ void Interpreter::visitTernary(const Ternary* expression) {
 		expression->ifFalse->accept(this);
 }
 void Interpreter::visitVariable(const Variable* expression) {
-	cout << "visitVARIABLE\n";
 	result = environment->get(expression->name);
 }
