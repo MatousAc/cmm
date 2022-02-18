@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="mylox.cpp">
+    <ClCompile Include="cmm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="scanner\LitVal.cpp">
@@ -68,7 +68,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="mylox.h">
+    <ClInclude Include="cmm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scanner\LitVal.h">

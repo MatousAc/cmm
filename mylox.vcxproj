@@ -24,6 +24,7 @@
     <ProjectGuid>{8e1b4dd3-96ee-4d34-8219-1c5d1bb13396}</ProjectGuid>
     <RootNamespace>cmm</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>cmm</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -148,7 +149,7 @@
     <ClCompile Include="interpreter\Environment.cpp" />
     <ClCompile Include="interpreter\Interpreter.cpp" />
     <ClCompile Include="interpreter\LoxType.cpp" />
-    <ClCompile Include="mylox.cpp" />
+    <ClCompile Include="cmm.cpp" />
     <ClCompile Include="parser\Parser.cpp" />
     <ClCompile Include="tests\testStrComp.cpp" />
     <ClCompile Include="tests\testRPN.cpp" />
@@ -167,7 +168,7 @@
     <ClInclude Include="interpreter\Environment.h" />
     <ClInclude Include="interpreter\Interpreter.h" />
     <ClInclude Include="interpreter\LoxType.h" />
-    <ClInclude Include="mylox.h" />
+    <ClInclude Include="cmm.h" />
     <ClInclude Include="include.h" />
     <ClInclude Include="parser\Expr.hpp" />
     <ClInclude Include="parser\Parser.h" />

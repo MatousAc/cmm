@@ -2,7 +2,6 @@
 // Syntax note: substr(start_pos, len)
 #include <stdlib.h>
 #include "Scanner.h"
-#include "../mylox.h"
 
 std::unordered_map<string, TokenType> Scanner::keywords;
 
@@ -85,7 +84,7 @@ void Scanner::scanToken() {
 			addNumber();
 		} else if (isalpha(c)) {
 			addIdentifier();
-		// consume Nulls that some text editors add
+			// consume Nulls that some text editors add
 		} else if (c != 0) { // otherwise err
 			err->report(line, "Unexpected character.", to_string(c));
 		}

@@ -1,3 +1,4 @@
+// interprets the Abstract Syntax Tree
 #include "Interpreter.h"
 #include "../tools/LoxError.h"
 
@@ -34,7 +35,7 @@ void Interpreter::evaluate(Expr* expression) {
 	expression->accept(this);
 }
 
-void Interpreter::executeBlock(vector<Stmt*> statements, 
+void Interpreter::executeBlock(vector<Stmt*> statements,
 	Environment* environment) {
 	Environment* previous = this->environment;
 	try {

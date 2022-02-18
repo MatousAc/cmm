@@ -1,5 +1,10 @@
-#include "mylox.h"
+#include "cmm.h"
+#include "tools/tools.h"
+#include "tools/LoxError.h"
+#include "scanner/Token.h"
+#include "scanner/Scanner.h"
 #include "tools/AstPrinter.h"
+#include "interpreter/Interpreter.h"
 
 int main(int argc, char* argv[]) {
 	// running tools
@@ -12,9 +17,6 @@ int main(int argc, char* argv[]) {
 		runTool(args);
 		return 0;
 	};
-
-	// init err reporter
-	err = new LoxError{};
 
 	if (argc <= 1)
 		runPrompt();
@@ -55,16 +57,15 @@ void runFile(char* filepath) {
 }
 
 void run(string& source) {
-	Scanner scanner(source);
+	Scanner scanner(source); // scan into tokens
 	vector<Token> tokens = scanner.scanTokens();
-	//printTokens(tokens);
 
-	Parser parser{ tokens };
+	Parser parser{ tokens }; // parse into AST
 	vector<Stmt*> statements = parser.parse();
 
 	if (err->hadError) exit(65);
 	if (err->hadRunError) exit(70);
 
-	// interpreting/executing
+	// interpret code
 	interpreter->interpret(statements);
 }

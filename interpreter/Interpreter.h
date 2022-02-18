@@ -1,7 +1,7 @@
 #pragma once
 #include "../include.h"
 #include "../parser/Expr.hpp"
-#include "../mylox.h"
+#include "../cmm.h"
 #include "LoxType.h"
 #include "Environment.h"
 

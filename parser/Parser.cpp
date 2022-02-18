@@ -1,3 +1,4 @@
+// parses tokens into an Abstract Syntax Tree
 #include "Parser.h"
 #include "../tools/LoxError.h"
 #include "../tools/AstPrinter.h"
@@ -154,7 +155,7 @@ Expr* Parser::ternary() {
 	return condition;
 }
 
-Expr* Parser::Or () {
+Expr* Parser::Or() {
 	Expr* expr = And();
 
 	while (match({ OR })) {

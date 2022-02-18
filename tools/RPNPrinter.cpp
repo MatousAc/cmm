@@ -33,8 +33,8 @@ string RPNPrinter::collect(string name, vector<Expr*> expressions) {
 	auto cur = expressions.begin();
 	auto end = expressions.end();
 	while (cur != end) {
-		if (result.length() and 
-			result[result.length()-1] != ' ')
+		if (result.length() and
+			result[result.length() - 1] != ' ')
 			result += " ";
 		(*cur)->accept(this);
 		cur++;
