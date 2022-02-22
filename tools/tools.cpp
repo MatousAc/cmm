@@ -4,6 +4,41 @@
 #include "../tests/testStrComp.h"
 #include "../tests/testRPN.h"
 #include "../tests/testTernary.h"
+#include "../scanner/Scanner.h"
+
+bool isExpr(vector<Token> tokens) {
+	auto begin = tokens.begin();
+	auto end = tokens.end();
+	auto last = end - 1;
+	if (begin == end) return false;
+	else if ( // if first token is one of these:
+		((*begin).type == VAR) ||
+		((*begin).type == PRINT) ||
+		((*begin).type == FOR) ||
+		((*begin).type == WHILE) ||
+		((*begin).type == LEFT_BRACE) ||
+		((*begin).type == EoF) ||
+		((*begin).type ==  IF)
+		) { return false; }
+	else if ((*last).type != SEMICOLON) {
+		// doesn't begin with stmt keyword
+		// && doesn't end in ';'
+		return true;
+	}
+	else { // anything else does not qualify
+		return false;
+	}
+}
+
+// allows the repl to print expressions that are entered in
+string exprToPrint(string& line) {
+	Scanner scanner(line);
+	vector<Token> tokens = scanner.scanTokens();
+	if (isExpr(tokens)) {
+		line = "print " + line + " ;";
+	}
+	return line;
+}
 
 int runTool(vector<string> args) {
 	auto argc = args.size();

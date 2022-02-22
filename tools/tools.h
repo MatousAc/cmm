@@ -2,6 +2,7 @@
 #include "../include.h"
 #include "../scanner/Token.h"
 
+string exprToPrint(string& line);
 int runTool(vector<string> args);
 void testAstPrinter();
 template <typename T>
