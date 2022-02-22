@@ -33,8 +33,18 @@ void runPrompt() {
 		cout << "> ";
 		getline(cin, line, '\n');
 		if (line == "") break;
-		run(line);
-		err->hadError = false;
+		int code = run(line);
+		switch (code) {
+		case 65:
+			// keep going
+			err->hadError = false;
+			break;
+		case 70:
+			exit(70);
+			break;
+		default:
+			break;
+		}
 	}
 }
 
@@ -52,20 +62,33 @@ void runFile(char* filepath) {
 	program.resize(sb.st_size);
 	fread(const_cast<char*>(program.data()), sb.st_size, 1, file);
 	fclose(file);
-	run(program);
+	// run and czech for errors
+	int code = run(program);
+	switch (code) {
+	case 65:
+		exit(65);
+		break;
+	case 70:
+		exit(70);
+		break;
+	default:
+		break;
+	}
 	if (err->hadError) return;
 }
 
-void run(string& source) {
+int run(string& source) {
 	Scanner scanner(source); // scan into tokens
 	vector<Token> tokens = scanner.scanTokens();
 
 	Parser parser{ tokens }; // parse into AST
 	vector<Stmt*> statements = parser.parse();
 
-	if (err->hadError) exit(65);
-	if (err->hadRunError) exit(70);
+	// return codes for handling based on REPL/file exe
+	if (err->hadError) return 65;
+	if (err->hadRunError) return 70;
 
 	// interpret code
 	interpreter->interpret(statements);
+	return 0;
 }

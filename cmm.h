@@ -4,4 +4,4 @@
 
 void runPrompt();
 void runFile(char* filepath);
-void run(string& source);
+int run(string& source);

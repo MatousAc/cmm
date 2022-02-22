@@ -21,6 +21,7 @@ Stmt* Parser::declaration() {
 	}
 	catch (ParseError error) {
 		// keep parsing if possible
+
 		synchronize();
 		return NULL;
 	}
