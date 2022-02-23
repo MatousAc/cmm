@@ -6,26 +6,32 @@
 #include "../tests/testTernary.h"
 #include "../scanner/Scanner.h"
 
+bool match(TokenType type, vector<TokenType> types) {
+	auto curtype = types.begin();
+	auto end = types.end();
+	while (curtype != end) {
+		if (type == *curtype)
+			return true;
+		curtype++;
+	}
+	return false;
+}
+
 bool isExpr(vector<Token> tokens) {
 	auto begin = tokens.begin();
 	auto end = tokens.end();
-	auto last = end - 1;
+	auto last = end - 2;
 	if (begin == end) return false;
-	else if ( // if first token is one of these:
-		((*begin).type == VAR) ||
-		((*begin).type == PRINT) ||
-		((*begin).type == FOR) ||
-		((*begin).type == WHILE) ||
-		((*begin).type == LEFT_BRACE) ||
-		((*begin).type == EoF) ||
-		((*begin).type ==  IF)
-		) { return false; }
-	else if ((*last).type != SEMICOLON) {
+	else if (match((*begin).type, {
+		BREAK, CONTINUE, EXIT, VAR, PRINT,
+		FOR, WHILE, LEFT_BRACE, EoF, IF
+		})) {
+		return false;
+	} 	else if ((*last).type != SEMICOLON) {
 		// doesn't begin with stmt keyword
 		// && doesn't end in ';'
 		return true;
-	}
-	else { // anything else does not qualify
+	} else { // anything else does not qualify
 		return false;
 	}
 }
