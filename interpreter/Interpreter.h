@@ -21,6 +21,8 @@ private:
 
 	void visitBlock(const Block* statement) override;
 	void visitExpression(const Expression* statement) override;
+	void visitBreak(const Break* statement) override;
+	void visitContinue(const Continue* statement) override;
 	void visitExit(const Exit* statement) override;
 	void visitFor(const For* statement) override;
 	void visitIf(const If* statement) override;
@@ -36,7 +38,22 @@ private:
 	void visitUnary(const Unary* expression) override;
 	void visitTernary(const Ternary* expression) override;
 	void visitVariable(const Variable* expression) override;
+	
+	// exception unwinding
+	/*BreakExcept bex(Token token, string message);
+	ContinueExcept cex(Token token, string message);*/
 };
+
+struct BreakExcept : public runtime_error {
+	explicit BreakExcept(const string& message);
+	explicit BreakExcept();
+};
+
+struct ContinueExcept : public runtime_error {
+	explicit ContinueExcept(const string& message);
+	explicit ContinueExcept();
+};
+
 
 // global, stateful interpreter
 inline Interpreter* interpreter = new Interpreter;

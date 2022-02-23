@@ -5,6 +5,11 @@
 #include "../tools/helpers.h" // for instance_of
 #include <typeinfo>
 
+Parser::Parser(vector<Token> tokens)
+	: tokens{ tokens },
+	current{ 0 },
+	loopDepth{ 0 } {};
+
 // parsing statements
 vector<Stmt*> Parser::parse() {
 	vector<Stmt*> statements{};
@@ -19,7 +24,7 @@ Stmt* Parser::declaration() {
 		if (match({ VAR })) return varDeclaration();
 		return statement();
 	}
-	catch (ParseError error) {
+	catch (ParseExcept error) {
 		// keep parsing if possible
 
 		synchronize();
@@ -38,6 +43,8 @@ Stmt* Parser::varDeclaration() {
 }
 
 Stmt* Parser::statement() {
+	if (match({ BREAK })) return breakStatement();
+	if (match({ CONTINUE })) return continueStatement();
 	if (match({ EXIT })) return exitStatement();
 	if (match({ PRINT })) return printStatement();
 	if (match({ FOR })) return forStatement();
@@ -47,8 +54,24 @@ Stmt* Parser::statement() {
 	return expressionStatement();
 }
 
+Stmt* Parser::breakStatement() {
+	if (!inLoop())
+		throw pex(previous(),
+			"'break' must be inside while or for loop");
+	consume(SEMICOLON, "Expect ';' after 'break'.");
+	return new Break();
+}
+
+Stmt* Parser::continueStatement() {
+	if (!inLoop())
+		throw pex(previous(),
+			"'continue' must be inside while or for loop");
+	consume(SEMICOLON, "Expect ';' after 'continue'.");
+	return new Continue();
+}
+
 Stmt* Parser::exitStatement() {
-	consume(SEMICOLON, "Expect ';' after exit.");
+	consume(SEMICOLON, "Expect ';' after 'exit'.");
 	return new Exit();
 }
 
@@ -75,8 +98,11 @@ Stmt* Parser::forStatement() {
 		increment = expression();
 	}
 	consume(RIGHT_PAREN, "Expect ')' after increment.");
+
+	loopDepth++;
 	// body
 	Stmt* body = statement();
+	loopDepth--;
 	return new For(initializer, condition, increment, body);
 }
 
@@ -84,8 +110,9 @@ Stmt* Parser::whileStatement() {
 	consume(LEFT_PAREN, "Expect '(' after 'while'.");
 	Expr* condition = expression();
 	consume(RIGHT_PAREN, "Expect ')' after condition.");
+	loopDepth++;
 	Stmt* body = statement();
-
+	loopDepth--;
 	return new While(condition, body);
 }
 
@@ -141,7 +168,7 @@ Expr* Parser::assignment() {
 			return new Assign(name, value);
 		}
 
-		perr(equals, "Invalid assignment target.");
+		pex(equals, "Invalid assignment target.");
 	}
 	return expression;
 }
@@ -154,7 +181,7 @@ Expr* Parser::ternary() {
 		ifTrue = expression();
 		if (!match({ COLON })) {
 			advance(); // get to the EoF
-			throw perr(previous(), "Expect '?' to have matching ':'.");
+			throw pex(previous(), "Expect '?' to have matching ':'.");
 		}
 		ifFalse = expression();
 		return new Ternary(condition, ifTrue, ifFalse);
@@ -257,7 +284,7 @@ Expr* Parser::primary() {
 		consume(RIGHT_PAREN, "Expect ')' after expression.");
 		return new Grouping(expressionVar);
 	}
-	throw perr(peek(), "Expected expression match ");
+	throw pex(peek(), "Expected expression match ");
 }
 
 // helpers
@@ -282,7 +309,7 @@ bool Parser::check(TokenType type) {
 
 Token Parser::consume(TokenType type, string message) {
 	if (check(type)) return advance();
-	throw perr(peek(), message);
+	throw pex(peek(), message);
 }
 
 Token Parser::advance() {
@@ -298,9 +325,9 @@ Token Parser::peek() { return tokens[current]; }
 Token Parser::previous() { return tokens[current - 1]; }
 
 // errors
-ParseError Parser::perr(Token token, string message) {
+ParseExcept Parser::pex(Token token, string message) {
 	err->error(token, message);
-	return ParseError();
+	return ParseExcept();
 }
 
 void Parser::synchronize() {
@@ -325,5 +352,7 @@ void Parser::synchronize() {
 	}
 }
 
-ParseError::ParseError() : runtime_error{ "" } {}
-ParseError::ParseError(const string& message) : runtime_error{ message.c_str() } {}
+ParseExcept::ParseExcept() : runtime_error{ "" } {}
+ParseExcept::ParseExcept(const string& message) : runtime_error{ message.c_str() } {}
+
+bool Parser::inLoop() { return loopDepth > 0; }

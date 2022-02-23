@@ -83,6 +83,7 @@ void runFile(char* filepath) {
 int run(string& source) {
 	Scanner scanner(source); // scan into tokens
 	vector<Token> tokens = scanner.scanTokens();
+	//printTokens(tokens);
 
 	Parser parser{ tokens }; // parse into AST
 	vector<Stmt*> statements = parser.parse();

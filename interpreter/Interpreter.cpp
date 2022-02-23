@@ -2,6 +2,10 @@
 #include "Interpreter.h"
 #include "../tools/LoxError.h"
 
+// protos
+struct BreakExcept;
+struct CountinueExcept;
+
 // public
 Interpreter::Interpreter() :
 	result{},
@@ -55,6 +59,12 @@ void Interpreter::visitBlock(const Block* statement) {
 void Interpreter::visitExpression(const Expression* statement) {
 	evaluate(statement->expression);
 }
+void Interpreter::visitBreak(const Break* statement) {
+	throw new BreakExcept();
+}
+void Interpreter::visitContinue(const Continue* statement) {
+	throw new ContinueExcept();
+}
 void Interpreter::visitExit(const Exit* statement) {
 	exit(0); // we just quit the interpreter here
 }
@@ -64,7 +74,9 @@ void Interpreter::visitFor(const For* statement) {
 	// loop
 	evaluate(statement->condition);
 	while (getResult().isTruthy()) {
-		execute(statement->body);
+		try { execute(statement->body); }
+		catch (BreakExcept) { break; }
+		catch (ContinueExcept) {} // try to increment and eval cond.
 		if (statement->increment != nullptr)
 			evaluate(statement->increment);
 		evaluate(statement->condition);
@@ -93,8 +105,10 @@ void Interpreter::visitVar(const Var* statement) {
 }
 void Interpreter::visitWhile(const While* statement) {
 	evaluate(statement->condition); // eval condition
-	while (getResult().isTruthy()) { // czech condition
-		execute(statement->body);
+	while (getResult().isTruthy()) { // check condition
+		try { execute(statement->body); }
+		catch (BreakExcept) { break; }
+		catch (ContinueExcept) {} // eval condition
 		evaluate(statement->condition);
 	}
 }
@@ -191,3 +205,19 @@ void Interpreter::visitTernary(const Ternary* expression) {
 void Interpreter::visitVariable(const Variable* expression) {
 	result = environment->get(expression->name);
 }
+
+// exceptions (may not need bex and cex)
+//BreakExcept Interpreter::bex(Token token, string message) {
+//	err->error(token, message);
+//	return BreakExcept();
+//}
+//ContinueExcept Interpreter::cex(Token token, string message) {
+//	err->error(token, message);
+//	return ContinueExcept();
+//}
+
+BreakExcept::BreakExcept() : runtime_error{ "" } {}
+BreakExcept::BreakExcept(const string& message) : runtime_error{ message.c_str() } {}
+
+ContinueExcept::ContinueExcept() : runtime_error{ "" } {}
+ContinueExcept::ContinueExcept(const string& message) : runtime_error{ message.c_str() } {}

@@ -5,24 +5,23 @@
 #include "Stmt.hpp"
 using std::runtime_error;
 
-// errors
-struct ParseError : public runtime_error {
-	//here we're using base = runtime_error;
-	explicit ParseError(const string& message);
-	explicit ParseError();
-};
+// protos
+struct ParseExcept;
 
 class Parser {
 	vector<Token> tokens;
 	int current;
+	int loopDepth;
 
 public: // constructor
-	Parser(vector<Token> tokens) : tokens{ tokens }, current{ 0 } {};
+	Parser(vector<Token> tokens);
 	vector<Stmt*> parse();
 private:
 	Stmt* declaration();
 	Stmt* varDeclaration();
 	Stmt* statement();
+	Stmt* breakStatement();
+	Stmt* continueStatement();
 	Stmt* exitStatement();
 	Stmt* forStatement();
 	Stmt* whileStatement();
@@ -53,7 +52,15 @@ private:
 	Token previous();
 
 	// errors
-	ParseError perr(Token token, string message);
+	ParseExcept pex(Token token, string message);
+
 	void synchronize();
+	bool inLoop();
+};
+
+struct ParseExcept : public runtime_error {
+	//here we're using base = runtime_error;
+	explicit ParseExcept(const string& message);
+	explicit ParseExcept();
 };
 
