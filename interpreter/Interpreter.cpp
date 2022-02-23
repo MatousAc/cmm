@@ -55,6 +55,9 @@ void Interpreter::visitBlock(const Block* statement) {
 void Interpreter::visitExpression(const Expression* statement) {
 	evaluate(statement->expression);
 }
+void Interpreter::visitExit(const Exit* statement) {
+	exit(0); // we just quit the interpreter here
+}
 void Interpreter::visitFor(const For* statement) {
 	if (statement->initializer != nullptr) // init
 		execute(statement->initializer);

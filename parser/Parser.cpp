@@ -38,12 +38,18 @@ Stmt* Parser::varDeclaration() {
 }
 
 Stmt* Parser::statement() {
+	if (match({ EXIT })) return exitStatement();
 	if (match({ PRINT })) return printStatement();
 	if (match({ FOR })) return forStatement();
 	if (match({ WHILE })) return whileStatement();
 	if (match({ LEFT_BRACE })) return new Block(block());
 	if (match({ IF })) return ifStatement();
 	return expressionStatement();
+}
+
+Stmt* Parser::exitStatement() {
+	consume(SEMICOLON, "Expect ';' after exit.");
+	return new Exit();
 }
 
 Stmt* Parser::forStatement() {

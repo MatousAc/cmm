@@ -21,6 +21,7 @@ private:
 
 	void visitBlock(const Block* statement) override;
 	void visitExpression(const Expression* statement) override;
+	void visitExit(const Exit* statement) override;
 	void visitFor(const For* statement) override;
 	void visitIf(const If* statement) override;
 	void visitPrint(const Print* statement) override;

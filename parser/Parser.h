@@ -23,6 +23,7 @@ private:
 	Stmt* declaration();
 	Stmt* varDeclaration();
 	Stmt* statement();
+	Stmt* exitStatement();
 	Stmt* forStatement();
 	Stmt* whileStatement();
 	Stmt* ifStatement();
