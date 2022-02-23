@@ -48,7 +48,7 @@ void Interpreter::executeBlock(vector<Stmt*> statements,
 			execute(statement);
 		}
 	}
-	catch (runtime_error) {}
+	catch (RunError) {}
 	this->environment = previous;
 }
 
@@ -60,10 +60,10 @@ void Interpreter::visitExpression(const Expression* statement) {
 	evaluate(statement->expression);
 }
 void Interpreter::visitBreak(const Break* statement) {
-	throw new BreakExcept();
+	throw BreakExcept();
 }
 void Interpreter::visitContinue(const Continue* statement) {
-	throw new ContinueExcept();
+	throw ContinueExcept();
 }
 void Interpreter::visitExit(const Exit* statement) {
 	exit(0); // we just quit the interpreter here
@@ -107,8 +107,8 @@ void Interpreter::visitWhile(const While* statement) {
 	evaluate(statement->condition); // eval condition
 	while (getResult().isTruthy()) { // check condition
 		try { execute(statement->body); }
-		catch (BreakExcept) { break; }
-		catch (ContinueExcept) {} // eval condition
+		catch (BreakExcept brk) { break; }
+		catch (ContinueExcept cnt) {} // eval condition
 		evaluate(statement->condition);
 	}
 }
