@@ -107,4 +107,3 @@ struct While : Stmt {
 		visitor->visitWhile(this);
 	}
 };
-

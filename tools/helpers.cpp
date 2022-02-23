@@ -57,4 +57,3 @@ string repeat(string str, const size_t n) {
 	return str;
 }
 
-

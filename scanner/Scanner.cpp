@@ -13,6 +13,7 @@ Scanner::Scanner(string source)
 	keywords["and"] = AND;
 	keywords["class"] = CLASS;
 	keywords["else"] = ELSE;
+	keywords["exit"] = EXIT;
 	keywords["false"] = FALSE;
 	keywords["fun"] = FUN;
 	keywords["for"] = FOR;
