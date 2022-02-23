@@ -2,6 +2,8 @@
 #include "Expr.hpp"
 
 struct Block;
+struct Break;
+struct Continue;
 struct Expression;
 struct Exit;
 struct For;
@@ -12,6 +14,8 @@ struct While;
 
 struct StmtVisitor {
     virtual void visitBlock(const Block* stmt) = 0;
+    virtual void visitBreak(const Break* stmt) = 0;
+    virtual void visitContinue(const Continue* stmt) = 0;
     virtual void visitExpression(const Expression* stmt) = 0;
     virtual void visitExit(const Exit* stmt) = 0;
     virtual void visitFor(const For* stmt) = 0;
@@ -34,6 +38,22 @@ struct Block : Stmt {
 
     void accept(StmtVisitor* visitor) override {
         visitor->visitBlock(this);
+    }
+};
+
+struct Break : Stmt {
+    Break() {}
+
+    void accept(StmtVisitor* visitor) override {
+        visitor->visitBreak(this);
+    }
+};
+
+struct Continue : Stmt {
+    Continue() {}
+
+    void accept(StmtVisitor* visitor) override {
+        visitor->visitContinue(this);
     }
 };
 

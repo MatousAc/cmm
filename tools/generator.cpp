@@ -26,6 +26,8 @@ void generator(vector<string> args) {
 	writeSyntax(outputDir, "Stmt",
 		{ "Expr.hpp" }, {
 		"Block : vector<Stmt*> statements",
+			"Break",
+			"Continue",
 			"Expression	: Expr* expression",
 			"Exit",
 			"For : Stmt* initializer, Expr* condition, Expr* increment, Stmt* body",
