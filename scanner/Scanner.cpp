@@ -11,6 +11,8 @@ Scanner::Scanner(string source)
 	start{ 0 }, current{ 0 }, line{ 1 } {
 	// initilize keywords
 	keywords["and"] = AND;
+	keywords["break"] = BREAK;
+	keywords["continue"] = CONTINUE;
 	keywords["class"] = CLASS;
 	keywords["else"] = ELSE;
 	keywords["exit"] = EXIT;
