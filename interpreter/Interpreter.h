@@ -37,11 +37,7 @@ private:
 	void visitLiteral(const Literal* expression) override;
 	void visitUnary(const Unary* expression) override;
 	void visitTernary(const Ternary* expression) override;
-	void visitVariable(const Variable* expression) override;
-	
-	// exception unwinding
-	/*BreakExcept bex(Token token, string message);
-	ContinueExcept cex(Token token, string message);*/
+	void visitVariable(const Variable* expression) override;	
 };
 
 struct BreakExcept : public runtime_error {

@@ -22,8 +22,11 @@ private:
 	Stmt* statement();
 	Stmt* breakStatement();
 	Stmt* continueStatement();
+	Stmt* caseStatement(Expr* switchOn);
+	Stmt* defaultCaseStatement();
 	Stmt* exitStatement();
 	Stmt* forStatement();
+	Stmt* switchStatement();
 	Stmt* whileStatement();
 	Stmt* ifStatement();
 	Stmt* printStatement();

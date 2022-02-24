@@ -206,16 +206,7 @@ void Interpreter::visitVariable(const Variable* expression) {
 	result = environment->get(expression->name);
 }
 
-// exceptions (may not need bex and cex)
-//BreakExcept Interpreter::bex(Token token, string message) {
-//	err->error(token, message);
-//	return BreakExcept();
-//}
-//ContinueExcept Interpreter::cex(Token token, string message) {
-//	err->error(token, message);
-//	return ContinueExcept();
-//}
-
+// exceptions
 BreakExcept::BreakExcept() : runtime_error{ "" } {}
 BreakExcept::BreakExcept(const string& message) : runtime_error{ message.c_str() } {}
 

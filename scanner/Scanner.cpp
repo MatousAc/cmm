@@ -12,8 +12,10 @@ Scanner::Scanner(string source)
 	// initilize keywords
 	keywords["and"] = AND;
 	keywords["break"] = BREAK;
+	keywords["case"] = CASE;
 	keywords["continue"] = CONTINUE;
 	keywords["class"] = CLASS;
+	keywords["default"] = DEFAULT;
 	keywords["else"] = ELSE;
 	keywords["exit"] = EXIT;
 	keywords["false"] = FALSE;
@@ -25,6 +27,7 @@ Scanner::Scanner(string source)
 	keywords["print"] = PRINT;
 	keywords["return"] = RETURN;
 	keywords["super"] = SUPER;
+	keywords["switch"] = SWITCH;
 	keywords["this"] = THIS;
 	keywords["true"] = TRUE;
 	keywords["var"] = VAR;

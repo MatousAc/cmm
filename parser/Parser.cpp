@@ -44,10 +44,15 @@ Stmt* Parser::varDeclaration() {
 
 Stmt* Parser::statement() {
 	if (match({ BREAK })) return breakStatement();
+	if (match({ CASE })) throw pex(previous(),
+		"'case' must be inside switch statement");
 	if (match({ CONTINUE })) return continueStatement();
+	if (match({ DEFAULT })) throw pex(previous(),
+		"'default' must be inside switch statement");
 	if (match({ EXIT })) return exitStatement();
 	if (match({ PRINT })) return printStatement();
 	if (match({ FOR })) return forStatement();
+	if (match({ SWITCH })) return switchStatement();
 	if (match({ WHILE })) return whileStatement();
 	if (match({ LEFT_BRACE })) return new Block(block());
 	if (match({ IF })) return ifStatement();
@@ -62,12 +67,36 @@ Stmt* Parser::breakStatement() {
 	return new Break();
 }
 
+Stmt* Parser::caseStatement(Expr* switchOn) {
+	// collect case (desugaring to if-else)
+	Token eq(EQUAL_EQUAL, "==", NULL, NULL);
+	Expr* compareTo = expression();
+	Expr* condition = new Binary(switchOn, eq, compareTo);
+	consume(COLON, "Expect ':' after case expression.");
+	Stmt* body = statement(); // grab one statement
+
+	// get any more cases
+	Stmt* nextCase = nullptr;
+	if (match({ CASE }))
+		nextCase = caseStatement(switchOn);
+	else if (match({ DEFAULT }))
+		nextCase = defaultCaseStatement();
+
+	// reverse recursive constuction of if-else statements:
+	return new If(condition, body, nextCase);
+}
+
 Stmt* Parser::continueStatement() {
 	if (!inLoop())
 		throw pex(previous(),
 			"'continue' must be inside while or for loop");
 	consume(SEMICOLON, "Expect ';' after 'continue'.");
 	return new Continue();
+}
+
+Stmt* Parser::defaultCaseStatement() {
+	consume(COLON, "Expect ':' after default.");
+	return statement();
 }
 
 Stmt* Parser::exitStatement() {
@@ -104,6 +133,17 @@ Stmt* Parser::forStatement() {
 	Stmt* body = statement();
 	loopDepth--;
 	return new For(initializer, condition, increment, body);
+}
+
+Stmt* Parser::switchStatement() {
+	Stmt* body = nullptr;
+	Expr* switchOn = expression();
+	consume(LEFT_BRACE, "Expect '{' after switch expression.");
+	if (match({ CASE })) {
+		body = caseStatement(switchOn);
+	}
+	consume(RIGHT_BRACE, "Expect '}' after switch statement.");
+	return body;
 }
 
 Stmt* Parser::whileStatement() {
@@ -342,9 +382,10 @@ void Parser::synchronize() {
 		case VAR:
 		case FOR:
 		case IF:
-		case WHILE:
 		case PRINT:
 		case RETURN:
+		case SWITCH:
+		case WHILE:
 			return;
 		}
 
