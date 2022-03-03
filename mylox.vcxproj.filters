@@ -63,9 +63,6 @@
     <ClCompile Include="tools\helpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="interpreter\ClockCallable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cmm.h">
@@ -134,7 +131,7 @@
     <ClInclude Include="interpreter\LoxCallable.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="interpreter\ClockCallable.h">
+    <ClInclude Include="interpreter\Clock.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

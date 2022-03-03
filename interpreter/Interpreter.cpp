@@ -3,6 +3,7 @@
 #include "../tools/LoxError.h"
 #include "LoxCallable.hpp"
 #include "../tools/helpers.h"
+#include "Clock.hpp"
 
 // protos
 struct BreakExcept;
@@ -14,7 +15,7 @@ Interpreter::Interpreter() :
 	globals{ new Environment{} },
 	environment{ this->globals },
 	curToken{ EoF, "start", NULL, -1 } {
-	globals->define("clock", new ClockCallable{})
+	globals->define("clock", new Clock{});
 };
 
 void Interpreter::interpret(vector<Stmt*> statements) {
@@ -178,12 +179,12 @@ void Interpreter::visitCall(const Call* expression) {
 		arguments.push_back(getResult());
 	}
 
-	if (!instanceof<LoxCallable>(&callee)) { // FIXME - does this really work??
-		throw new RunError(expression->paren,
-			"Can only call functions and classes.");
-	}
+	//if (!instanceof<LoxCallable>(&callee)) { // FIXME - doesn't really work
+	//	throw new RunError(expression->paren,
+	//		"Can only call functions and classes.");
+	//}
 
-	LoxCallable function = (LoxCallable)callee;
+	LoxCallable function = (LoxCallable) callee;
 	if (arguments.size() != function.arity()) {
 	throw new RunError(expression->paren, "Expected " +
 		to_string(function.arity()) + " arguments but got " +

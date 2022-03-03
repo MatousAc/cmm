@@ -145,7 +145,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="interpreter\ClockCallable.cpp" />
     <ClCompile Include="tools\helpers.cpp" />
     <ClCompile Include="interpreter\Environment.cpp" />
     <ClCompile Include="interpreter\Interpreter.cpp" />
@@ -164,7 +163,7 @@
     <ClCompile Include="tools\tools.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="interpreter\ClockCallable.h" />
+    <ClInclude Include="interpreter\Clock.hpp" />
     <ClInclude Include="interpreter\LoxCallable.hpp" />
     <ClInclude Include="tools\helpers.h" />
     <ClInclude Include="interpreter\Environment.h" />

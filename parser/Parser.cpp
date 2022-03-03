@@ -314,6 +314,7 @@ Expr* Parser::call() {
 			break;
 		}
 	}
+	return expression;
 }
 
 Expr* Parser::primary() {
