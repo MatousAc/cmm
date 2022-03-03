@@ -11,7 +11,7 @@ struct Environment {
 
 	Environment* enclosing;
 	Environment(Environment* enclosing = nullptr);
-	void define(Token name, LoxType value);
+	void define(string name, LoxType value);
 	void assign(Token name, LoxType value);
 	LoxType get(Token name);
 };

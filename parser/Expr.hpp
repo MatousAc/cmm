@@ -2,6 +2,7 @@
 #include "../scanner/Token.h"
 
 struct Assign;
+struct Call;
 struct Binary;
 struct Grouping;
 struct Literal;
@@ -12,6 +13,7 @@ struct Variable;
 
 struct ExprVisitor {
     virtual void visitAssign(const Assign* expr) = 0;
+    virtual void visitCall(const Call* expr) = 0;
     virtual void visitBinary(const Binary* expr) = 0;
     virtual void visitGrouping(const Grouping* expr) = 0;
     virtual void visitLiteral(const Literal* expr) = 0;
@@ -35,6 +37,19 @@ struct Assign : Expr {
 
     void accept(ExprVisitor* visitor) override {
         visitor->visitAssign(this);
+    }
+};
+
+struct Call : Expr {
+    Expr* callee;
+    Token paren;
+    vector<Expr*> arguments;
+
+    Call(Expr* callee, Token paren, vector<Expr*> arguments)
+        :callee{ callee }, paren{ paren }, arguments{ arguments } {}
+
+    void accept(ExprVisitor* visitor) override {
+        visitor->visitCall(this);
     }
 };
 

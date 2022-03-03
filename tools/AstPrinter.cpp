@@ -13,6 +13,9 @@ void AstPrinter::visitBinary(const Binary* expression) {
 		vector{ expression->left, expression->right }
 	);
 }
+void AstPrinter::visitCall(const Call* expression) {
+	// do nothing for now
+}
 void AstPrinter::visitGrouping(const Grouping* expression) {
 	parenthesize("group", vector{ expression->expression });
 }

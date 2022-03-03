@@ -12,6 +12,7 @@ public:
 	LoxType getResult();
 private:
 	LoxType result;
+	Environment* globals;
 	Environment* environment;
 	Token curToken; // for error reporting
 
@@ -20,10 +21,10 @@ private:
 	void executeBlock(vector<Stmt*> statements, Environment* environment);
 
 	void visitBlock(const Block* statement) override;
-	void visitExpression(const Expression* statement) override;
 	void visitBreak(const Break* statement) override;
 	void visitContinue(const Continue* statement) override;
 	void visitExit(const Exit* statement) override;
+	void visitExpression(const Expression* statement) override;
 	void visitFor(const For* statement) override;
 	void visitIf(const If* statement) override;
 	void visitPrint(const Print* statement) override;
@@ -32,6 +33,7 @@ private:
 
 	void visitAssign(const Assign* expression) override;
 	void visitBinary(const Binary* expression) override;
+	void visitCall(const Call* expression) override;
 	void visitGrouping(const Grouping* expression) override;
 	void visitLogical(const Logical* expression) override;
 	void visitLiteral(const Literal* expression) override;

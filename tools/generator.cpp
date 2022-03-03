@@ -15,6 +15,7 @@ void generator(vector<string> args) {
 	writeSyntax(outputDir, "Expr",
 		{ "../scanner/Token.h" }, {
 		"Assign : Token name, Expr* value",
+			"Call : Expr* callee, Token paren, vector<Expr*> arguments",
 			"Binary : Expr* left, Token op, Expr* right",
 			"Grouping : Expr* expression",
 			"Literal : LoxType value",

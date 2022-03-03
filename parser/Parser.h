@@ -43,9 +43,11 @@ private:
 	Expr* term();
 	Expr* factor();
 	Expr* unary();
+	Expr* call();
 	Expr* primary();
 
 	// helpers
+	Expr* finishCall(Expr* callee);
 	bool match(vector<TokenType> types);
 	Token consume(TokenType type, string message);
 	bool check(TokenType type);

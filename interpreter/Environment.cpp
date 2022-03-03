@@ -4,8 +4,8 @@ Environment::Environment(Environment* enclosing)
 	: values{},
 	enclosing{ enclosing } {}
 
-void Environment::define(Token name, LoxType value) {
-	values[name.lexeme] = value;
+void Environment::define(string name, LoxType value) {
+	values[name] = value;
 }
 
 void Environment::assign(Token name, LoxType value) {

@@ -301,7 +301,19 @@ Expr* Parser::unary() {
 		Expr* right = unary();
 		return new Unary(op, right);
 	}
-	return primary();
+	return call();
+}
+
+Expr* Parser::call() {
+	Expr* expression = primary();
+
+	while (true) {
+		if (match({ LEFT_PAREN })) {
+			expression = finishCall(expression);
+		} else {
+			break;
+		}
+	}
 }
 
 Expr* Parser::primary() {
@@ -328,6 +340,24 @@ Expr* Parser::primary() {
 }
 
 // helpers
+Expr* Parser::finishCall(Expr* callee) {
+	vector<Expr*> arguments{};
+	if (!check(RIGHT_PAREN)) {
+		do {
+			if (arguments.size() >= 255) {
+				err->error(peek(), 
+				"Can't have more than 255 arguments.");
+			}
+			arguments.push_back(expression());
+		} while (match({ COMMA }));
+	}
+
+	Token paren = consume(RIGHT_PAREN,
+		"Expect ')' after arguments.");
+
+	return new Call(callee, paren, arguments);
+}
+
 bool Parser::match(vector<TokenType> types) {
 	auto type = types.begin();
 	auto end = types.end();

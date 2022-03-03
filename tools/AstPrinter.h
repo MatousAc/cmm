@@ -10,6 +10,7 @@ public:
 
 	void visitAssign(const Assign* expression) override;
 	void visitBinary(const Binary* expression) override;
+	void visitCall(const Call* expression) override;
 	void visitGrouping(const Grouping* expression) override;
 	void visitLiteral(const Literal* expression) override;
 	void visitLogical(const Logical* expression) override;

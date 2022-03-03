@@ -1,6 +1,8 @@
 // interprets the Abstract Syntax Tree
 #include "Interpreter.h"
 #include "../tools/LoxError.h"
+#include "LoxCallable.hpp"
+#include "../tools/helpers.h"
 
 // protos
 struct BreakExcept;
@@ -9,8 +11,12 @@ struct CountinueExcept;
 // public
 Interpreter::Interpreter() :
 	result{},
-	environment{ new Environment{} },
-	curToken{ EoF, "start", NULL, -1 } {};
+	globals{ new Environment{} },
+	environment{ this->globals },
+	curToken{ EoF, "start", NULL, -1 } {
+	globals->define("clock", new ClockCallable{})
+};
+
 void Interpreter::interpret(vector<Stmt*> statements) {
 	try {
 		auto statement = statements.begin();
@@ -101,7 +107,7 @@ void Interpreter::visitVar(const Var* statement) {
 		evaluate(statement->initializer);
 		value = getResult();
 	}
-	environment->define(statement->name, value);
+	environment->define(statement->name.lexeme , value);
 }
 void Interpreter::visitWhile(const While* statement) {
 	evaluate(statement->condition); // eval condition
@@ -161,6 +167,29 @@ void Interpreter::visitBinary(const Binary* expression) {
 	default:
 		break;
 	}
+}
+void Interpreter::visitCall(const Call* expression) {
+	evaluate(expression->callee);
+	LoxType callee = getResult();
+
+	vector<LoxType> arguments{};
+	for (auto argument : expression->arguments) {
+		evaluate(argument);
+		arguments.push_back(getResult());
+	}
+
+	if (!instanceof<LoxCallable>(&callee)) { // FIXME - does this really work??
+		throw new RunError(expression->paren,
+			"Can only call functions and classes.");
+	}
+
+	LoxCallable function = (LoxCallable)callee;
+	if (arguments.size() != function.arity()) {
+	throw new RunError(expression->paren, "Expected " +
+		to_string(function.arity()) + " arguments but got " +
+		to_string(arguments.size()) + ".");
+	}
+	result = function.call(this, arguments);
 }
 void Interpreter::visitGrouping(const Grouping* expression) {
 	evaluate(expression->expression);
