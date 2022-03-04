@@ -31,6 +31,7 @@ private:
 	Stmt* ifStatement();
 	Stmt* printStatement();
 	Stmt* expressionStatement();
+	Stmt* function(string kind);
 	vector<Stmt*> block();
 
 	Expr* expression();

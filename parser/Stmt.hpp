@@ -7,6 +7,7 @@ struct Continue;
 struct Expression;
 struct Exit;
 struct For;
+struct Function;
 struct If;
 struct Print;
 struct Var;
@@ -19,6 +20,7 @@ struct StmtVisitor {
     virtual void visitExpression(const Expression* stmt) = 0;
     virtual void visitExit(const Exit* stmt) = 0;
     virtual void visitFor(const For* stmt) = 0;
+    virtual void visitFunction(const Function* stmt) = 0;
     virtual void visitIf(const If* stmt) = 0;
     virtual void visitPrint(const Print* stmt) = 0;
     virtual void visitVar(const Var* stmt) = 0;
@@ -87,6 +89,20 @@ struct For : Stmt {
 
     void accept(StmtVisitor* visitor) override {
         visitor->visitFor(this);
+    }
+};
+//"Function : Token name, vector<Token> params, vector<Stmt*> body",
+
+struct Function : Stmt {
+    Token name;
+    vector<Token> params;
+    Stmt* body;
+
+    Function(Token name, vector<Token> params, Stmt* body)
+        :name{ name }, params{ params }, body{ body } {}
+
+    void accept(StmtVisitor* visitor) override {
+        visitor->visitFunction(this);
     }
 };
 
