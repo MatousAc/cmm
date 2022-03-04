@@ -23,13 +23,13 @@ void Environment::assign(Token name, LoxType value) {
 		"Undefined variable '" + name.lexeme + "'.");
 }
 
-LoxType Environment::get(Token name) {
+LoxType Environment::grab(Token name) {
 	// search in current scope
 	if (values.find(name.lexeme) != values.end())
 		return values[name.lexeme];
 	// search in enclosing scope
 	if (enclosing != nullptr)
-		return enclosing->get(name);
+		return enclosing->grab(name);
 
 	throw new RunError(name,
 		"Undefined variable '" + name.lexeme + "'.");

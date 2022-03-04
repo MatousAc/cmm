@@ -15,7 +15,16 @@ Interpreter::Interpreter() :
 	globals{ new Environment{} },
 	environment{ this->globals },
 	curToken{ EoF, "start", NULL, -1 } {
-	globals->define("clock", new Clock{});
+	globals->define("clock", new ClockFunction{});
+	//globals->define("clock", class : LoxCallable {
+	//	int arity() override { return 0; }
+	//	LoxType call(Interpreter* interpreter, vector<LoxType> arguments) {
+	//		return (double)duration_cast<milliseconds>(
+	//			time_point_cast<milliseconds>(system_clock::now()
+	//				).time_since_epoch()).count() / 1000;
+	//	}
+	//	string toString() { return "<native fn>"; }
+	//})
 };
 
 void Interpreter::interpret(vector<Stmt*> statements) {
@@ -179,18 +188,18 @@ void Interpreter::visitCall(const Call* expression) {
 		arguments.push_back(getResult());
 	}
 
-	//if (!instanceof<LoxCallable>(&callee)) { // FIXME - doesn't really work
-	//	throw new RunError(expression->paren,
-	//		"Can only call functions and classes.");
-	//}
+	if (holds_alternative<LoxCallable*>(callee.value)) { // FIXME - doesn't really work
+		throw new RunError(expression->paren,
+			"Can only call functions and classes.");
+	}
 
-	LoxCallable function = (LoxCallable) callee;
-	if (arguments.size() != function.arity()) {
+	LoxCallable* function = get<LoxCallable*>(callee.value);
+	if (arguments.size() != function->arity()) {
 	throw new RunError(expression->paren, "Expected " +
-		to_string(function.arity()) + " arguments but got " +
+		to_string(function->arity()) + " arguments but got " +
 		to_string(arguments.size()) + ".");
 	}
-	result = function.call(this, arguments);
+	result = function->call(this, arguments);
 }
 void Interpreter::visitGrouping(const Grouping* expression) {
 	evaluate(expression->expression);
@@ -233,7 +242,7 @@ void Interpreter::visitTernary(const Ternary* expression) {
 		expression->ifFalse->accept(this);
 }
 void Interpreter::visitVariable(const Variable* expression) {
-	result = environment->get(expression->name);
+	result = environment->grab(expression->name);
 }
 
 // exceptions

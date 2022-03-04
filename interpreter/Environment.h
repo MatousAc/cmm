@@ -13,5 +13,5 @@ struct Environment {
 	Environment(Environment* enclosing = nullptr);
 	void define(string name, LoxType value);
 	void assign(Token name, LoxType value);
-	LoxType get(Token name);
+	LoxType grab(Token name);
 };
