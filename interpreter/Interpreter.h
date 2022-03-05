@@ -3,6 +3,7 @@
 #include "../parser/Expr.hpp"
 #include "../cmm.h"
 #include "LoxType.h"
+#include "LoxFunction.h"
 #include "Environment.h"
 
 class Interpreter : ExprVisitor, StmtVisitor {
@@ -40,6 +41,9 @@ private:
 	void visitUnary(const Unary* expression) override;
 	void visitTernary(const Ternary* expression) override;
 	void visitVariable(const Variable* expression) override;	
+	// friends!
+	friend LoxType LoxFunction::call(
+		Interpreter* interpreter, vector<LoxType> arguments);
 };
 
 struct BreakExcept : public runtime_error {

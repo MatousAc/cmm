@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="interpreter\LoxType.cpp" />
+    <ClCompile Include="interpreter\LoxFunction.cpp" />
     <ClCompile Include="tools\helpers.cpp" />
     <ClCompile Include="interpreter\Environment.cpp" />
     <ClCompile Include="interpreter\Interpreter.cpp" />
@@ -164,8 +165,9 @@
     <ClCompile Include="tools\tools.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="interpreter\Clock.hpp" />
+    <ClInclude Include="interpreter\ClockFunction.hpp" />
     <ClInclude Include="interpreter\LoxCallable.hpp" />
+    <ClInclude Include="interpreter\LoxFunction.h" />
     <ClInclude Include="tools\helpers.h" />
     <ClInclude Include="interpreter\Environment.h" />
     <ClInclude Include="interpreter\Interpreter.h" />

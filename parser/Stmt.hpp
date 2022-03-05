@@ -91,14 +91,13 @@ struct For : Stmt {
         visitor->visitFor(this);
     }
 };
-//"Function : Token name, vector<Token> params, vector<Stmt*> body",
 
 struct Function : Stmt {
     Token name;
     vector<Token> params;
-    Stmt* body;
+    vector<Stmt*> body;
 
-    Function(Token name, vector<Token> params, Stmt* body)
+    Function(Token name, vector<Token> params, vector<Stmt*> body)
         :name{ name }, params{ params }, body{ body } {}
 
     void accept(StmtVisitor* visitor) override {

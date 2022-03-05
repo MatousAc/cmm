@@ -3,7 +3,7 @@
 #include "../tools/LoxError.h"
 #include "LoxCallable.hpp"
 #include "../tools/helpers.h"
-#include "Clock.hpp"
+#include "ClockFunction.hpp"
 
 // protos
 struct BreakExcept;
@@ -16,15 +16,6 @@ Interpreter::Interpreter() :
 	environment{ this->globals },
 	curToken{ EoF, "start", NULL, -1 } {
 	globals->define("clock", new ClockFunction{});
-	//globals->define("clock", class : LoxCallable {
-	//	int arity() override { return 0; }
-	//	LoxType call(Interpreter* interpreter, vector<LoxType> arguments) {
-	//		return (double)duration_cast<milliseconds>(
-	//			time_point_cast<milliseconds>(system_clock::now()
-	//				).time_since_epoch()).count() / 1000;
-	//	}
-	//	string toString() { return "<native fn>"; }
-	//})
 };
 
 void Interpreter::interpret(vector<Stmt*> statements) {
