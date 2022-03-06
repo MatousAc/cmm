@@ -4,8 +4,8 @@
 struct Block;
 struct Break;
 struct Continue;
-struct Expression;
 struct Exit;
+struct Expression;
 struct For;
 struct Function;
 struct If;
@@ -17,8 +17,8 @@ struct StmtVisitor {
     virtual void visitBlock(const Block* stmt) = 0;
     virtual void visitBreak(const Break* stmt) = 0;
     virtual void visitContinue(const Continue* stmt) = 0;
-    virtual void visitExpression(const Expression* stmt) = 0;
     virtual void visitExit(const Exit* stmt) = 0;
+    virtual void visitExpression(const Expression* stmt) = 0;
     virtual void visitFor(const For* stmt) = 0;
     virtual void visitFunction(const Function* stmt) = 0;
     virtual void visitIf(const If* stmt) = 0;
@@ -59,6 +59,14 @@ struct Continue : Stmt {
     }
 };
 
+struct Exit : Stmt {
+    Exit() {}
+
+    void accept(StmtVisitor* visitor) override {
+        visitor->visitExit(this);
+    }
+};
+
 struct Expression : Stmt {
     Expr* expression;
 
@@ -67,14 +75,6 @@ struct Expression : Stmt {
 
     void accept(StmtVisitor* visitor) override {
         visitor->visitExpression(this);
-    }
-};
-
-struct Exit : Stmt {
-    Exit() {}
-
-    void accept(StmtVisitor* visitor) override {
-        visitor->visitExit(this);
     }
 };
 

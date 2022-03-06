@@ -1,18 +1,22 @@
 #pragma once
 #include "../include.h"
 #include "LoxCallable.hpp"
+#include "LoxFunction.h"
 #define DOUBLE_PRECISION 1e-7
 
 struct LoxType {
 	variant<
 		monostate,
-		string, double, bool, 
-		LoxCallable*> value;
+		string, double, bool
+		//LoxCallable*,
+		//LoxFunction*
+	> value;
 	LoxType();
 	LoxType(string str);
 	LoxType(double dbl);
 	LoxType(bool bl);
-	LoxType(LoxCallable* callable);
+	//LoxType(LoxCallable* callable);
+	//LoxType(LoxFunction* function);
 	bool isnil() const;
 	bool isTruthy() const;
 	string type() const;

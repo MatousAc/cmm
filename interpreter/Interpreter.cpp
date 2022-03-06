@@ -2,6 +2,7 @@
 #include "Interpreter.h"
 #include "../tools/LoxError.h"
 #include "LoxCallable.hpp"
+#include "LoxFunction.h"
 #include "../tools/helpers.h"
 #include "ClockFunction.hpp"
 
@@ -15,7 +16,7 @@ Interpreter::Interpreter() :
 	globals{ new Environment{} },
 	environment{ this->globals },
 	curToken{ EoF, "start", NULL, -1 } {
-	globals->define("clock", new ClockFunction{});
+	//globals->define("clock", new ClockFunction{});
 };
 
 void Interpreter::interpret(vector<Stmt*> statements) {
@@ -37,15 +38,7 @@ LoxType Interpreter::getResult() {
 	return result;
 }
 
-// private - execution helpers
-void Interpreter::execute(Stmt* stmt) {
-	stmt->accept(this);
-}
-
-void Interpreter::evaluate(Expr* expression) {
-	expression->accept(this);
-}
-
+// execution helpers
 void Interpreter::executeBlock(vector<Stmt*> statements,
 	Environment* environment) {
 	Environment* previous = this->environment;
@@ -57,6 +50,15 @@ void Interpreter::executeBlock(vector<Stmt*> statements,
 	}
 	catch (RunError) {}
 	this->environment = previous;
+}
+
+// private
+void Interpreter::execute(Stmt* stmt) {
+	stmt->accept(this);
+}
+
+void Interpreter::evaluate(Expr* expression) {
+	expression->accept(this);
 }
 
 // visiting statements
@@ -88,6 +90,14 @@ void Interpreter::visitFor(const For* statement) {
 			evaluate(statement->increment);
 		evaluate(statement->condition);
 	}
+}
+void Interpreter::visitFunction(const Function* statement) {
+//	LoxFunction function{ new Function(
+//		statement->name, // we have to make a new function node here
+//		statement->params, // cause of the const constraints
+//		statement->body
+//	) };
+//	//environment->define(statement->name.lexeme, function);
 }
 void Interpreter::visitIf(const If* statement) {
 	evaluate(statement->condition); // eval cond
@@ -170,27 +180,27 @@ void Interpreter::visitBinary(const Binary* expression) {
 	}
 }
 void Interpreter::visitCall(const Call* expression) {
-	evaluate(expression->callee);
-	LoxType callee = getResult();
-
-	vector<LoxType> arguments{};
-	for (auto argument : expression->arguments) {
-		evaluate(argument);
-		arguments.push_back(getResult());
-	}
-
-	if (holds_alternative<LoxCallable*>(callee.value)) { // FIXME - doesn't really work
-		throw new RunError(expression->paren,
-			"Can only call functions and classes.");
-	}
-
-	LoxCallable* function = get<LoxCallable*>(callee.value);
-	if (arguments.size() != function->arity()) {
-	throw new RunError(expression->paren, "Expected " +
-		to_string(function->arity()) + " arguments but got " +
-		to_string(arguments.size()) + ".");
-	}
-	result = function->call(this, arguments);
+//	evaluate(expression->callee);
+//	LoxType callee = getResult();
+//
+//	vector<LoxType> arguments{};
+//	for (auto argument : expression->arguments) {
+//		evaluate(argument);
+//		arguments.push_back(getResult());
+//	}
+//
+//	if (holds_alternative<LoxCallable*>(callee.value)) {
+//		throw new RunError(expression->paren,
+//			"Can only call functions and classes.");
+//	}
+//
+//	LoxCallable* function = get<LoxCallable*>(callee.value);
+//	if (arguments.size() != function->arity()) {
+//	throw new RunError(expression->paren, "Expected " +
+//		to_string(function->arity()) + " arguments but got " +
+//		to_string(arguments.size()) + ".");
+//	}
+//	result = function->call(this, arguments);
 }
 void Interpreter::visitGrouping(const Grouping* expression) {
 	evaluate(expression->expression);

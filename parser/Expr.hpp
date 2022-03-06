@@ -2,8 +2,8 @@
 #include "../scanner/Token.h"
 
 struct Assign;
-struct Call;
 struct Binary;
+struct Call;
 struct Grouping;
 struct Literal;
 struct Logical;
@@ -13,8 +13,8 @@ struct Variable;
 
 struct ExprVisitor {
     virtual void visitAssign(const Assign* expr) = 0;
-    virtual void visitCall(const Call* expr) = 0;
     virtual void visitBinary(const Binary* expr) = 0;
+    virtual void visitCall(const Call* expr) = 0;
     virtual void visitGrouping(const Grouping* expr) = 0;
     virtual void visitLiteral(const Literal* expr) = 0;
     virtual void visitLogical(const Logical* expr) = 0;
@@ -40,19 +40,6 @@ struct Assign : Expr {
     }
 };
 
-struct Call : Expr {
-    Expr* callee;
-    Token paren;
-    vector<Expr*> arguments;
-
-    Call(Expr* callee, Token paren, vector<Expr*> arguments)
-        :callee{ callee }, paren{ paren }, arguments{ arguments } {}
-
-    void accept(ExprVisitor* visitor) override {
-        visitor->visitCall(this);
-    }
-};
-
 struct Binary : Expr {
     Expr* left;
     Token op;
@@ -63,6 +50,19 @@ struct Binary : Expr {
 
     void accept(ExprVisitor* visitor) override {
         visitor->visitBinary(this);
+    }
+};
+
+struct Call : Expr {
+    Expr* callee;
+    Token paren;
+    vector<Expr*> arguments;
+
+    Call(Expr* callee, Token paren, vector<Expr*> arguments)
+        :callee{ callee }, paren{ paren }, arguments{ arguments } {}
+
+    void accept(ExprVisitor* visitor) override {
+        visitor->visitCall(this);
     }
 };
 
