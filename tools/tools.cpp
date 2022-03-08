@@ -24,7 +24,7 @@ bool isExpr(vector<Token> tokens) {
 	if (begin == end) return false;
 	else if (match((*begin).type, {
 		BREAK, CONTINUE, EXIT, VAR, PRINT,
-		FOR, WHILE, LEFT_BRACE, EoF, IF
+		FOR, WHILE, LEFT_BRACE, EoF, IF, FUN
 		})) {
 		return false;
 	} 	else if ((*last).type != SEMICOLON) {

@@ -21,7 +21,7 @@ vector<Stmt*> Parser::parse() {
 
 Stmt* Parser::declaration() {
 	try {
-		//if (match({ FUN })) return function("function");
+		if (match({ FUN })) return function("function");
 		if (match({ VAR })) return varDeclaration();
 		return statement();
 	}
@@ -182,26 +182,26 @@ Stmt* Parser::expressionStatement() {
 	return new Expression(expr);
 }
 
-//Stmt* Parser::function(string kind) {
-//	Token name = consume(IDENTIFIER, "Expect " + kind + " name.");
-//	consume(LEFT_PAREN, "Expect '(' after " + kind + " name.");
-//	vector<Token> params{};
-//	if (!check(RIGHT_PAREN)) {
-//		do {
-//			if (params.size() >= 255) {
-//				err->error(peek(), "Can't have more than 255 parameters.");
-//			}
-//
-//			params.push_back(
-//				consume(IDENTIFIER, "Expect parameter name."));
-//		} while (match({ COMMA }));
-//	}
-//	consume(RIGHT_PAREN, "Expect ')' after parameters.");
-//	consume(LEFT_BRACE, "Expect '{' before " + kind + " body.");
-//	vector<Stmt*> body = block();
-//	return new Function(name, params, body);
-//}
-//
+Stmt* Parser::function(string kind) {
+	Token name = consume(IDENTIFIER, "Expect " + kind + " name.");
+	consume(LEFT_PAREN, "Expect '(' after " + kind + " name.");
+	vector<Token> params{};
+	if (!check(RIGHT_PAREN)) {
+		do {
+			if (params.size() >= 255) {
+				err->error(peek(), "Can't have more than 255 parameters.");
+			}
+
+			params.push_back(
+				consume(IDENTIFIER, "Expect parameter name."));
+		} while (match({ COMMA }));
+	}
+	consume(RIGHT_PAREN, "Expect ')' after parameters.");
+	consume(LEFT_BRACE, "Expect '{' before " + kind + " body.");
+	vector<Stmt*> body = block();
+	return new Function(name, params, body);
+}
+
 vector<Stmt*> Parser::block() {
 	vector<Stmt*> statements{};
 
@@ -321,22 +321,21 @@ Expr* Parser::unary() {
 		Expr* right = unary();
 		return new Unary(op, right);
 	}
-	//return call();
-	return primary();
+	return call();
 }
 
-//Expr* Parser::call() {
-//	Expr* expression = primary();
-//
-//	while (true) {
-//		if (match({ LEFT_PAREN })) {
-//			expression = finishCall(expression);
-//		} else {
-//			break;
-//		}
-//	}
-//	return expression;
-//}
+Expr* Parser::call() {
+	Expr* expression = primary();
+
+	while (true) {
+		if (match({ LEFT_PAREN })) {
+			expression = finishCall(expression);
+		} else {
+			break;
+		}
+	}
+	return expression;
+}
 
 Expr* Parser::primary() {
 	// we take false, true, or nil and create a Literal that holds a LoxType
@@ -362,23 +361,23 @@ Expr* Parser::primary() {
 }
 
 // helpers
-//Expr* Parser::finishCall(Expr* callee) {
-//	vector<Expr*> arguments{};
-//	if (!check(RIGHT_PAREN)) {
-//		do {
-//			if (arguments.size() >= 255) {
-//				err->error(peek(), 
-//				"Can't have more than 255 arguments.");
-//			}
-//			arguments.push_back(expression());
-//		} while (match({ COMMA }));
-//	}
-//
-//	Token paren = consume(RIGHT_PAREN,
-//		"Expect ')' after arguments.");
-//
-//	return new Call(callee, paren, arguments);
-//}
+Expr* Parser::finishCall(Expr* callee) {
+	vector<Expr*> arguments{};
+	if (!check(RIGHT_PAREN)) {
+		do {
+			if (arguments.size() >= 255) {
+				err->error(peek(), 
+				"Can't have more than 255 arguments.");
+			}
+			arguments.push_back(expression());
+		} while (match({ COMMA }));
+	}
+
+	Token paren = consume(RIGHT_PAREN,
+		"Expect ')' after arguments.");
+
+	return new Call(callee, paren, arguments);
+}
 
 bool Parser::match(vector<TokenType> types) {
 	auto type = types.begin();

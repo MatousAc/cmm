@@ -1,21 +1,26 @@
 #pragma once
 #include "../include.h"
-#include "LoxCallable.hpp"
-#include "LoxFunction.h"
+//#include "LoxCallable.h"
+//#include "LoxFunction.h"
 #define DOUBLE_PRECISION 1e-7
+
+// we forward declare the callable here rather than including it
+// including it causes thousands of errors
+struct LoxCallable;
+//struct LoxFunction;
 
 struct LoxType {
 	variant<
 		monostate,
-		string, double, bool
-		//LoxCallable*,
+		string, double, bool,
+		LoxCallable*
 		//LoxFunction*
 	> value;
 	LoxType();
 	LoxType(string str);
 	LoxType(double dbl);
 	LoxType(bool bl);
-	//LoxType(LoxCallable* callable);
+	LoxType(LoxCallable* callable);
 	//LoxType(LoxFunction* function);
 	bool isnil() const;
 	bool isTruthy() const;

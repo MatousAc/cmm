@@ -31,7 +31,7 @@ private:
 	Stmt* ifStatement();
 	Stmt* printStatement();
 	Stmt* expressionStatement();
-	//Stmt* function(string kind);
+	Stmt* function(string kind);
 	vector<Stmt*> block();
 
 	Expr* expression();
@@ -44,11 +44,11 @@ private:
 	Expr* term();
 	Expr* factor();
 	Expr* unary();
-	//Expr* call();
+	Expr* call();
 	Expr* primary();
 
 	// helpers
-	//Expr* finishCall(Expr* callee);
+	Expr* finishCall(Expr* callee);
 	bool match(vector<TokenType> types);
 	Token consume(TokenType type, string message);
 	bool check(TokenType type);

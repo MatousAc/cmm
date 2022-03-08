@@ -166,7 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="interpreter\ClockFunction.hpp" />
-    <ClInclude Include="interpreter\LoxCallable.hpp" />
+    <ClInclude Include="interpreter\LoxCallable.h" />
     <ClInclude Include="interpreter\LoxFunction.h" />
     <ClInclude Include="tools\helpers.h" />
     <ClInclude Include="interpreter\Environment.h" />

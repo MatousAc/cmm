@@ -10,8 +10,8 @@ LoxType::LoxType(double dbl)
 	: value{ dbl } {}
 LoxType::LoxType(bool bl)
 	: value{ bl } {}
-//LoxType::LoxType(LoxCallable* callable)
-//	: value{ callable } {}
+LoxType::LoxType(LoxCallable* callable)
+	: value{ callable } {}
 //LoxType::LoxType(LoxFunction* function)
 //	: value{ function } {}
 
@@ -32,8 +32,8 @@ string LoxType::type() const {
 		res = "double";
 	} else if (holds_alternative<bool>(value)) {
 		res = "bool";
-	/*} else if (holds_alternative<LoxCallable*>(value)) {
-		res = "LoxCallable*";*/
+	} else if (holds_alternative<LoxCallable*>(value)) {
+		res = "LoxCallable*";
 	} else if (holds_alternative<monostate>(value)) {
 		res = "nil";
 	}
@@ -59,8 +59,8 @@ string LoxType::toString() const {
 		res = this->numToLoxStr();
 	else if (holds_alternative<bool>(value))
 		res = (get<bool>(value)) ? "true" : "false";
-	/*else if (holds_alternative<LoxCallable*>(value))
-		res = "function() . . .";*/
+	else if (holds_alternative<LoxCallable*>(value))
+		res = "function() . . .";
 	else
 		res = "unknown type";
 

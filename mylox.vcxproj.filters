@@ -134,7 +134,7 @@
     <ClInclude Include="tools\helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="interpreter\LoxCallable.hpp">
+    <ClInclude Include="interpreter\LoxCallable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="interpreter\ClockFunction.hpp">
