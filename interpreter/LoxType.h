@@ -1,11 +1,9 @@
 #pragma once
 #include "../include.h"
-//#include "LoxCallable.h"
-//#include "LoxFunction.h"
 #define DOUBLE_PRECISION 1e-7
 
-// we forward declare the callable here rather than including it
-// including it causes thousands of errors
+// we forward declare the callable here rather than 
+// including it because that causes thousands of errors
 struct LoxCallable;
 //struct LoxFunction;
 
