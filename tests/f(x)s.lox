@@ -1,0 +1,5 @@
+print "hi";
+
+fun greetMeh(name) {
+	print "hello " + name;
+}

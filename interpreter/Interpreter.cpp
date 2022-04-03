@@ -190,7 +190,8 @@ void Interpreter::visitCall(const Call* expression) {
 		arguments.push_back(getResult());
 	}
 
-	if (holds_alternative<LoxCallable*>(callee.value)) {
+	if (!holds_alternative<LoxCallable*>(callee.value)) {
+		cout << "holds LoxCallable";
 		throw new RunError(expression->paren,
 			"Can only call functions and classes.");
 	}
