@@ -32,6 +32,7 @@ private:
 	virtual void visitFunction(const Function* statement) override;
 	virtual void visitIf(const If* statement) override;
 	virtual void visitPrint(const Print* statement) override;
+	virtual void visitReturn(const Return* statement) override;
 	virtual void visitVar(const Var* statement) override;
 	virtual void visitWhile(const While* statement) override;
 	// expressions
@@ -56,7 +57,16 @@ struct ContinueExcept : public runtime_error {
 	explicit ContinueExcept();
 };
 
+//struct ReturnExcept : public runtime_error {
+//	explicit ReturnExcept(const string& message);
+//	explicit ReturnExcept();
+//};
 
+struct ReturnExcept {
+	LoxType value;
+	ReturnExcept(LoxType value);
+};
+	 
 // global, stateful interpreter
 inline Interpreter* interpreter = new Interpreter;
 

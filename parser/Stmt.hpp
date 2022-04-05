@@ -10,6 +10,7 @@ struct For;
 struct Function;
 struct If;
 struct Print;
+struct Return;
 struct Var;
 struct While;
 
@@ -23,6 +24,7 @@ struct StmtVisitor {
     virtual void visitFunction(const Function* stmt) = 0;
     virtual void visitIf(const If* stmt) = 0;
     virtual void visitPrint(const Print* stmt) = 0;
+    virtual void visitReturn(const Return* stmt) = 0;
     virtual void visitVar(const Var* stmt) = 0;
     virtual void visitWhile(const While* stmt) = 0;
 };
@@ -126,6 +128,18 @@ struct Print : Stmt {
 
     void accept(StmtVisitor* visitor) override {
         visitor->visitPrint(this);
+    }
+};
+
+struct Return : Stmt {
+    Token keyword;
+    Expr* value;
+
+    Return(Token keyword, Expr* value)
+        :keyword{ keyword }, value{ value } {}
+
+    void accept(StmtVisitor* visitor) override {
+        visitor->visitReturn(this);
     }
 };
 

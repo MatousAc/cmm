@@ -6,46 +6,6 @@
 #include "../tests/testTernary.h"
 #include "../scanner/Scanner.h"
 
-bool match(TokenType type, vector<TokenType> types) {
-	auto curtype = types.begin();
-	auto end = types.end();
-	while (curtype != end) {
-		if (type == *curtype)
-			return true;
-		curtype++;
-	}
-	return false;
-}
-
-bool isExpr(vector<Token> tokens) {
-	auto begin = tokens.begin();
-	auto end = tokens.end();
-	auto last = end - 2;
-	if (begin == end) return false;
-	else if (match((*begin).type, {
-		BREAK, CONTINUE, EXIT, VAR, PRINT,
-		FOR, WHILE, LEFT_BRACE, EoF, IF, FUN
-		})) {
-		return false;
-	} 	else if ((*last).type != SEMICOLON) {
-		// doesn't begin with stmt keyword
-		// && doesn't end in ';'
-		return true;
-	} else { // anything else does not qualify
-		return false;
-	}
-}
-
-// allows the repl to print expressions that are entered in
-string exprToPrint(string& line) {
-	Scanner scanner(line);
-	vector<Token> tokens = scanner.scanTokens();
-	if (isExpr(tokens)) {
-		line = "print " + line + " ;";
-	}
-	return line;
-}
-
 int runTool(vector<string> args) {
 	auto argc = args.size();
 	if (argc < 3) {
@@ -107,3 +67,43 @@ void printTokens(vector<Token>& vec) {
 			cout << (*iter++).display() << endl;
 	}
 }
+// allows the repl to print expressions that are entered in
+bool match(TokenType type, vector<TokenType> types) {
+	auto curtype = types.begin();
+	auto end = types.end();
+	while (curtype != end) {
+		if (type == *curtype)
+			return true;
+		curtype++;
+	}
+	return false;
+}
+
+bool isExpr(vector<Token> tokens) {
+	auto begin = tokens.begin();
+	auto end = tokens.end();
+	auto last = end - 2;
+	if (begin == end) return false;
+	else if (match((*begin).type, {
+		BREAK, CONTINUE, EXIT, VAR, PRINT,
+		FOR, WHILE, LEFT_BRACE, EoF, IF, FUN
+		})) {
+		return false;
+	} else if ((*last).type != SEMICOLON) {
+		// doesn't begin with stmt keyword
+		// && doesn't end in ';'
+		return true;
+	} else { // anything else does not qualify
+		return false;
+	}
+}
+
+string exprToPrint(string& line) {
+	Scanner scanner(line);
+	vector<Token> tokens = scanner.scanTokens();
+	if (isExpr(tokens)) {
+		line = "print " + line + " ;";
+	}
+	return line;
+}
+

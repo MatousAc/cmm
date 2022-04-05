@@ -108,6 +108,14 @@ void Interpreter::visitIf(const If* statement) {
 		execute(statement->elseBranch);
 	}
 }
+void Interpreter::visitReturn(const Return* statement) {
+	LoxType value{};
+	if (statement->value != NULL) {
+		evaluate(statement->value);
+		value = getResult();
+	}
+	throw ReturnExcept(value);
+}
 void Interpreter::visitPrint(const Print* statement) {
 	evaluate(statement->expression);
 	LoxType value = getResult();
@@ -187,18 +195,20 @@ void Interpreter::visitCall(const Call* expression) {
 	vector<LoxType> arguments{};
 	for (auto argument : expression->arguments) {
 		evaluate(argument);
+		if (getResult() < LoxType{ 0.0 }) {
+			evaluate(argument);
+		}
 		arguments.push_back(getResult());
 	}
 
 	if (!holds_alternative<LoxCallable*>(callee.value)) {
-		cout << "holds LoxCallable";
-		throw new RunError(expression->paren,
+		throw RunError(expression->paren,
 			"Can only call functions and classes.");
 	}
 
 	LoxCallable* function = get<LoxCallable*>(callee.value);
 	if (arguments.size() != function->arity()) {
-	throw new RunError(expression->paren, "Expected " +
+	throw RunError(expression->paren, "Expected " +
 		to_string(function->arity()) + " arguments but got " +
 		to_string(arguments.size()) + ".");
 	}
@@ -254,3 +264,10 @@ BreakExcept::BreakExcept(const string& message) : runtime_error{ message.c_str()
 
 ContinueExcept::ContinueExcept() : runtime_error{ "" } {}
 ContinueExcept::ContinueExcept(const string& message) : runtime_error{ message.c_str() } {}
+
+// FIXME We can throw anything in C++
+//ReturnExcept::ReturnExcept() : runtime_error{ "" } {}
+//ReturnExcept::ReturnExcept(const string& message) : runtime_error{ message.c_str() } {}
+
+ReturnExcept::ReturnExcept(LoxType value) 
+	: value{ value } {}

@@ -5,8 +5,8 @@
 void generator(vector<string> args) {
 	auto argc = args.size();
 	string outputDir;
-	if (argc <= 3) {
-		printf("Usage: tools <tool> <output directory>\n");
+	if (argc < 4) {
+		printf("Usage: ... -t generator <output directory>\n");
 		return;
 	} else {
 		outputDir = args[3];
@@ -35,6 +35,7 @@ void generator(vector<string> args) {
 			"Function : Token name, vector<Token> params, vector<Stmt*> body",
 			"If : Expr* condition, Stmt* thenBranch, Stmt* elseBranch",
 			"Print : Expr* expression",
+			"Return : Token keyword, Expr* value",
 			"Var : Token name, Expr* initializer",
 			"While : Expr* condition, Stmt* body"
 		});

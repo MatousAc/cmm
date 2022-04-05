@@ -1,6 +1,8 @@
 #include "LoxFunction.h"
 #include "LoxType.h"
 
+struct ReturnExcept;
+
 LoxFunction::LoxFunction(Function* declaration) 
 	: declaration{ declaration } {}
 
@@ -16,7 +18,12 @@ LoxType LoxFunction::call(Interpreter* interpreter,
             arguments[i]);
     }
 
-    interpreter->executeBlock(declaration->body, environment);
+    try {
+        interpreter->executeBlock(declaration->body, environment);
+    }
+    catch (ReturnExcept returnValue) {
+        return returnValue.value;
+    }
     return LoxType{};
 }
 

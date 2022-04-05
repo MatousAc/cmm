@@ -32,6 +32,7 @@ private:
 	Stmt* printStatement();
 	Stmt* expressionStatement();
 	Stmt* function(string kind);
+	Stmt* returnStatement();
 	vector<Stmt*> block();
 
 	Expr* expression();

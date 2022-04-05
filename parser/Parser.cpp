@@ -54,8 +54,9 @@ Stmt* Parser::statement() {
 	if (match({ FOR })) return forStatement();
 	if (match({ SWITCH })) return switchStatement();
 	if (match({ WHILE })) return whileStatement();
-	if (match({ LEFT_BRACE })) return new Block(block());
 	if (match({ IF })) return ifStatement();
+	if (match({ RETURN })) return returnStatement();
+	if (match({ LEFT_BRACE })) return new Block(block());
 	return expressionStatement();
 }
 
@@ -213,6 +214,17 @@ vector<Stmt*> Parser::block() {
 	return statements;
 }
 
+Stmt* Parser::returnStatement() {
+	Token keyword = previous();
+	Expr* value = NULL;
+	if (!check(SEMICOLON)) {
+		value = expression();
+	}
+
+	consume(SEMICOLON, "Expect ';' after return value.");
+
+	return new Return(keyword, value);
+}
 // parsing expressions
 Expr* Parser::expression() { return assignment(); }
 
