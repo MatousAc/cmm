@@ -44,6 +44,7 @@ void Environment::dump() {
 		<< (isGlobal() ? "Global " : " Local ")
 		<< "Environment"
 		<<" _________" << endl;
+	//stolen from https://www.techiedelight.com/
 	for (auto const& pair : this->values) {
 		cout << "{" << pair.first
 			<< ": " << pair.second.toString() << "}\n";
