@@ -34,3 +34,18 @@ LoxType Environment::grab(Token name) {
 	throw new RunError(name,
 		"Undefined variable '" + name.lexeme + "'.");
 }
+
+bool Environment::isGlobal() { 
+	return values.find("clock") != values.end();
+}
+
+void Environment::dump() {
+	cout << "_________ " 
+		<< (isGlobal() ? "Global " : " Local ")
+		<< "Environment"
+		<<" _________" << endl;
+	for (auto const& pair : this->values) {
+		cout << "{" << pair.first
+			<< ": " << pair.second.toString() << "}\n";
+	}
+}

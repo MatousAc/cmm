@@ -14,4 +14,7 @@ struct Environment {
 	void define(string name, LoxType value);
 	void assign(Token name, LoxType value);
 	LoxType grab(Token name);
+	void dump();
+	bool isGlobal();
 };
+
