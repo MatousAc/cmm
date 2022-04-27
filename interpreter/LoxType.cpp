@@ -12,32 +12,10 @@ LoxType::LoxType(bool bl)
 	: value{ bl } {}
 LoxType::LoxType(LoxCallable* callable)
 	: value{ callable } {}
-//LoxType::LoxType(LoxFunction* function)
-//	: value{ function } {}
-
 
 // czechs if empty (contains NULL)
 bool LoxType::isnil() const {
 	return holds_alternative<monostate>(value);
-}
-
-// czechs type
-string LoxType::type() const {
-	string res = "unknown type";
-	if (isnil())
-		res = "nil";
-	else if (holds_alternative<string>(value))
-		res = "string";
-	else if (holds_alternative<double>(value)) {
-		res = "double";
-	} else if (holds_alternative<bool>(value)) {
-		res = "bool";
-	} else if (holds_alternative<LoxCallable*>(value)) {
-		res = "LoxCallable*";
-	} else if (holds_alternative<monostate>(value)) {
-		res = "nil";
-	}
-	return res;
 }
 
 bool LoxType::isTruthy() const {
@@ -47,6 +25,35 @@ bool LoxType::isTruthy() const {
 		return get<bool>(value);
 	else
 		return true;
+}
+
+bool LoxType::isInt() const {
+	double dbl = get<double>(value);
+	int integer = (int)dbl;
+	double diff = (dbl - integer);
+	if (diff < 0) diff *= -1;
+	return  diff < DOUBLE_PRECISION;
+}
+// czechs type
+string LoxType::type() const {
+	string res = "unknown type";
+	if (isnil())
+		res = "nil";
+	else if (holds_alternative<string>(value))
+		res = "string";
+	else if (holds_alternative<double>(value)) {
+		res = "double";
+	}
+	else if (holds_alternative<bool>(value)) {
+		res = "bool";
+	}
+	else if (holds_alternative<LoxCallable*>(value)) {
+		res = "LoxCallable*";
+	}
+	else if (holds_alternative<monostate>(value)) {
+		res = "nil";
+	}
+	return res;
 }
 
 string LoxType::toString() const {
@@ -69,12 +76,10 @@ string LoxType::toString() const {
 // helper
 string LoxType::numToLoxStr() const {
 	double dbl = get<double>(value);
-	int integer = (int)dbl;
 	string res;
-	if ((dbl - integer) > DOUBLE_PRECISION)
-		res = to_string(dbl);
-	res = to_string(integer);
-	return res;
+	if (this->isInt())
+		return to_string((int)dbl);
+	return to_string(dbl);
 }
 
 
