@@ -19,7 +19,7 @@ void Environment::assign(Token name, LoxType value) {
 		return;
 	}
 
-	throw new RunError(name,
+	throw RunError(name,
 		"Undefined variable '" + name.lexeme + "'.");
 }
 

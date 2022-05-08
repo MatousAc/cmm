@@ -66,7 +66,7 @@
     <ClCompile Include="interpreter\LoxType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="interpreter\LoxFunction.cpp">
+    <ClCompile Include="functions\LoxFunction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -137,11 +137,29 @@
     <ClInclude Include="interpreter\LoxCallable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="interpreter\ClockFunction.hpp">
+    <ClInclude Include="functions\ClockFunction.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="interpreter\LoxFunction.h">
+    <ClInclude Include="functions\LoxFunction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="functions\Math.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="functions\Nothing.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="functions\print.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="functions\readline.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="functions\String.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tests\tests.json" />
   </ItemGroup>
 </Project>

@@ -7,6 +7,7 @@
 struct LoxCallable;
 //struct LoxFunction;
 
+
 struct LoxType {
 	variant<
 		monostate,

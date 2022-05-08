@@ -1,16 +1,16 @@
 #include "LoxFunction.h"
-#include "LoxType.h"
+#include "../interpreter/LoxType.h"
 
 struct ReturnExcept;
 
-LoxFunction::LoxFunction(Function* declaration) 
-	: declaration{ declaration } {}
+LoxFunction::LoxFunction(Function* declaration)
+    : declaration{ declaration } {}
 
 int LoxFunction::arity() {
     return (int)declaration->params.size();
 }
 
-LoxType LoxFunction::call(Interpreter* interpreter, 
+LoxType LoxFunction::call(Interpreter* interpreter,
     vector<LoxType> arguments) {
     Environment* environment = new Environment(interpreter->globals);
     interpreter->globals->dump();

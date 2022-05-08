@@ -2,9 +2,15 @@
 #include "Interpreter.h"
 #include "../tools/LoxError.h"
 #include "LoxCallable.h"
-#include "LoxFunction.h"
 #include "../tools/helpers.h"
-#include "ClockFunction.hpp"
+#include "../functions/ClockFunction.hpp"
+#include "../functions/LoxFunction.h"
+#include "../tools/helpers.h"
+#include "../functions/String.hpp"
+#include "../functions/Math.hpp"
+#include "../functions/Print.hpp"
+#include "../functions/ReadLine.hpp"
+#include "../functions/Nothing.hpp"
 
 // protos
 struct BreakExcept;
@@ -14,10 +20,24 @@ struct CountinueExcept;
 Interpreter::Interpreter() :
 	result{},
 	globals{ new Environment{} },
-	environment{ this->globals },
+	//environment{ this->globals },
+	environment{},
 	curToken{ EoF, "start", NULL, -1 } {
-	globals->define("clock", new ClockFunction{});
+	// default functions
+	globals->define("length", new Length{});
+	globals->define("sqrt", new Sqrt{});
+	globals->define("abs", new Abs{});
+	globals->define("floor", new Floor{});
+	globals->define("ceil", new Ceil{});
+	globals->define("round", new Round{});
+	globals->define("print", new PrintFx{});
+	globals->define("println", new PrintLn{});
+	globals->define("readline", new ReadLine{});
+	globals->define("parsenum", new ParseNum{});
+	globals->define("exit", new ExitFx{});
+	environment = globals;
 };
+
 
 void Interpreter::interpret(vector<Stmt*> statements) {
 	try {
@@ -47,10 +67,23 @@ void Interpreter::executeBlock(vector<Stmt*> statements,
 		for (auto& statement : statements) {
 			execute(statement);
 		}
+	}	// making sure we un-nest when using
+		// break and continue exeptions
+	catch (BreakExcept brk) {
+		this->environment = previous;
+		throw brk;
 	}
-	catch (RunError) {}
+	catch (Continue cnt) {
+		this->environment = previous;
+		throw cnt;
+	}
+	catch (RunError re) {
+		this->environment = previous;
+		throw re;
+	}
 	this->environment = previous;
 }
+
 
 // private
 void Interpreter::execute(Stmt* stmt) {

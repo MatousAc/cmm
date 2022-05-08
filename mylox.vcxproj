@@ -30,26 +30,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -145,8 +145,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="functions\LoxFunction.cpp" />
     <ClCompile Include="interpreter\LoxType.cpp" />
-    <ClCompile Include="interpreter\LoxFunction.cpp" />
     <ClCompile Include="tools\helpers.cpp" />
     <ClCompile Include="interpreter\Environment.cpp" />
     <ClCompile Include="interpreter\Interpreter.cpp" />
@@ -165,9 +165,14 @@
     <ClCompile Include="tools\tools.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="interpreter\ClockFunction.hpp" />
+    <ClInclude Include="functions\LoxFunction.h" />
+    <ClInclude Include="functions\Math.hpp" />
+    <ClInclude Include="functions\Nothing.hpp" />
+    <ClInclude Include="functions\print.hpp" />
+    <ClInclude Include="functions\readline.hpp" />
+    <ClInclude Include="functions\String.hpp" />
+    <ClInclude Include="functions\ClockFunction.hpp" />
     <ClInclude Include="interpreter\LoxCallable.h" />
-    <ClInclude Include="interpreter\LoxFunction.h" />
     <ClInclude Include="tools\helpers.h" />
     <ClInclude Include="interpreter\Environment.h" />
     <ClInclude Include="interpreter\Interpreter.h" />
@@ -188,6 +193,9 @@
     <ClInclude Include="tools\AstPrinter.h" />
     <ClInclude Include="tools\LoxError.h" />
     <ClInclude Include="tools\tools.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tests\tests.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

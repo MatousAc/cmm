@@ -1,8 +1,8 @@
 #pragma once
 #include "../include.h"
 #include "../parser/Stmt.hpp"
-#include "Interpreter.h"
-#include "LoxCallable.h"
+#include "../interpreter/Interpreter.h"
+#include "../interpreter/LoxCallable.h"
 
 struct LoxFunction : LoxCallable {
 	Function* declaration;
