@@ -7,15 +7,21 @@
 #include "interpreter/Interpreter.h"
 
 int main(int argc, char* argv[]) {
+	//profosTests();
 	// running tools
 	vector<string> args{};
 	for (int i{ 0 }; i < argc; i++) {
 		args.push_back(argv[i]);
 	};
 
-	if ((argc > 1) and args[1] == "-t") {
-		runTool(args);
-		return 0;
+	if (argc > 1) {
+		if (args[1] == "-t") {
+			runTool(args);
+			return 0;
+		} else if (args[1] == "-h") {
+			runHelp();
+			return 0;
+		}
 	};
 
 	if (argc <= 1)
@@ -52,20 +58,8 @@ void runPrompt() {
 }
 
 void runFile(char* filepath) {
-	struct stat sb {};
-	string program;
-	FILE* file; // safely open a file
-	errno_t error;
-	if (((error = fopen_s(&file, filepath, "r")) != 0) ||
-		(file == nullptr)) {
-		cout << filepath << " could not be opened: " << file;
-		return;
-	}
-	stat(filepath, &sb);
-	program.resize(sb.st_size);
-	fread(const_cast<char*>(program.data()), sb.st_size, 1, file);
-	fclose(file);
 	// run and czech for errors
+	string program = readFile(filepath);
 	int code = run(program);
 	switch (code) {
 	case 65:

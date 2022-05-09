@@ -1,19 +1,38 @@
 #include "tools.h"
+#include "helpers.h"
 #include "generator.h"
 #include "AstPrinter.h"
 #include "../tests/testStrComp.h"
 #include "../tests/testRPN.h"
 #include "../tests/testTernary.h"
 #include "../scanner/Scanner.h"
+using namespace nlohmann;
+
+void runHelp() {
+	cout<< "Use:\t\tCommand Syntax\n"
+		<< "----------------------------------------------\n"
+		<< "Run REPL:\tcmm.exe\n"
+		<< "Execute File:\tcmm.exe <filepath>\n"
+		<< "Use Tool:\tcmm.exe -t <tool> <parameters>\n"
+		<< "List Tools:\tcmm.exe -t\n";
+}
 
 int runTool(vector<string> args) {
 	auto argc = args.size();
 	if (argc < 3) {
-		printf("choose tool to run");
+		cout << "Choose from among the following tools:\n"
+			<< "generator <destination dir>\n"
+			<< "profosTests [-verbose]\n"
+			<< "AstPrinter\n"
+			<< "testRPN\n"
+			<< "testTernary\n"
+			<< "testStrComp]\n";
 		return 0;
 	}
 	if (args[2] == "generator")
 		generator(args);
+	else if (args[2] == "profosTests")
+		profosTests();
 	else if (args[2] == "AstPrinter")
 		testAstPrinter();
 	else if (args[2] == "testRPN")
@@ -25,6 +44,63 @@ int runTool(vector<string> args) {
 	else
 		printf("no such tool");
 	return 0;
+}
+
+int profosTests() {
+	//auto argc = args.size();
+	//bool doVerbose = false; // verbose?
+	//if (argc >= 4 && args[3] == "-verbose")
+	//	doVerbose = true;
+
+	// reading JSON test file
+	//string str = readFile("../tests/tests.json");
+	string str = readFile("../../tests/tests.json");
+	json tests = json::parse(str)["tests"];
+	for (auto test : tests) {
+		string u = "______________________________";
+		cout << u << test["name"] << u << endl;
+		if (test["run"] == "./mylox") testREPL(test);
+		else testFile(test);
+	}
+	return 0;
+}
+
+void testREPL(auto test) {
+	vector<string> inputs = split(test["input"], "\r\n");
+	vector<string> outputs = split(test["output"], "\r\n");
+	int i = 0, size = inputs.size();
+	while (i++ < size) {
+		string input = inputs[i];
+		string output = outputs[i];
+		if (input == "") return;
+		cout << "INPUT:\n" << input << endl;
+		cout << "EXPECTED OUTPUT:\n" << output << endl;
+		cout << "ACTUAL OUTPUT:\n";
+		exprToPrint(input);
+		run(input);
+		cout << endl;
+	}
+}
+
+void testFile(auto test) {
+
+}
+
+string readFile(const char* filepath) {
+	struct stat sb {};
+	string contents;
+	FILE* file; // safely open a file
+	errno_t error;
+	if (((error = fopen_s(&file, filepath, "r")) != 0) ||
+		(file == nullptr)) {
+		cout << filepath << " could not be opened: " << file;
+		return "";
+	}
+	stat(filepath, &sb);
+	contents.resize(sb.st_size);
+	fread(const_cast<char*>(contents.data()), sb.st_size, 1, file);
+	fclose(file);
+	return contents;
 }
 
 void testAstPrinter() {

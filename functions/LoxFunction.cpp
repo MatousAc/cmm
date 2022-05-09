@@ -13,12 +13,12 @@ int LoxFunction::arity() {
 LoxType LoxFunction::call(Interpreter* interpreter,
     vector<LoxType> arguments) {
     Environment* environment = new Environment(interpreter->globals);
-    interpreter->globals->dump();
+    //interpreter->globals->dump();
     for (int i = 0; i < declaration->params.size(); i++) {
         environment->define(declaration->params[i].lexeme,
             arguments[i]);
     }
-    environment->dump();
+    //environment->dump();
 
     try {
         interpreter->executeBlock(declaration->body, environment);

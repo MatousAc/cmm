@@ -161,5 +161,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tests\tests.json" />
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
