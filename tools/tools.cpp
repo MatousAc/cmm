@@ -69,7 +69,7 @@ void testREPL(auto test) {
 	vector<string> inputs = split(test["input"], "\r\n");
 	vector<string> outputs = split(test["output"], "\r\n");
 	int i = 0, size = inputs.size();
-	while (i++ < size) {
+	while (i < size) {
 		string input = inputs[i];
 		string output = outputs[i];
 		if (input == "") return;
@@ -79,6 +79,7 @@ void testREPL(auto test) {
 		exprToPrint(input);
 		run(input);
 		cout << endl;
+		i++;
 	}
 }
 
