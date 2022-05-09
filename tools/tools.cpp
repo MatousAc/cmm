@@ -66,20 +66,21 @@ int profosTests() {
 }
 
 void testREPL(auto test) {
-	vector<string> inputs = split(test["input"], "\r\n");
-	vector<string> outputs = split(test["output"], "\r\n");
+	vector<string> inputs = splitPure(test["input"], "\r\n");
+	vector<string> outputs = splitPure(test["output"], "\r\n");
 	int i = 0, size = inputs.size();
 	while (i < size) {
 		string input = inputs[i];
 		string output = outputs[i];
-		if (input == "") return;
-		cout << "INPUT:\n" << input << endl;
-		cout << "EXPECTED OUTPUT:\n" << output << endl;
-		cout << "ACTUAL OUTPUT:\n";
+		cout << "INPUT:\t\t\t" << input << endl;
 		exprToPrint(input);
+		cout << "EXPECTED OUTPUT:\t" << output << endl;
+		cout << "ACTUAL OUTPUT:\t\t";
 		run(input);
 		cout << endl;
 		i++;
+		err->hadError = false;
+		err->hadRunError = false;
 	}
 }
 
@@ -162,7 +163,7 @@ bool isExpr(vector<Token> tokens) {
 	auto last = end - 2;
 	if (begin == end) return false;
 	else if (match((*begin).type, {
-		BREAK, CONTINUE, EXIT, VAR, PRINT,
+		BREAK, CONTINUE, EXIT, PRINT,
 		FOR, WHILE, LEFT_BRACE, EoF, IF, FUN
 		})) {
 		return false;
@@ -176,6 +177,7 @@ bool isExpr(vector<Token> tokens) {
 }
 
 string exprToPrint(string& line) {
+	if (line == "") cout << ("[line 1] Error at end: Expect expression."); // FIXME
 	Scanner scanner(line);
 	vector<Token> tokens = scanner.scanTokens();
 	if (isExpr(tokens)) {

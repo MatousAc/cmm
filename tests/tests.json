@@ -35,7 +35,7 @@
       "setup": "make challenge081",
       "run": "./mylox",
       "input": "1 + 2\r\nvar x = 3;\r\nx + 2\r\nx = \"hello\"\r\nx == \"bye\"\r\nprint \"stuff\";\r\n{ var x = \"what?\"; print x; } print x;\r\nvar x = true;\r\nx == false\r\nx == \"stuff\"\r\n",
-      "output": "3\r\n5\r\nhello\r\nfalse\r\nstuff\r\nwhat?\r\nhello\r\nfalse\r\nfalse\r\n",
+      "output": "3\r\n\r\n5\r\nhello\r\nfalse\r\nstuff\r\nwhat?\r\nhello\r\nfalse\r\nfalse\r\n",
       "comparison": "exact",
       "timeout": 1,
       "points": 10

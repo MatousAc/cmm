@@ -3,6 +3,7 @@
 
 void trim(string& str);
 vector<string> split(string str, string token);
+vector<string> splitPure(string str, string token);
 string toLower(string str);
 string repeat(string str, const size_t n);
 template<typename Base, typename T>

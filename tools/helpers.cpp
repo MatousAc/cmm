@@ -26,6 +26,23 @@ vector<string> split(string str, string token) {
 	return result;
 }
 
+// keeps empty strings
+vector<string> splitPure(string str, string token) {
+	vector<string> result;
+	while (true) {
+		auto index = str.find(token);
+		if (index != string::npos) {
+			result.push_back(str.substr(0, index));
+			str = str.substr(index + token.size());
+		}
+		else {
+			result.push_back(str);
+			break;
+		}
+	}
+	return result;
+}
+
 string toLower(string str) {
 	for (int i = 0; i < str.length(); i++) {
 		char c = str[i];
