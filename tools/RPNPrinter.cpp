@@ -3,12 +3,8 @@ void RPNPrinter::read(Expr* expression) {
 	expression->accept(this);
 }
 
-void RPNPrinter::visitTernary(const Ternary* expression) {
-	expression->condition->accept(this);
-	collect(
-		"? " + getResult(),
-		vector{ expression->ifTrue, expression->ifFalse }
-	);
+void RPNPrinter::visitAssign(const Assign* expr) {
+	collect("=", { new Variable{expr->name}, expr->value });
 }
 void RPNPrinter::visitBinary(const Binary* expression) {
 	collect(
@@ -16,17 +12,35 @@ void RPNPrinter::visitBinary(const Binary* expression) {
 		vector{ expression->left, expression->right }
 	);
 }
+void RPNPrinter::visitCall(const Call* expr) {
+	collect("()", { expr->callee }); // FIXME needs to use expr->paren?
+}
 void RPNPrinter::visitGrouping(const Grouping* expression) {
 	expression->expression->accept(this);
 }
-
 void RPNPrinter::visitLiteral(const Literal* expression) {
 	if (expression->value.isnil()) result += "nil";
 	else result += expression->value.toString();
 }
-
+void RPNPrinter::visitLogical(const Logical* expression) {
+	collect(
+		expression->op.lexeme,
+		vector{ expression->left, expression->right }
+	);
+}
+void RPNPrinter::visitTernary(const Ternary* expression) {
+	expression->condition->accept(this);
+	collect(
+		"? " + getResult(),
+		vector{ expression->ifTrue, expression->ifFalse }
+	);
+}
 void RPNPrinter::visitUnary(const Unary* expression) {
-	collect(expression->op.lexeme, vector{ expression->right });
+	collect((expression->op.type == BANG) ? "not" : "neg",
+		vector{ expression->right });
+}
+void RPNPrinter::visitVariable(const Variable* expr) {
+	collect(expr->name.lexeme, {});
 }
 
 string RPNPrinter::collect(string name, vector<Expr*> expressions) {

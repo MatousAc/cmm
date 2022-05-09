@@ -9,7 +9,7 @@ int profosTests();
 void testREPL(auto test);
 void testFile(auto test);
 void runHelp();
-
+// helpers
 string readFile(const char* filepath);
 void testAstPrinter();
 template <typename T>

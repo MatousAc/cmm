@@ -57,10 +57,10 @@ struct ContinueExcept : public runtime_error {
 	explicit ContinueExcept();
 };
 
-//struct ReturnExcept : public runtime_error {
-//	explicit ReturnExcept(const string& message);
-//	explicit ReturnExcept();
-//};
+struct ExitExcept : public runtime_error {
+	explicit ExitExcept(const string& message);
+	explicit ExitExcept();
+};
 
 struct ReturnExcept {
 	LoxType value;

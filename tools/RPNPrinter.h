@@ -8,11 +8,15 @@ public:
 	RPNPrinter() : result{} {};
 	void read(Expr* expression);
 
-	void visitTernary(const Ternary* expression) override;
-	void visitBinary(const Binary* expression) override;
-	void visitGrouping(const Grouping* expression) override;
-	void visitLiteral(const Literal* expression) override;
-	void visitUnary(const Unary* expression) override;
+	void visitAssign(const Assign* expr) override;
+	void visitBinary(const Binary* expr) override;
+	void visitCall(const Call* expr) override;
+	void visitGrouping(const Grouping* expr) override;
+	void visitLiteral(const Literal* expr) override;
+	void visitLogical(const Logical* expr) override;
+	void visitTernary(const Ternary* expr) override;
+	void visitUnary(const Unary* expr) override;
+	void visitVariable(const Variable* expr) override;
 
 	string collect(string name, vector<Expr*> expressions);
 

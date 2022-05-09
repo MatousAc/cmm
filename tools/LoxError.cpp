@@ -20,7 +20,7 @@ LoxError::LoxError() :
 
 void LoxError::report(int line, string msg, string where) {
 	cout << "[line " << line
-		<< "] Error at " << where << " : "
+		<< "] Error at " << where << ": "
 		<< msg << endl;
 	hadError = true;
 }

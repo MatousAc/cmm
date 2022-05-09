@@ -3,5 +3,5 @@
 #include "parser/Parser.h"
 
 void runPrompt();
-void runFile(char* filepath);
+void runFile(const char* filepath);
 int run(string& source);

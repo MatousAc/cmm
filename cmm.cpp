@@ -7,7 +7,6 @@
 #include "interpreter/Interpreter.h"
 
 int main(int argc, char* argv[]) {
-	//profosTests();
 	// running tools
 	vector<string> args{};
 	for (int i{ 0 }; i < argc; i++) {
@@ -38,7 +37,8 @@ void runPrompt() {
 	while (true) {
 		cout << "> ";
 		getline(cin, line, '\n');
-		if (line == "") break;
+		if (line == "")
+			err->report(1, "Expect expression.", "end");
 		// czech if just expression
 		exprToPrint(line);
 
@@ -57,7 +57,7 @@ void runPrompt() {
 	}
 }
 
-void runFile(char* filepath) {
+void runFile(const char* filepath) {
 	// run and czech for errors
 	string program = readFile(filepath);
 	int code = run(program);
@@ -77,7 +77,6 @@ void runFile(char* filepath) {
 int run(string& source) {
 	Scanner scanner(source); // scan into tokens
 	vector<Token> tokens = scanner.scanTokens();
-	//printTokens(tokens);
 	Parser parser{ tokens }; // parse into AST
 	vector<Stmt*> statements = parser.parse();
 
@@ -86,6 +85,8 @@ int run(string& source) {
 	if (err->hadRunError) return 70;
 
 	// interpret code
-	interpreter->interpret(statements);
+	try {
+		interpreter->interpret(statements);
+	} catch (ExitExcept ex) {} // nothing to do
 	return 0;
 }

@@ -8,25 +8,15 @@
 #include "../scanner/Scanner.h"
 using namespace nlohmann;
 
-void runHelp() {
-	cout<< "Use:\t\tCommand Syntax\n"
-		<< "----------------------------------------------\n"
-		<< "Run REPL:\tcmm.exe\n"
-		<< "Execute File:\tcmm.exe <filepath>\n"
-		<< "Use Tool:\tcmm.exe -t <tool> <parameters>\n"
-		<< "List Tools:\tcmm.exe -t\n";
-}
-
 int runTool(vector<string> args) {
 	auto argc = args.size();
 	if (argc < 3) {
 		cout << "Choose from among the following tools:\n"
 			<< "generator <destination dir>\n"
-			<< "profosTests [-verbose]\n"
+			<< "profosTests\n"
 			<< "AstPrinter\n"
-			<< "testRPN\n"
 			<< "testTernary\n"
-			<< "testStrComp]\n";
+			<< "testStrComp\n";
 		return 0;
 	}
 	if (args[2] == "generator")
@@ -35,8 +25,6 @@ int runTool(vector<string> args) {
 		profosTests();
 	else if (args[2] == "AstPrinter")
 		testAstPrinter();
-	else if (args[2] == "testRPN")
-		testRPN(args);
 	else if (args[2] == "testTernary")
 		testTernary(args);
 	else if (args[2] == "testStrComp")
@@ -47,11 +35,6 @@ int runTool(vector<string> args) {
 }
 
 int profosTests() {
-	//auto argc = args.size();
-	//bool doVerbose = false; // verbose?
-	//if (argc >= 4 && args[3] == "-verbose")
-	//	doVerbose = true;
-
 	// reading JSON test file
 	//string str = readFile("../tests/tests.json");
 	string str = readFile("../../tests/tests.json");
@@ -66,6 +49,10 @@ int profosTests() {
 }
 
 void testREPL(auto test) {
+	bool isRPN = false;
+	if (test["name"] == "Challenge 5.3 - RPN expressions") {
+		isRPN = true;
+	}
 	vector<string> inputs = splitPure(test["input"], "\r\n");
 	vector<string> outputs = splitPure(test["output"], "\r\n");
 	int i = 0, size = inputs.size();
@@ -73,10 +60,16 @@ void testREPL(auto test) {
 		string input = inputs[i];
 		string output = outputs[i];
 		cout << "INPUT:\t\t\t" << input << endl;
-		exprToPrint(input);
 		cout << "EXPECTED OUTPUT:\t" << output << endl;
 		cout << "ACTUAL OUTPUT:\t\t";
-		run(input);
+		if (input == "") {
+			err->report(1, "Expect expression.", "end");
+		} else if (isRPN) {
+			cout << runLineRPN(input) << endl;
+		} else {
+			exprToPrint(input);
+			run(input);
+		}
 		cout << endl;
 		i++;
 		err->hadError = false;
@@ -85,9 +78,25 @@ void testREPL(auto test) {
 }
 
 void testFile(auto test) {
-
+	string filepath = split(test["run"], "./mylox ")[0];
+	cout << "FILE RUN:\t\t" << filepath << endl;
+	string output = test["output"];
+	cout << "EXPECTED OUTPUT:\n" << output << endl;
+	cout << "ACTUAL OUTPUT:\n";
+	filepath = "../../tests/" + filepath;
+	runFile(filepath.c_str());
 }
 
+void runHelp() {
+	cout << "Use:\t\tCommand Syntax\n"
+		<< "----------------------------------------------\n"
+		<< "Run REPL:\tcmm.exe\n"
+		<< "Execute File:\tcmm.exe <filepath>\n"
+		<< "Use Tool:\tcmm.exe -t <tool> <parameters>\n"
+		<< "List Tools:\tcmm.exe -t\n";
+}
+
+// helps
 string readFile(const char* filepath) {
 	struct stat sb {};
 	string contents;
@@ -177,7 +186,6 @@ bool isExpr(vector<Token> tokens) {
 }
 
 string exprToPrint(string& line) {
-	if (line == "") cout << ("[line 1] Error at end: Expect expression."); // FIXME
 	Scanner scanner(line);
 	vector<Token> tokens = scanner.scanTokens();
 	if (isExpr(tokens)) {

@@ -13,7 +13,7 @@ struct Nothing : LoxCallable {
 struct ExitFx : LoxCallable {
 	int arity() override { return 0; }
 	LoxType call(Interpreter* interpreter, vector<LoxType> arguments) {
-		exit(0);
+		throw ExitExcept{};
 		return LoxType{};
 	}
 	string toString() { return "exit()"; }

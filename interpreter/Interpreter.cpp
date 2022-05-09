@@ -108,7 +108,7 @@ void Interpreter::visitContinue(const Continue* statement) {
 	throw ContinueExcept();
 }
 void Interpreter::visitExit(const Exit* statement) {
-	exit(0); // we just quit the interpreter here
+	throw ExitExcept{}; // we throw this up to the run f(x)
 }
 void Interpreter::visitFor(const For* statement) {
 	if (statement->initializer != nullptr) // init
@@ -297,6 +297,10 @@ BreakExcept::BreakExcept(const string& message) : runtime_error{ message.c_str()
 
 ContinueExcept::ContinueExcept() : runtime_error{ "" } {}
 ContinueExcept::ContinueExcept(const string& message) : runtime_error{ message.c_str() } {}
+
+ExitExcept::ExitExcept() : runtime_error{ "" } {}
+ExitExcept::ExitExcept(const string& message) : runtime_error{ message.c_str() } {}
+
 
 // FIXME We can throw anything in C++
 //ReturnExcept::ReturnExcept() : runtime_error{ "" } {}

@@ -57,6 +57,8 @@ private:
 	bool isAtEnd();
 	Token peek();
 	Token previous();
+	// friends
+	friend string runLineRPN(string& source);
 
 	// errors
 	ParseExcept pex(Token token, string message);
